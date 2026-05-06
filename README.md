@@ -8,7 +8,7 @@ Manuel de formation technique et conceptuelle pour les professionnels des donné
 
 ## 🔗 Accès
 
-👉 **[Lire le manuel en ligne](https://wontolla00.github.io/Comprender_la_IA/)**
+👉 **[Lire le manuel en ligne](https://wontolla00.github.io/Comprendre_lIA_v3.html/)**
 
 Le manuel est une page web interactive lisible directement dans le navigateur. Sans installation, sans inscription.
 
