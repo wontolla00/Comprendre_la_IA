@@ -130,7 +130,7 @@ Les termes marqués **★** dans le glossaire sont des concepts originaux de l'a
 
 **Auteur :** David Escudero de Félix  
 **Version :** 2026  
-**Dépôt :** [github.com/wontolla00/Comprender_la_IA](https://github.com/wontolla00/Comprender_la_IA)
+**Dépôt :** wontolla00.github.io/Comprendre_la_IA](https://wontolla00.github.io/Comprendre_la_IA/)
 
 ---
 
