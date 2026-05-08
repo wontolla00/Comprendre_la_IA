@@ -1192,38 +1192,9 @@ body.dark svg {
   <p>Sessions de 45 à 60 minutes, deux ou trois fois par semaine. En parcours complet : 2 à 4 mois. En parcours de profil : 3 à 6 semaines. L'erreur la plus fréquente est d'avancer dans les chapitres sans qu'aucun n'ait été assimilé : il vaut mieux relire une section que de passer à la suivante sans pouvoir formuler le résultat du chapitre précédent.</p>
 
   <!-- COMMENT C'EST ÉCRIT — comprimée en v4 -->
- <h2>Comment lire les blocs du manuel</h2>
-<p>Vous rencontrerez ces blocs tout au long du manuel. Chacun a un rôle précis :</p>
+  <h2>Comment lire les blocs du manuel</h2>
+  <p>Blocs que vous rencontrerez tout au long du manuel : <strong>🧵 À quoi cela vous sert</strong> (contexte de chaque chapitre, lisez-le toujours); <strong>🧪 Expérience / Exercice</strong> (ne le sautez pas : la compréhension réelle vient de là); <strong>⚠️ Erreur fréquente</strong> (le malentendu habituel à ce stade); <strong>💡 Note technique</strong> (approfondissement facultatif pour profils techniques); <span style="background:var(--yellow-light);border:1px solid var(--yellow);padding:1px 6px;border-radius:4px;font-size:.88em;">📐 Concept de l'auteur</span> — proposition originale de l'auteur, <em>non terminologie standard du secteur</em>, toujours marquée avec l'étiquette jaune dès la première apparition; et <span style="background:#fee2e2;border:1px solid #dc2626;padding:1px 6px;border-radius:4px;font-size:.88em;">🔴 Laboratoire d'erreurs</span> — cas réels de systèmes en échec, avec diagnostic détaillé (nouveau dans cette édition).</p>
 
-<div style="display:flex;flex-direction:column;gap:10px;margin:24px 0;">
-
-  <div class="callout" style="margin:0;">
-    <strong>🧵 À quoi cela vous sert</strong> — Contexte de chaque chapitre. Lisez-le toujours avant de plonger dans le contenu.
-  </div>
-
-  <div class="callout" style="margin:0;background:var(--green-light);border-color:var(--green);">
-    <strong>🧪 Expérience / Exercice</strong> — Ne le sautez pas : la compréhension réelle vient de là.
-  </div>
-
-  <div class="warning" style="margin:0;">
-    <strong>⚠️ Erreur fréquente</strong> — Le malentendu habituel à ce stade. Lisez-le même si vous pensez avoir compris.
-  </div>
-
-  <div class="callout" style="margin:0;background:var(--teal-light);border-color:var(--teal);">
-    <strong>💡 Note technique</strong> — Approfondissement facultatif pour profils techniques. Ignorez si vous êtes pressé.
-  </div>
-
-  <div class="concepto-autor" style="margin:0;">
-    <span class="concepto-badge">📐 Concept de l'auteur</span>
-    <div class="concepto-nombre">Proposition originale de l'auteur</div>
-    <div class="concepto-def">Toujours marquée avec l'étiquette jaune dès la première apparition. <em>Non terminologie standard du secteur.</em></div>
-  </div>
-
-  <div style="border:1px solid #dc2626;border-radius:8px;padding:16px 20px;background:#fee2e2;margin:0;">
-    <strong style="color:#991b1b;">🔴 Laboratoire d'erreurs</strong> — Cas réels de systèmes en échec, avec diagnostic détaillé. <em>Nouveau dans cette édition.</em>
-  </div>
-
-</div>
   <!-- AVANT DE CONTINUER -->
   <div class="callout">
     <strong>📐 La carte rapide : de combien de ce manuel avez-vous vraiment besoin ?</strong>
@@ -3531,6 +3502,62 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
     </tbody>
   </table>
 
+<h2>6.3b Re-ranking avec diversité : quand la pertinence ne suffit pas</h2>
+
+<p>Les rerankers standard maximisent la <em>pertinence individuelle</em> de chaque fragment par rapport à la requête. Le problème : si les 5 meilleurs candidats disent pratiquement la même chose avec des mots différents, le LLM reçoit des informations redondantes et peut ignorer des fragments minoritaires mais cruciaux. C'est le <strong>problème de la redondance dans le retrieval</strong>, particulièrement grave dans les corpus comportant de nombreux documents thématiquement similaires.</p>
+
+<div class="concepto-autor" style="margin:28px 0;">
+  <span class="concepto-badge">📐 Concept opérationnel</span>
+  <div class="concepto-nombre">La périphérie du corpus</div>
+  <div class="concepto-def">Dans tout corpus, le retrieval par similarité cosinus tend à récupérer les fragments les plus <em>centraux</em> de la distribution — les plus similaires à la requête, qui sont aussi les plus fréquents et représentatifs. Les fragments <em>périphériques</em> — moins fréquents, avec une terminologie de niche, issus de documents moins référencés — sont systématiquement exclus du top-K bien qu'ils puissent contenir l'information la plus spécifique et précise dont l'utilisateur a besoin. Un système qui maximise uniquement la pertinence laisse cette périphérie inaccessible.</div>
+  <div class="concepto-estado">La solution consiste à combiner pertinence et diversité dans l'étape de re-ranking.</div>
+</div>
+
+<h3>MMR : Maximal Marginal Relevance</h3>
+
+<p><strong>MMR (Maximal Marginal Relevance)</strong>, introduit par Carbonell et Goldstein (1998) et adopté massivement dans les systèmes RAG modernes, résout ce problème avec une formule itérative :</p>
+
+<div style="background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:20px 24px;margin:20px 0;font-family:monospace;font-size:.9rem;">
+  MMR(dᵢ) = λ · sim(dᵢ, q) − (1−λ) · max<sub>dⱼ∈S</sub> sim(dᵢ, dⱼ)
+  <div style="font-family:'IBM Plex Sans',sans-serif;font-size:.82rem;color:var(--muted);margin-top:10px;">
+    où <strong>q</strong> = requête, <strong>S</strong> = fragments déjà sélectionnés, <strong>λ</strong> ∈ [0,1] contrôle l'équilibre pertinence/diversité
+  </div>
+</div>
+
+<p>À chaque itération, MMR sélectionne le fragment qui maximise simultanément sa similarité avec la requête <em>et</em> sa différence par rapport aux fragments déjà choisis. Le résultat : un ensemble de top-K qui couvre différents angles du problème plutôt que de répéter le plus probable.</p>
+
+<table>
+  <thead><tr><th>λ</th><th>Comportement</th><th>Quand l'utiliser</th></tr></thead>
+  <tbody>
+    <tr><td>λ = 1,0</td><td>Pertinence pure (sans diversité). Équivalent au re-ranking standard.</td><td>Questions factuelles avec une seule réponse correcte</td></tr>
+    <tr><td>λ = 0,7</td><td>Priorise la pertinence mais écarte les redondants.</td><td>Standard recommandé pour la production générale</td></tr>
+    <tr><td>λ = 0,5</td><td>Équilibre pertinence/diversité.</td><td>Corpus avec de nombreux documents similaires ; questions exploratoires</td></tr>
+    <tr><td>λ = 0,3</td><td>Priorise une large couverture. Peut inclure des fragments peu pertinents.</td><td>Résumés multi-perspectives ; audit de corpus</td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>💡 MMR dans LangChain et LlamaIndex</strong>
+  Les deux frameworks implémentent MMR nativement. Dans LangChain : <code>vectorstore.as_retriever(search_type="mmr", search_kwargs={"k": 5, "lambda_mult": 0.7})</code>. Dans LlamaIndex : <code>VectorIndexRetriever(similarity_top_k=20)</code> suivi d'un <code>MMRPostprocessor(threshold=0.7)</code>. Le pattern habituel : récupérer un top-K large (20-50 candidats) avec le retrieval standard, puis appliquer MMR pour réduire aux 5-10 fragments finaux qui passeront au LLM.
+</div>
+
+<h3>Quand MMR est utile — et quand il ne l'est pas</h3>
+
+<table>
+  <thead><tr><th>Situation</th><th>MMR apporte-t-il ?</th><th>Pourquoi</th></tr></thead>
+  <tbody>
+    <tr><td>Corpus avec de nombreux documents quasi-identiques (KB d'entreprise avec versions de politiques, FAQs dupliquées)</td><td>✅ Oui, indispensable</td><td>Sans MMR, le top-K sera dominé par des copies du même document</td></tr>
+    <tr><td>Questions exploratoires (« quels sont les risques de X ? »)</td><td>✅ Oui</td><td>La réponse idéale nécessite de multiples perspectives ; MMR les garantit</td></tr>
+    <tr><td>Questions factuelles exactes (« quel est le délai de l'article 17 ? »)</td><td>⚠️ Optionnel</td><td>La réponse correcte est unique ; la diversité peut ajouter du bruit</td></tr>
+    <tr><td>Petit corpus bien curé (&lt;5 K docs) sans redondance</td><td>❌ Pas nécessaire</td><td>La redondance n'existe pas ; la surcharge ne se justifie pas</td></tr>
+  </tbody>
+</table>
+
+<div class="warning">
+  <strong>⚠️ L'erreur classique avec MMR</strong>
+  Activer MMR sans élargir le pool de candidats initial. Si vous ne récupérez que 5 documents et appliquez ensuite MMR, le résultat est presque identique au retrieval standard — il n'y a pas assez de candidats pour que la sélection par diversité ait un effet réel. MMR a besoin d'un pool large (minimum 3-4× le top-K final) pour fonctionner. Récupérez 20-50, filtrez à 5-10 avec MMR.
+</div>
+
 <h2>6.4 Index ANN : l'ingénierie derrière la vitesse</h2>
 <p>Avec des millions de vecteurs, comparer la requête à tous un par un est computationnellement irréalisable. Les algorithmes de recherche approximative de voisins (ANN) résolvent cela en sacrifiant une petite quantité de précision pour gagner en vitesse :</p>
 
@@ -3934,11 +3961,56 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
 </div>
 
 <h3>Optimisation du retrieval</h3>
-<ul>
-  <li><strong>Expansion de requête :</strong> reformulez la question de l'utilisateur en plusieurs variantes avant de chercher. Récupérez l'union des résultats. Améliore le recall au prix d'un peu de bruit.</li>
-  <li><strong>HyDE (Hypothetical Document Embeddings) :</strong> demandez au LLM de générer un fragment hypothétique de ce à quoi ressemblerait la réponse idéale, et utilisez ce fragment comme requête d'embedding. Fonctionne étonnamment bien pour les questions très spécifiques.</li>
-  <li><strong>Filtres de métadonnées :</strong> réduisez l'espace de recherche avec des filtres durs avant la recherche sémantique (par date, département, type de document). Améliore précision et vitesse.</li>
-</ul>
+
+<p>Lorsque le retrieval échoue — le Hit Rate@5 est inférieur à 0,80 et les chunks récupérés ne sont pas pertinents — il existe trois familles de techniques pour améliorer le recall avant de modifier le modèle d'embedding ou le chunking :</p>
+
+<h4>Expansion de requête : récupérer ce que l'utilisateur n'a pas bien formulé</h4>
+
+<p>La requête de l'utilisateur est rarement la meilleure formulation pour le système de retrieval. L'<strong>expansion de requête</strong> génère des variantes de la question originale et récupère l'union des résultats, élargissant l'espace de recherche.</p>
+
+<table>
+  <thead><tr><th>Technique</th><th>Comment ça fonctionne</th><th>Idéal pour</th><th>Coût additionnel</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Multi-query retrieval</strong></td>
+      <td>Un LLM génère 3 à 5 reformulations de la question originale (synonymes, angles alternatifs, sous-questions). Des résultats sont récupérés pour chaque variante et fusionnés avec RRF ou dédupliqués par ID.</td>
+      <td>Questions ambiguës ou formulées avec une terminologie différente de celle du corpus</td>
+      <td>1 appel LLM supplémentaire + retrieval en parallèle. ~+200-400 ms</td>
+    </tr>
+    <tr>
+      <td><strong>Step-back prompting</strong></td>
+      <td>Le LLM génère une question plus générale (« step back ») avant la spécifique. Ex : « Quel est le protocole général de retours ? » avant « Puis-je retourner un produit B2B acheté il y a 35 jours ? ». On récupère pour les deux questions.</td>
+      <td>Questions très spécifiques où le corpus documente le principe général mais pas le cas exact</td>
+      <td>1 appel LLM + 1 retrieval supplémentaire</td>
+    </tr>
+    <tr>
+      <td><strong>HyDE (Hypothetical Document Embeddings)</strong></td>
+      <td>Le LLM génère un fragment hypothétique de ce à quoi ressemblerait la réponse idéale, et ce fragment — pas la requête originale — est utilisé comme vecteur de recherche. Fonctionne parce que l'espace des embeddings est plus dense entre fragments qu'entre questions et fragments.</td>
+      <td>Questions très spécifiques avec vocabulaire technique ; domaines où les questions et les documents ont des distributions lexicales très différentes</td>
+      <td>1 appel LLM. Risque : le fragment hypothétique peut halluciner et biaiser le retrieval</td>
+    </tr>
+    <tr>
+      <td><strong>Expansion de requête classique</strong></td>
+      <td>Ajoute des synonymes, acronymes ou variantes orthographiques connues du domaine (sans LLM). Ex : « RGPD » → « RGPD OR GDPR OR Règlement Général sur la Protection des Données ».</td>
+      <td>Domaines à vocabulaire contrôlé avec des variantes connues</td>
+      <td>Aucun si basé sur des règles ; faible avec un thésaurus</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>💡 Quand l'expansion de requête n'aide pas — et peut nuire</strong>
+  Si le problème est que le corpus ne contient pas l'information (pas un problème de retrieval mais de couverture), générer plus de variantes de la requête ne changera rien. Avant d'activer l'expansion de requête, vérifiez que le document correct existe dans le corpus et est bien indexé — s'il n'est pas là, aucune technique de retrieval ne le trouvera. L'expansion de requête peut aussi dégrader la précision si les variantes générées sont sémantiquement éloignées : plus de bruit dans le contexte signifie plus de probabilité d'hallucination.
+</div>
+
+<h4>Filtres de métadonnées : réduire l'espace avant de chercher</h4>
+
+<p>Les filtres de métadonnées réduisent l'espace de recherche avec des conditions dures avant la recherche sémantique — par date, département, type de document, langue, source. Ce sont les optimisations avec le meilleur ratio impact/coût lorsque le corpus a une structure connue.</p>
+
+<div class="warning">
+  <strong>⚠️ L'ordre compte</strong>
+  Filtrez d'abord par métadonnées, cherchez ensuite par similarité. Chercher dans le corpus complet puis filtrer gaspille des ressources et peut manquer des candidats si le top-K initial ne contenait aucun document correspondant au filtre requis.
+</div>
 
 <h3>Optimisation du prompt</h3>
 <ul>
@@ -9638,7 +9710,7 @@ jobs:
       <span class="gterm-nombre">HyDE (Hypothetical Document Embeddings)</span>
       <span class="gterm-cat cat-arquitectura">Architecture</span>
     </div>
-    <div class="gterm-def">Technique d'optimisation du retrieval : au lieu d'embedder directement la question de l'utilisateur, on demande au LLM de générer un fragment hypothétique de ce à quoi ressemblerait la réponse idéale, et ce fragment est utilisé comme requête d'embedding. Améliore le recall dans les requêtes spécifiques où la question et le fragment pertinent ont un vocabulaire très différent. → Voir Chap. 7 (Module 2).</div>
+    <div class="gterm-def">Technique d'optimisation du retrieval : au lieu d'embedder directement la question de l'utilisateur, on demande au LLM de générer un fragment hypothétique de ce à quoi ressemblerait la réponse idéale, et ce fragment est utilisé comme requête d'embedding. Améliore le recall dans les requêtes spécifiques où la question et le fragment pertinent ont un vocabulaire très différent. <strong>Risque clé :</strong> si le fragment hypothétique hallucine des détails factuels, il peut biaiser le retrieval vers des fragments incorrects — validez sur votre golden dataset avant de déployer. À combiner avec le <em>step-back prompting</em> pour les questions très spécifiques. → Voir Chap. 7 (Module 2).</div>
   </div>
 
   <!-- I -->
@@ -9836,7 +9908,40 @@ jobs:
       <span class="gterm-nombre">Re-ranking</span>
       <span class="gterm-cat cat-arquitectura">Architecture</span>
     </div>
-    <div class="gterm-def">Étape optionnelle après le retrieval initial qui réordonne les candidats récupérés en utilisant un modèle plus précis (cross-encoder ou API de re-ranking comme Cohere Rerank). Améliore la qualité du retrieval de 8 à 20 % au prix d'une latence et d'un coût supplémentaires. Recommandé pour les systèmes de niveau 2+ où la qualité prime sur la latence. → Voir Chap. 6 (Module 2).</div>
+    <div class="gterm-def">Étape optionnelle après le retrieval initial qui réordonne les candidats récupérés en utilisant un modèle plus précis (cross-encoder ou API de re-ranking comme Cohere Rerank). Améliore la qualité du retrieval de 8 à 20 % au prix d'une latence et d'un coût supplémentaires. Recommandé pour les systèmes de niveau 2+ où la qualité prime sur la latence. <strong>Deux dimensions :</strong> re-ranking par <em>pertinence</em> (cross-encoders, Cohere, BGE, Jina) et re-ranking par <em>diversité</em> (MMR), qui évite que le top-K soit saturé de fragments redondants. → Voir Chap. 6 et 6.3b (Module 2).</div>
+  </div>
+
+  <div class="gterm">
+    <div class="gterm-header">
+      <span class="gterm-nombre">Expansion de requête</span>
+      <span class="gterm-en">Query expansion</span>
+      <span class="gterm-cat cat-arquitectura">Architecture</span>
+    </div>
+    <div class="gterm-def">Famille de techniques qui génèrent des variantes de la question originale de l'utilisateur avant d'effectuer le retrieval, dans le but d'améliorer le recall. Les variantes récupèrent des fragments que la formulation initiale aurait manqués. Principales formes : multi-query retrieval (reformulations par LLM), step-back prompting (généralisation de la question), HyDE (document hypothétique), et expansion classique par règles (synonymes, acronymes). Améliore le recall pour les questions ambiguës mais peut dégrader la précision si les variantes sont sémantiquement éloignées. → Voir Chap. 7 (Module 2).</div>
+  </div>
+
+  <div class="gterm">
+    <div class="gterm-header">
+      <span class="gterm-nombre">MMR (Maximal Marginal Relevance)</span>
+      <span class="gterm-cat cat-arquitectura">Architecture</span>
+    </div>
+    <div class="gterm-def">Algorithme de sélection de fragments pour le retrieval qui maximise simultanément la pertinence par rapport à la requête et la diversité par rapport aux fragments déjà sélectionnés. Contrôle l'équilibre avec le paramètre λ ∈ [0,1] : λ=1 est pertinence pure, λ=0,5 est équilibre pertinence/diversité. Essentiel dans les corpus à documents similaires et pour les questions exploratoires. → Voir Chap. 6.3b (Module 2).</div>
+  </div>
+
+  <div class="gterm">
+    <div class="gterm-header">
+      <span class="gterm-nombre">Multi-query retrieval</span>
+      <span class="gterm-cat cat-arquitectura">Architecture</span>
+    </div>
+    <div class="gterm-def">Technique d'expansion de requête où un LLM génère 3 à 5 reformulations de la question originale et exécute le retrieval pour chaque variante. Les résultats sont fusionnés (RRF ou déduplication par ID). Améliore le recall pour les questions ambiguës ou dont la terminologie diffère de celle du corpus. → Voir Chap. 7 (Module 2).</div>
+  </div>
+
+  <div class="gterm">
+    <div class="gterm-header">
+      <span class="gterm-nombre">Step-back prompting</span>
+      <span class="gterm-cat cat-arquitectura">Architecture</span>
+    </div>
+    <div class="gterm-def">Technique d'expansion de requête où le LLM génère une question plus générale (« pas en arrière ») avant la question spécifique de l'utilisateur, et récupère des informations pour les deux. Efficace lorsque le corpus documente le principe général mais pas le cas exact. → Voir Chap. 7 (Module 2).</div>
   </div>
 
   <div class="gterm">
