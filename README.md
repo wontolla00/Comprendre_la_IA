@@ -117,8 +117,8 @@ Le manuel suit une progression délibérée : il part de ce que le lecteur sait 
 
 | Version | Langue | URL |
 |---------|--------|-----|
-| Édition 2026 | Français | *(lien à venir)* |
-| Edición 2026 | Español | [wontolla00.github.io/Comprendre_la_IA](https://wontolla00.github.io/Comprendre_la_IA/) |
+| Édition 2026 | Français |[wontolla00.github.io/Comprendre_la_IA](https://wontolla00.github.io/Comprendre_la_IA/) |
+| Edición 2026 | Español | [wontolla00.github.io/Comprender_la_IA](https://wontolla00.github.io/Comprender_la_IA/) |
 
 ---
 
