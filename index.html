@@ -1173,9 +1173,27 @@ body.dark svg {
 
   </div>
 
+  <div class="callout" style="border-left:5px solid #7c3aed;background:#f5f3ff;">
+    <strong>🎯 Parcours MVP — Si vous n'avez du temps que pour l'essentiel</strong>
+    Si votre objectif est d'être opérationnel en production le plus rapidement possible, voici la séquence minimale au meilleur rendement :<br><br>
+    <strong>Profil Ingénieur / Données :</strong> Chap. 1–3 (pont données→IA) → Chap. 5–7 (RAG + recherche avancée) → Chap. 12 (architecture sandwich) → Chap. 13 (QA et golden dataset) → Chap. 15 (MLOps) → Annexe A (coûts)<br><br>
+    <strong>Profil Gouvernance / Conformité :</strong> Chap. 4 (hallucinations et limites) → Chap. 11 (niveaux de criticité) → Chap. 14 (supervision humaine) → Chap. 16 (AI Act) → Annexe B (auto-évaluation)<br><br>
+    <strong>Profil Architecte / Production :</strong> Chap. 5–10 (fondamentaux techniques complets) → Chap. 12–13 (production et QA) → Chap. 15 (MLOps RAG) → Annexe A → Chap. 16 si le système est à haut risque<br><br>
+    <em>Le manuel complet développe le discernement qui permet de savoir quand les parcours MVP sont insuffisants. Les parcours MVP vous donnent la carte ; le manuel complet vous donne le terrain.</em>
+  </div>
+
   <div class="callout">
     <strong>💡 Comment utiliser ce manuel en auto-apprentissage</strong>
     Ne le lisez pas linéairement. Utilisez ce Module 0 comme point de retour lorsque vous vous perdez. Chaque chapitre s'ouvre sur deux lignes qui vous disent à quoi sert ce que vous allez lire : si cette utilité ne correspond pas à votre situation actuelle, passez au suivant. Chaque chapitre se termine par un résultat concret : si vous ne pouvez pas le formuler, relisez la section clé avant de continuer.
+  </div>
+
+  <div class="callout" style="border-left:5px solid #0891b2;background:#f0f9ff;">
+    <strong>📌 Trois concepts qui traversent tout le manuel — où ils sont définis</strong>
+    Trois concepts traversent tous les modules et sont mentionnés des dizaines de fois. Pour ne pas se perdre :<br><br>
+    <strong>Golden dataset</strong> — Définition canonique et critères de construction : <em>Chap. 13.2</em>. Version minimale viable (20 paires) : Chap. 11. Évaluation adversariale robuste : Chap. 13.3. Glossaire : entrée « golden dataset ».<br><br>
+    <strong>Faithfulness</strong> — Définition technique et distinction par rapport à la pertinence : <em>Chap. 4.1</em>. Comment la mesurer avec RAGAS : Chap. 13.1. Relation avec les hallucinations extrinsèques : Chap. 4.2. Glossaire : entrée « faithfulness ».<br><br>
+    <strong>Diagnostic RAG en 5 étapes</strong> — Séquence complète : <em>Chap. 6.5</em>. Application pratique avec métriques : Chap. 13.1. Laboratoire d'erreurs : 🔴 Labs des Chap. 6 et 7.<br><br>
+    <em>Lorsque vous rencontrez ces références dans d'autres chapitres, le contexte local est suffisant. Revenez à ces sections si vous avez besoin de la définition précise.</em>
   </div>
 
   <div class="warning" style="border-left:5px solid #dc2626;background:#fef2f2;">
@@ -2402,7 +2420,7 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
 
 <p>Dans vos systèmes de qualité, vous avez des seuils et des actions : si le taux de nulls dépasse 5 %, vous bloquez le chargement. Si la distribution change de plus de 2 écarts-types, vous déclenchez une alerte. Dans les systèmes d'IA, le même principe s'applique mais sur des dimensions de qualité probabilistes.</p>
 
-</td>
+
   <thead>
     <tr><th>Situation</th><th>Seuil indicatif</th><th>Action recommandée</th></tr>
   </thead>
@@ -2798,7 +2816,7 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
 <h2>5.5 La fenêtre de contexte : sa limite réelle</h2>
 <p>La fenêtre de contexte est la quantité maximale de texte que le modèle peut traiter en un seul appel. Les modèles actuels ont des fenêtres de 128K tokens (GPT-4o), 200K (Claude 3.7 Sonnet) ou 1M tokens (Gemini 1.5 Pro). Un token équivaut approximativement à 0,75 mot en anglais ou 0,6 mot en français (mais la correspondance est approximative et varie selon la langue et le tokenizer).</p>
 
-</td>
+
   <thead>
     <tr><th>Longueur</th><th>Équivalent approximatif</th><th>Tient dans 128K tokens</th></tr>
   </thead>
@@ -3010,7 +3028,7 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
 
 <h3>5.7.2 Pourquoi peu de données fonctionnent : trois mécanismes</h3>
 
-</td>
+
   <thead>
     <tr>
       <th>Mécanisme</th>
@@ -3490,17 +3508,7 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
   Les systèmes de récupération standard compressent la requête et le document en un seul vecteur. <span class="gt">ColBERTv2<span class="tt">Modèle de récupération à interaction tardive : maintient des représentations token-à-token des requêtes et des documents, permettant des comparaisons plus précises. Nécessite une infrastructure dédiée mais surpasse les modèles à vecteur unique dans les domaines au vocabulaire ambigu ou aux termes techniques.</span></span> maintient des représentations au niveau du token, permettant des comparaisons plus granulaires. Il est particulièrement utile dans les domaines au vocabulaire technique très spécifique ou comportant de nombreux synonymes. Le coût : nécessite une infrastructure dédiée (index MaxSim) et plus de mémoire. Pour la plupart des projets de production, BM25 + vectoriel + reranker suffit. ColBERT entre en considération lorsque vous avez la preuve que le retrieval échoue spécifiquement sur des requêtes avec une terminologie de niche.
 </div>
 
-<table>
-    <thead><tr><th>Approche</th><th>Comment ça fonctionne</th><th>Coût</th><th>Gain typique</th></tr></thead>
-    <tbody>
-      <tr><td>Sans re-ranking</td><td>Les top-K du retrieval vont directement au LLM</td><td>Aucun</td><td>Ligne de base</td></tr>
-      <tr><td>Cross-encoder (open-weight)</td><td>Modèle local qui évalue chaque paire (requête, document) conjointement. Sans appel API.</td><td>Faible-moyen (CPU/GPU propre)</td><td>+10-20% en qualité</td></tr>
-      <tr><td>BGE-Reranker-v2-m3</td><td>Reranker multilingue open-weight de BAAI. Tourne sur CPU en 500 ms pour 20 docs.</td><td>Très faible (self-hosted)</td><td>+8-18%</td></tr>
-      <tr><td>Jina Reranker v3</td><td>Multilingue, supporte 89 langues, excellent pour les corpus techniques.</td><td>Faible (API ou self-hosted)</td><td>+8-15%</td></tr>
-      <tr><td>Cohere Rerank</td><td>API de re-ranking gérée avec les modèles propres de Cohere</td><td>Moyen (par appel API)</td><td>+8-15%</td></tr>
-      <tr><td>LLM-as-reranker</td><td>Le LLM note la pertinence de chaque fragment</td><td>Élevé (tokens par fragment)</td><td>+5-12%, variable</td></tr>
-    </tbody>
-  </table>
+
 
 <h2>6.3b Re-ranking avec diversité : quand la pertinence ne suffit pas</h2>
 
@@ -3561,7 +3569,7 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
 <h2>6.4 Index ANN : l'ingénierie derrière la vitesse</h2>
 <p>Avec des millions de vecteurs, comparer la requête à tous un par un est computationnellement irréalisable. Les algorithmes de recherche approximative de voisins (ANN) résolvent cela en sacrifiant une petite quantité de précision pour gagner en vitesse :</p>
 
-</td>
+<table>
   <thead>
     <tr><th>Algorithme</th><th>Vitesse</th><th>Précision</th><th>Mémoire</th><th>Idéal pour</th></tr>
   </thead>
@@ -3578,14 +3586,14 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
         <td>Très élevée</td>
         <td>Moyenne</td>
         <td>Très faible</td>
-        <td>Corpus massifs (>100M vecteurs) avec RAM limitée</td>
+        <td>Corpus massifs (&gt;100M vecteurs) avec RAM limitée</td>
       </tr>
-      <td>
+      <tr>
         <td>Flat (force brute)</td>
         <td>Faible</td>
         <td>Parfaite</td>
         <td>Élevée</td>
-        <td>Petit corpus (<100K) ou évaluation de qualité</td>
+        <td>Petit corpus (&lt;100K) ou évaluation de qualité</td>
       </tr>
       <tr>
         <td>LSH</td>
@@ -3641,15 +3649,7 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
 <h2>6.6 GraphRAG : quand les relations comptent plus que les fragments</h2>
 <p>La recherche vectorielle standard traite chaque fragment indépendamment. Mais certains types de connaissances sont intrinsèquement relationnels : "quels départements dépendent du système X ?" ou "quels fournisseurs travaillent avec le client Y ?" nécessitent de naviguer dans des relations, pas de trouver des fragments similaires.</p>
 
-<table>
-    <thead><tr><th>Algorithme</th><th>Vitesse</th><th>Précision</th><th>Mémoire</th><th>Idéal pour</th></tr></thead>
-    <tbody>
-      <tr><td>HNSW</td><td>Très élevée</td><td>Très élevée</td><td>Élevée</td><td>Estándar de facto en producción</td></tr>
-      <tr><td>IVF + PQ</td><td>Très élevée</td><td>Moyenne</td><td>Très faible</td><td>Corpus masivos (>100M vectores) con RAM limitada</td></tr>
-      <tr><td>Flat (fuerza bruta)</td><td>Faible</td><td>Perfecta</td><td>Élevée</td><td>Corpus pequeño (<100K) o evaluación de calidad</td></tr>
-      <tr><td>LSH</td><td>Élevée</td><td>Moyenne</td><td>Moyenne</td><td>Prototipos, cuando HNSW es excesivo</td></tr>
-    </tbody>
-  </table>
+
 <p><span class="gt">GraphRAG<span class="tt">Architecture combinant un graphe de connaissances avec une recherche vectorielle. Permet de récupérer des informations en respectant la structure relationnelle de la connaissance (hiérarchies, dépendances, causalités).</span></span> complète la recherche vectorielle avec un graphe de connaissances qui préserve ces relations. Ce n'est pas un remplacement : c'est un complément pour les cas où la structure relationnelle est essentielle à la réponse correcte.</p>
 
 <table>
@@ -3679,7 +3679,7 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
 <h3>Pipeline opérationnel de GraphRAG</h3>
 <p>Construire GraphRAG comporte quatre étapes bien distinctes. Chacune a un coût et un point de défaillance propre :</p>
 
-<tr>
+<table>
   <thead>
     <tr><th>Étape</th><th>Ce qui se passe</th><th>Outil recommandé</th><th>Coût indicatif</th></tr>
   </thead>
@@ -3698,7 +3698,7 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
       </tr>
       <tr>
         <td><strong>3. Détection de communautés</strong></td>
-        <td>Des communautés thématiques sont détectées dans le graphe pour répondre aux questions globales ("de quoi parle ce corpus ?")</td>
+        <td>Des communautés thématiques sont détectées dans le graphe pour répondre aux questions globales (« de quoi parle ce corpus ? »)</td>
         <td>Algorithme de Leiden (inclus dans MS GraphRAG)</td>
         <td>CPU local, sans coût supplémentaire</td>
       </tr>
@@ -3706,7 +3706,7 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
         <td><strong>4. Requête hybride</strong></td>
         <td>Les requêtes sont routées entre recherche vectorielle (questions locales) et parcours du graphe (questions relationnelles)</td>
         <td>LlamaIndex PropertyGraphIndex, moteur de requête MS GraphRAG</td>
-        <td>+150-400 ms de latence vs vectoriel pur</td>
+        <td>+150-400 ms de latence vs. vectoriel pur</td>
       </tr>
   </tbody>
 </table>
@@ -3716,30 +3716,14 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
   GraphRAG a un coût de construction élevé (extraction d'entités sur l'ensemble du corpus) et un surcoût de maintenance réel (le graphe se désactualise si le corpus change fréquemment). Ne l'utilisez pas lorsque : (1) les questions sont majoritairement factuelles directes, non relationnelles ; (2) le corpus change quotidiennement ; (3) le budget d'indexation initial est limité ; (4) l'équipe n'a pas d'expérience avec les graphes de connaissances. Dans ces cas, RAG vectoriel avec de bonnes métadonnées résout 90 % des cas d'usage à une fraction du coût.
 </div>
 
-<table>
-    <thead><tr><th>Type de question</th><th>Meilleure approche</th></tr></thead>
-    <tbody>
-      <tr><td>"¿Qué dice el manual sobre mantenimiento preventivo?"</td><td>Búsqueda vectorial</td></tr>
-      <tr><td>"¿Cuándo fue el último mantenimiento del equipo A-23?"</td><td>Text-to-SQL sobre BD operacional</td></tr>
-      <tr><td>"¿Qué equipos dependen del componente C-7 que está en reparación?"</td><td>GraphRAG (relaciones de dependencia)</td></tr>
-      <tr><td>"Encuentra todas las facturas del proveedor X del Q3"</td><td>BM25 + filtros de metadatos</td></tr>
-    </tbody>
-  </table>
+
 
 <div class="callout">
   <strong>💡 Quand GraphRAG MÉRITE son coût</strong>
   Les trois cas où GraphRAG surpasse clairement le vectoriel pur : (1) les questions multi-sauts nécessitant de relier des informations de plusieurs documents ("quels fournisseurs de l'entreprise X sont liés au projet Y qui utilise la technologie Z ?") ; (2) l'analyse d'impact dans des systèmes avec dépendances explicites ; (3) les corpus juridiques ou de conformité où les références croisées entre articles, lois et affaires sont constitutives de l'analyse. Si votre cas d'usage tombe dans cette catégorie, le coût d'extraction est amorti dès la première semaine de production.
 </div>
 
-<table>
-    <thead><tr><th>Étape</th><th>Ce qui se passe</th><th>Outil recommandé</th><th>Coût indicatif</th></tr></thead>
-    <tbody>
-      <tr><td>1. Extraction d'entités et de relations</td><td>Un LLM lit chaque chunk et identifie les entités (personnes, systèmes, produits) et les relations entre elles (dépend_de, appartient_à, fournit_à)</td><td>Microsoft GraphRAG SDK, LLMGraphTransformer (LangChain)</td><td>0,8–5 USD / 1K pages selon le modèle. Le coût le plus élevé du pipeline.</td></tr>
-      <tr><td>2. Construction du graphe</td><td>Les entités et relations sont stockées dans un graphe de connaissance</td><td>Neo4j, KuzuDB (intégrable, sans serveur), NetworkX (prototypes)</td><td>Infrastructure : faible si KuzuDB intégré ; moyen si Neo4j géré</td></tr>
-      <tr><td>3. Détection de communautés</td><td>Des communautés thématiques sont détectées dans le graphe pour répondre aux questions globales (« de quoi parle ce corpus ? »)</td><td>Algorithme de Leiden (inclus dans MS GraphRAG)</td><td>CPU local, sans coût supplémentaire</td></tr>
-      <tr><td>4. Requête hybride</td><td>Les requêtes sont routées entre recherche vectorielle (questions locales) et traversal du graphe (questions relationnelles)</td><td>LlamaIndex PropertyGraphIndex, MS GraphRAG query engine</td><td>+150-400 ms de latence vs. vectoriel pur</td></tr>
-    </tbody>
-  </table>
+
 
 <hr class="sep">
 <div class="resultado-final">
@@ -4351,12 +4335,12 @@ const response = await openai.chat.completions.create({
 <table>
     <thead><tr><th>Erreur</th><th>Ce qui se passe</th><th>Correction</th></tr></thead>
     <tbody>
-      <tr><td>Instrucción negativa sola</td><td>"No uses lenguaje técnico" → el modelo sabe qué evitar pero no qué hacer</td><td>Añade la alternativa: "Usa lenguaje accesible para alguien sin formación técnica"</td></tr>
-      <tr><td>Prompt ambiguo</td><td>"Resume esto" → ¿en cuántas palabras? ¿para qué audiencia? ¿con qué foco?</td><td>Especifica: "Resume en máximo 3 párrafos para un director de negocio sin contexto técnico, enfocando en el impacto económico"</td></tr>
-      <tr><td>Más instrucciones ≠ mejor</td><td>20 instrucciones contradictorias diluyen las importantes</td><td>Máximo 5-7 instrucciones claras. Prioriza explícitamente si hay conflicto posible.</td></tr>
-      <tr><td>No incluir ejemplos</td><td>La descripción abstracta del tono que quieres no se transfiere bien</td><td>Un ejemplo del output deseado vale más que un párrafo de descripción</td></tr>
-      <tr><td>Prompt no versionado</td><td>El equipo modifica el prompt sin registro; los cambios de calidad son inexplicables</td><td>Trata el prompt como código: versiona, documenta cambios, mide impacto antes de cambiar en producción</td></tr>
-      <tr><td>Instrucciones contradictorias</td><td>"Responde en una sola frase. Cubre todos los aspectos." → el modelo elige impredeciblemente</td><td>Elimina la contradicción: "Responde en el menor número de frases posible sin omitir información esencial"</td></tr>
+      <tr><td>Instruction négative seule</td><td>« N'utilise pas de langage technique » → le modèle sait quoi éviter mais pas quoi faire</td><td>Ajoute l'alternative : « Utilise un langage accessible à quelqu'un sans formation technique »</td></tr>
+      <tr><td>Prompt ambigu</td><td>« Résume ça » → en combien de mots ? pour quelle audience ? avec quel angle ?</td><td>Précise : « Résume en 3 paragraphes maximum pour un directeur métier sans contexte technique, en te concentrant sur l'impact économique »</td></tr>
+      <tr><td>Plus d'instructions ≠ mieux</td><td>20 instructions contradictoires diluent les importantes</td><td>Maximum 5-7 instructions claires. Priorise explicitement en cas de conflit possible.</td></tr>
+      <tr><td>Ne pas inclure d'exemples</td><td>La description abstraite du ton souhaité ne se transfère pas bien</td><td>Un exemple de l'output désiré vaut plus qu'un paragraphe de description</td></tr>
+      <tr><td>Prompt non versionné</td><td>L'équipe modifie le prompt sans traçabilité ; les changements de qualité sont inexplicables</td><td>Traite le prompt comme du code : versionne, documente les changements, mesure l'impact avant de changer en production</td></tr>
+      <tr><td>Instructions contradictoires</td><td>« Réponds en une seule phrase. Couvre tous les aspects. » → le modèle choisit de manière imprévisible</td><td>Supprime la contradiction : « Réponds dans le minimum de phrases possible sans omettre d'information essentielle »</td></tr>
     </tbody>
   </table>
 
@@ -4507,7 +4491,7 @@ def metric_faithfulness_dspy(example, prediction, trace=None):
 optimiseur = BootstrapFewShot(metric=metric_faithfulness_dspy, max_bootstrapped_demos=4)
 modele_optimise = optimiseur.compile(RAGModule(), trainset=train_set)</pre>
 
-</td>
+
   <thead>
     <tr><th>Situation</th><th>Utiliser DSPy ?</th></tr>
   </thead>
@@ -5062,7 +5046,7 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
 
 <h2>9.5 Guide de sélection : quel modèle pour quelle tâche ?</h2>
 
-</td>
+
   <thead>
     <tr><th>Tâche</th><th>Modèle recommandé</th><th>Pourquoi</th></tr>
   </thead>
@@ -5198,6 +5182,64 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
 </div>
 
 <p>Cette ambiguïté importe pour l'architecte pour une raison concrète : lors de l'évaluation d'un modèle provenant d'un fournisseur utilisant DPO ou RLAIF, les questions pertinentes ne sont pas seulement "quelle est la taille du modèle ?" ou "quels benchmarks réussit-il ?", mais "avec quel juge a-t-il été aligné ?" et "quelles préférences spécifiques ce juge code-t-il ?". L'opacité sur ces questions est l'un des risques pratiques les plus sous-estimés dans le déploiement de LLM en production. Un modèle aligné avec un juge qui privilégie la concision par rapport à la précision est structurellement différent d'un modèle aligné avec un juge qui privilégie le contraire, même si les deux sont techniquement des "modèles alignés".</p>
+
+
+<h3>Constitutional AI : quand le modèle apprend à se critiquer lui-même</h3>
+
+<p><strong><span class="gt">Constitutional AI<span class="tt">Technique d'alignement développée par Anthropic (Bai et al., 2022) dans laquelle le modèle est guidé par un ensemble de principes explicites — une « constitution » — plutôt que uniquement par des préférences humaines cas par cas. Combine un cycle auto-critique (SL-CAI) et du renforcement à partir de feedback IA (RLAIF).</span></span> (CAI)</strong> est la réponse d'Anthropic à une limitation précise de RLHF : si les annotateurs humains récompensent ce qui semble agréable plutôt que ce qui est épistémiquement honnête, le modèle optimise pour l'agréabilité. CAI propose de substituer, partiellement, le jugement humain cas par cas par un ensemble de <em>principes explicites</em> — une constitution — qui guident à la fois la génération et l'évaluation des réponses.</p>
+
+<p>Le pipeline CAI se déroule en deux phases distinctes :</p>
+
+<table>
+  <thead><tr><th>Phase</th><th>Mécanisme</th><th>Ce qui change par rapport à RLHF</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>SL-CAI</strong><br>(Supervised Learning)</td>
+      <td>Le modèle génère une réponse initiale à un prompt potentiellement problématique. Un autre appel au modèle lui demande de critiquer sa propre réponse à la lumière d'un principe constitutionnel spécifique (ex : « Cette réponse est-elle honnête même si ce n'est pas ce que l'utilisateur veut entendre ? »). Le modèle révise ensuite sa réponse. Ces paires (réponse initiale → révision) constituent les données d'entraînement supervisé.</td>
+      <td>L'annotation ne vient plus d'un humain externe mais d'un cycle <em>auto-critique guidé par principe</em>. Le modèle apprend à appliquer une norme explicite, pas à reproduire une préférence implicite.</td>
+    </tr>
+    <tr>
+      <td><strong>RLAIF</strong><br>(RL from AI Feedback)</td>
+      <td>Un modèle juge compare des paires de réponses révisées et génère les préférences d'entraînement, en se fondant explicitement sur les principes constitutionnels. Ces préférences remplacent (ou complètent) le jugement humain dans la boucle RL.</td>
+      <td>Le juge est calibré sur des principes, pas sur l'approbation. La pression vers la complaisance est structurellement réduite si la constitution inclut des principes d'honnêteté intellectuelle.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <strong>💡 La tension fondamentale que CAI tente de résoudre</strong>
+  RLHF crée une pression systémique vers la complaisance parce que les annotateurs humains, travaillant sous contrainte de temps, récompensent ce qui semble clair, confiant et inoffensif. CAI tente de découpler <em>ce qui plait</em> de <em>ce qui est juste</em> en rendant les critères d'évaluation explicites et inspectatbles. La tension entre « helpful, harmless, honest » — les trois H d'Anthropic — ne disparaît pas avec CAI, mais elle devient négociable : la constitution peut être révisée, débattue et auditée, contrairement aux préférences implicites des annotateurs RLHF.
+</div>
+
+<h4>Ce que CAI ne résout pas</h4>
+
+<p>Constitutional AI est une avancée réelle dans la transparence de l'alignement, mais trois limitations méritent d'être comprises clairement :</p>
+
+<table>
+  <thead><tr><th>Limitation</th><th>Mécanisme sous-jacent</th><th>Implication pratique</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>La constitution est elle-même un choix de valeurs</td>
+      <td>Quelqu'un décide quels principes constituent la constitution. Ce choix n'est pas neutre et n'est pas soumis à validation externe dans les implémentations actuelles.</td>
+      <td>CAI déplace le problème de l'alignement d'un niveau (des préférences d'annotateurs aux principes constitutionnels), mais ne l'élimine pas. La question « aligné sur quoi ? » reste entière.</td>
+    </tr>
+    <tr>
+      <td>L'auto-critique est bornée par les capacités du modèle</td>
+      <td>Le modèle ne peut pas critiquer des erreurs qu'il ne peut pas détecter. Si le modèle a des angles morts factuels ou des biais systématiques dans ses représentations, le cycle auto-critique les reproduit.</td>
+      <td>SL-CAI améliore la <em>forme</em> des réponses (ton, précautions, honnêteté déclarée) plus efficacement que leur <em>contenu factuel</em>. Ne pas confondre les deux.</td>
+    </tr>
+    <tr>
+      <td>Les principes entrent parfois en conflit</td>
+      <td>« Être utile » et « éviter tout préjudice » sont deux principes constitutionnels qui entrent régulièrement en tension. La résolution de ce conflit par le modèle n'est pas toujours prévisible ni cohérente.</td>
+      <td>Pour des cas d'usage de niveau 3-4 (décisions à impact critique), CAI ne remplace pas la supervision humaine ni la validation déterministe. Il réduit la fréquence des problèmes ; il ne les élimine pas.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="warning">
+  <strong>⚠️ CAI vs RLHF : une distinction qui compte pour l'architecte</strong>
+  Quand vous évaluez un modèle commercialisé comme « aligné », la question pertinente est : <em>aligné comment ?</em> Un modèle entraîné principalement par RLHF optimise pour la satisfaction de préférences humaines implicites — avec la pression vers la complaisance que cela implique. Un modèle entraîné avec CAI optimise pour la conformité à des principes explicites — avec les biais que ces principes peuvent introduire. Les deux approches produisent des comportements différents dans les cas limites, notamment quand l'honnêteté et l'agréabilité divergent. Tester ce cas limite spécifiquement sur votre domaine d'application est une étape de qualification que les benchmarks standard ne couvrent pas.
+</div>
 
 <h3>Ce que sont réellement les "thinking tokens"</h3>
 <p>Le terme "<span class="gt">thinking tokens<span class="tt">Tokens générés intérieurement par les modèles de raisonnement avant la réponse visible. Ce ne sont pas des pensées séparées : ce sont des tokens autorégressifs où le modèle explore et corrige avant de s'engager sur la sortie.</span></span>" peut donner l'impression que le modèle a des pensées séparées de ses réponses. La réalité est plus précise : ce sont des tokens générés dans une phase d'autorégression préalable à la réponse visible, où le modèle explore, corrige et synthétise. Dans les modèles à raisonnement opaque (o1, o3), ces tokens ne sont pas visibles pour l'utilisateur. Dans les modèles à raisonnement visible (DeepSeek-R1, Gemini Thinking, Claude avec extended thinking), ils apparaissent dans la réponse avant la sortie finale.</p>
@@ -5732,10 +5774,10 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
 <table>
     <thead><tr><th>Configuration</th><th>Appels API par tâche complexe</th><th>Coût estimé par tâche</th><th>Latence typique</th></tr></thead>
     <tbody>
-      <tr><td>Pipeline lineal (3 agentes)</td><td>3-5</td><td>0,05 – 0,20 €</td><td>5-15 segundos</td></tr>
-      <tr><td>Recursivo profundidad 2, factor 3</td><td>10-15</td><td>0,20 – 0,80 €</td><td>30-90 segundos</td></tr>
-      <tr><td>Recursivo profundidad 3, factor 3</td><td>30-50</td><td>0,60 – 2,50 €</td><td>90-300 segundos</td></tr>
-      <tr><td>Recursivo profundidad 3 con modelo de razonamiento</td><td>30-50 (tokens 10× más caros)</td><td>6 – 25 €</td><td>5-30 minutos</td></tr>
+      <tr><td>Pipeline linéaire (3 agents)</td><td>3-5</td><td>0,05 – 0,20 €</td><td>5-15 secondes</td></tr>
+      <tr><td>Récursif profondeur 2, facteur 3</td><td>10-15</td><td>0,20 – 0,80 €</td><td>30-90 secondes</td></tr>
+      <tr><td>Récursif profondeur 3, facteur 3</td><td>30-50</td><td>0,60 – 2,50 €</td><td>90-300 secondes</td></tr>
+      <tr><td>Récursif profondeur 3 avec modèle de raisonnement</td><td>30-50 (tokens 10× plus chers)</td><td>6 – 25 €</td><td>5-30 minutes</td></tr>
     </tbody>
   </table>
 
@@ -7806,6 +7848,8 @@ jobs:
 <div class="warning">
   <strong>🚨 Dates critiques — Vérifiez avant de lire</strong>
   L'AI Act est un règlement vivant. Les dates qui apparaissent dans ce chapitre sont correctes à la date de publication de ce manuel (2026). Vérifiez toujours sur <strong>artificialintelligenceact.eu</strong> ou avec un conseil juridique spécialisé avant de prendre des décisions de conformité.
+    <br><br>
+    <strong>Ce chapitre cartographie les obligations techniques d'implémentation. Il ne constitue pas un conseil juridique. Les obligations concrètes dépendent de votre juridiction, du type de système et de l'usage spécifique. Consultez un conseil juridique certifié en réglementation IA avant de prendre des décisions de conformité contraignantes.</strong>
 </div>
 
 <h2>16.1 L'architecture de l'AI Act en cinq minutes</h2>
@@ -8321,32 +8365,32 @@ jobs:
 <p>Ce tableau compare ce que vous avez déjà en tant que professionnel des données avec ce que vous devez ajouter pour chaque rôle. L'objectif est de voir l'écart réel, et non l'écart perçu (qui est généralement plus grand).</p>
 
 <table>
-    <thead><tr><th>Rôle</th><th>Vous avez déjà ✅</th><th>Vous devez ajouter 📚</th><th>Tiempo estimado de brecha</th></tr>
+    <thead><tr><th>Rôle</th><th>Vous avez déjà ✅</th><th>Vous devez ajouter 📚</th><th>Temps estimé pour combler l'écart</th></tr>
     </thead>
     <tbody>
       <tr>
         <td>AI Data Engineer</td>
-        <td>Pipelines, orquestación, calidad de datos, infra cloud, SQL/Python</td>
-        <td>Embeddings, bases de datos vectoriales (Weaviate/Qdrant/pgvector), chunking strategies, ciclo de vida RAG</td>
-        <td>2–4 meses con práctica activa</td>
+        <td>Pipelines, orchestration, qualité des données, infra cloud, SQL/Python</td>
+        <td>Embeddings, bases de données vectorielles (Weaviate/Qdrant/pgvector), stratégies de chunking, cycle de vie RAG</td>
+        <td>2–4 mois avec pratique active</td>
       </tr>
       <tr>
         <td>RAG Architect</td>
-        <td>Arquitectura de datos, ciclo de vida de sistemas, evaluación de herramientas, diseño para escala</td>
-        <td>Búsqueda híbrida avanzada, re-ranking, evaluación RAG (RAGAS), prompt engineering, selección de LLM</td>
-        <td>4–6 meses con proyecto real</td>
+        <td>Architecture de données, cycle de vie des systèmes, évaluation des outils, conception à l'échelle</td>
+        <td>Recherche hybride avancée, re-ranking, évaluation RAG (RAGAS), ingénierie des prompts, sélection de LLM</td>
+        <td>4–6 mois avec projet réel</td>
       </tr>
       <tr>
         <td>AI Quality Analyst</td>
-        <td>Marcos de calidad, diseño de tests, métricas de negocio, documentación</td>
-        <td>RAGAS/DeepEval, red teaming (Garak), golden dataset para IA, evaluación de equidad (Fairlearn), LLM-as-judge</td>
-        <td>2–3 meses con práctica activa</td>
+        <td>Cadres qualité, conception de tests, métriques métier, documentation</td>
+        <td>RAGAS/DeepEval, red teaming (Garak), golden dataset pour l'IA, évaluation de l'équité (Fairlearn), LLM-as-judge</td>
+        <td>2–3 mois avec pratique active</td>
       </tr>
       <tr>
         <td>AI Governance Specialist</td>
-        <td>Marcos regulatorios (GDPR), gestión de riesgos, auditoría, inventarios de sistemas</td>
+        <td>Cadres réglementaires (RGPD), gestion des risques, audit, inventaires de systèmes</td>
         <td>Spécificités de l'AI Act, classification du risque IA, ISO 42001, gestion des incidents IA, formation des employés</td>
-        <td>3–5 meses con estudio dedicado</td>
+        <td>3–5 mois avec étude dédiée</td>
       </tr>
     </tbody>
   </table>
@@ -9302,11 +9346,11 @@ jobs:
 <table>
     <thead><tr><th>Catégorie</th><th>Time-to-first-token</th><th>Tokens/seconde</th><th>Latence totale typique (1 000 tokens output)</th></tr></thead>
     <tbody>
-      <tr><td>Modèles rápidos (Haiku, GPT-4o-mini, Gemini Flash)</td><td>200-500 ms</td><td>80-150</td><td>7-13 s</td></tr>
-      <tr><td>Modèles equilibrio (Sonnet, GPT-4o, Gemini Pro)</td><td>400-800 ms</td><td>50-90</td><td>11-20 s</td></tr>
-      <tr><td>Modèles frontera (Opus, GPT-4-turbo)</td><td>600-1.200 ms</td><td>30-60</td><td>17-33 s</td></tr>
-      <tr><td>Modèles de razonamiento (thinking visible o no)</td><td>2-30 s (incluye thinking)</td><td>50-100 visible</td><td>20-90 s o más</td></tr>
-      <tr><td>Open-weight via proveedor (Llama 70B en Together/Groq)</td><td>100-400 ms</td><td>200-500</td><td>2-5 s (Groq puede ser dramáticamente más rápido)</td></tr>
+      <tr><td>Modèles rapides (Haiku, GPT-4o-mini, Gemini Flash)</td><td>200-500 ms</td><td>80-150</td><td>7-13 s</td></tr>
+      <tr><td>Modèles équilibrés (Sonnet, GPT-4o, Gemini Pro)</td><td>400-800 ms</td><td>50-90</td><td>11-20 s</td></tr>
+      <tr><td>Modèles frontier (Opus, GPT-4-turbo)</td><td>600-1 200 ms</td><td>30-60</td><td>17-33 s</td></tr>
+      <tr><td>Modèles de raisonnement (thinking visible ou non)</td><td>2-30 s (inclut le thinking)</td><td>50-100 visible</td><td>20-90 s ou plus</td></tr>
+      <tr><td>Open-weight via fournisseur (Llama 70B sur Together/Groq)</td><td>100-400 ms</td><td>200-500</td><td>2-5 s (Groq peut être dramatiquement plus rapide)</td></tr>
     </tbody>
   </table>
 
@@ -9811,7 +9855,7 @@ jobs:
       <span class="gterm-nombre">Dépendance cognitive à l'IA</span>
       <span class="gterm-cat cat-autor">★ Concept de l'auteur</span>
     </div>
-    <div class="gterm-def">Persistance de formes juvéniles ou simplifiées de traitement de l'information chez les utilisateurs qui délèguent habituellement la synthèse et l'analyse à des systèmes d'IA. → Voir le glossaire.</div>
+    <div class="gterm-def">Persistance de formes simplifiées de traitement de l'information chez des utilisateurs qui délèguent habituellement la synthèse et l'analyse critique à des systèmes d'IA. Mécanisme analogue à celui de la <em>mémoire transactive</em> (Sparrow et al., 2011) : lorsqu'un système externe gère de façon fiable une tâche cognitive, le cerveau réduit l'investissement dans cette capacité. Dans le contexte de l'IA générative, le risque spécifique est l'atrophie progressive des compétences de synthèse argumentative, d'évaluation de preuves contradictoires et de formation de jugements non assistés. Concept de l'auteur ; mécanisme compatible avec la littérature empirique existante, non validé à cette échelle spécifique. État épistémique : proposition théorique avec soutien empirique partiel. → Voir Chap. 20.</div>
   </div>
 
   <div class="gterm">
@@ -9856,7 +9900,7 @@ jobs:
       <span class="gterm-nombre">Architecture hybride déterministe-probabiliste</span>
       <span class="gterm-cat cat-autor">★ Concept de l'auteur</span>
     </div>
-    <div class="gterm-def">Cadre de conception qui propose la combinaison complémentaire de l'IA générative et du code déterministe. → Voir le glossaire.</div>
+    <div class="gterm-def">Cadre de conception qui combine un composant probabiliste (LLM génératif, qui propose, rédige et raisonne) avec un composant déterministe (code, règles, validateurs, bases de données relationnelles) qui vérifie, filtre et décide. Le principe central : <em>le LLM propose, le code déterministe décide</em>. Le composant déterministe agit comme pare-feu architectural contre les hallucinations, les biais et les sorties hors limites. Implémenté comme Patron Sandwich dans ce manuel. Concept de l'auteur formalisé au Chap. 12 ; compatible avec l'approche de programmation neuro-symbolique dans la littérature académique. État épistémique : proposition architecturale avec validation empirique sur des cas réels documentés. → Voir Chap. 12.</div>
   </div>
 
   <div class="gterm">
