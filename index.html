@@ -1431,7 +1431,7 @@ de référence et de distance.</p>
   <tr><td>Marseille</td><td>0.02</td><td>Troisième ville, moins fréquente</td></tr>
   <tr><td>Londres</td><td>0.01</td><td>Extrapolation erronée possible</td></tr>
   <tr><td>[autres ~199 996]</td><td>0.02</td><td>Longue traîne d'alternatives improbables</td></tr>
-</table>
+
 
 <h3>2.6 Génération de texte pas à pas</h3>
 <p>Le processus de génération est itératif. Le système commence par le <span class="gt">prompt<span class="tt">Le texte d'entrée fourni au modèle. L'ingénierie des prompts est la discipline qui conçoit des prompts pour maximiser la qualité et la fiabilité des réponses.</span></span> initial et répète le cycle : analyse tous les <span class="gt">tokens<span class="tt">Unité de base de texte pour un modèle de langage. Peut être un mot entier, un sous-mot, un caractère ou un signe de ponctuation.</span></span> du contexte disponible via le <span class="gt">mécanisme d'attention<span class="tt">Mécanisme du Transformer qui permet à chaque token de « regarder » tous les autres tokens du contexte simultanément et de pondérer leur influence.</span></span> ; calcule la distribution de probabilité sur l'ensemble du vocabulaire ; applique les paramètres d'échantillonnage (<span class="gt">température<span class="tt">Paramètre contrôlant l'aléatoire de la sélection des tokens. T=0 : presque déterministe. T>1 : haute créativité/variabilité.</span></span>, <span class="gt">top-p, top-k<span class="tt">Méthodes d'échantillonnage qui limitent la sélection des tokens au sous-ensemble de plus haute probabilité. Top-k limite aux k tokens les plus probables ; top-p sélectionne l'ensemble dont la probabilité cumulée atteint le seuil p.</span></span>) pour sélectionner un <span class="gt">token<span class="tt">Unité de base de texte pour un modèle de langage. Peut être un mot entier, un sous-mot, un caractère ou un signe de ponctuation.</span></span> ; ajoute ce <span class="gt">token<span class="tt">Unité de base de texte pour un modèle de langage. Peut être un mot entier, un sous-mot, un caractère ou un signe de ponctuation.</span></span> au texte généré ; utilise le nouveau contexte complet et répète jusqu'à EOS ou la limite de <span class="gt">tokens<span class="tt">Unité de base de texte pour un modèle de langage. Peut être un mot entier, un sous-mot, un caractère ou un signe de ponctuation.</span></span>.</p>
@@ -1491,7 +1491,8 @@ de référence et de distance.</p>
   <tr><td>Informatif général</td><td>Moyenne</td><td>T=0,4-0,7, top-p=0,9</td></tr>
   <tr><td>Technique documenté</td><td>Basse</td><td>T=0,1-0,3, seeds fixes</td></tr>
   <tr><td>Critique (médical, juridique, financier)</td><td>Très basse</td><td>T=0, validation déterministe obligatoire</td></tr>
-</table>
+    </tbody>
+  </table>
 
 <h3>3.7 Le dilemme entre variabilité et fiabilité</h3>
 <p>Le paramètre de <span class="gt">température<span class="tt">Paramètre contrôlant l'aléatoire de la sélection des tokens. T=0 : presque déterministe. T>1 : haute créativité/variabilité.</span></span> et les méthodes d'échantillonnage (<span class="gt">top-k, top-p<span class="tt">Méthodes d'échantillonnage qui limitent la sélection des tokens au sous-ensemble de plus haute probabilité. Top-k limite aux k tokens les plus probables ; top-p sélectionne l'ensemble dont la probabilité cumulée atteint le seuil p.</span></span>) permettent d'ajuster cet équilibre en fonction du contexte. Il n'existe pas de configuration universellement optimale : chaque cas d'usage nécessite un calibrage spécifique qui équilibre le besoin de variabilité créative avec les exigences de fiabilité.</p>
@@ -1791,7 +1792,7 @@ de référence et de distance.</p>
       </tr>
       <tr>
         <td>Hiérarchique</td>
-        十一章Petits chunks avec référence au chunk parent grand</th>
+        <td>Petits chunks avec référence au chunk parent grand</td>
         <td>Lorsque vous avez besoin de précision ET de contexte</td>
         <td>Complexité accrue de l'indexation et du retrieval</td>
       </tr>
@@ -1868,7 +1869,7 @@ de référence et de distance.</p>
 
   <p>Dans votre écosystème de données, vous distinguez déjà différents types de stockage selon le modèle d'accès : OLTP pour les transactions, OLAP pour l'analyse, stockage d'objets pour les fichiers, cache pour l'accès rapide. La base de données vectorielle est un nouveau type de stockage, spécialisé dans un seul type d'opération : <strong>trouver les N vecteurs les plus similaires à un vecteur de requête</strong>.</p>
 
-  </table>
+  <table>
     <thead><tr><th>Solution</th><th>Type</th><th>Idéal pour</th><th>Analogie en données</th></tr></thead>
     <tbody>
       <tr>
@@ -1889,13 +1890,13 @@ de référence et de distance.</p>
         <td>Production sans vouloir gérer l'infrastructure</td>
         <td>Snowflake : vous payez à l'usage, vous ne gérez rien</td>
       </tr>
-      <td>
+      <tr>
         <td>Weaviate / Qdrant</td>
         <td>Open source auto-hébergé</td>
         <td>Production avec contrôle total, données sensibles</td>
         <td>PostgreSQL : plus de travail, plus de contrôle</td>
       </tr>
-      </tr>
+      <tr>
         <td>pgvector</td>
         <td>Extension PostgreSQL</td>
         <td>Vous avez déjà PostgreSQL et vous voulez ajouter la recherche vectorielle</td>
@@ -2263,7 +2264,7 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
         <td>0.85 – 0.92</td>
         <td>Même concept, langue différente</td>
       </tr>
-      </table>
+      <tr>
         <td>"analyse de rentabilité" / "marge de contribution"</td>
         <td>0.70 – 0.82</td>
         <td>Concepts connexes</td>
@@ -2522,77 +2523,120 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
     Chaque métrique pointe vers un problème différent du pipeline — le diagnostic vous dit
     où chercher le défaut avant d'incriminer le LLM.
   </p>
-  <div id="rag-rgs-fr" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:20px;background:#f8f9fc;padding:16px 20px">
+  <div id="rag-rgs-fr" style="border:1px solid #e2e8f0;border-radius:8px;overflow:hidden;margin-bottom:20px;background:#f8fafc;padding:18px 22px">
   <style>
-  #rag-rgs-fr{font-family:'Space Mono',monospace;color:#1e293b}
-  #rag-rgs-fr .rg-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-  #rag-rgs-fr .rg-lbl{font-size:10px;color:#475569;width:160px;flex-shrink:0}
-  #rag-rgs-fr input[type=range]{flex:1;height:4px}
-  #rag-rgs-fr .rg-val{font-size:11px;font-weight:700;width:36px;text-align:right}
-  #rag-rgs-fr .rg-diag{margin-top:16px;border-radius:6px;padding:12px 14px;font-size:11px;line-height:1.7;border-left:3px solid}
-  #rag-rgs-fr .rg-diag strong{display:block;margin-bottom:4px;font-size:12px}
-  #rag-rgs-fr .rg-bars{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:14px}
-  #rag-rgs-fr .rg-bar-row{display:flex;align-items:center;gap:8px}
-  #rag-rgs-fr .rg-bar-bg{flex:1;height:6px;background:#f1f5f9;border-radius:3px}
-  #rag-rgs-fr .rg-bar-fill{height:100%;border-radius:3px;transition:width .3s}
+  #rag-rgs-fr{font-family:system-ui,sans-serif}
+  #rag-rgs-fr .rs-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  #rag-rgs-fr .rs-lbl{font-size:11px;color:#475569;width:148px;flex-shrink:0;font-weight:500}
+  #rag-rgs-fr input[type=range]{flex:1;accent-color:#6366f1;cursor:pointer}
+  #rag-rgs-fr .rs-num{font-size:12px;font-weight:700;width:36px;text-align:right;font-family:monospace}
+  #rag-rgs-fr .rs-bars{margin-bottom:16px}
+  #rag-rgs-fr .rs-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+  #rag-rgs-fr .rs-bar-lbl{font-size:10px;color:#64748b;width:128px;flex-shrink:0}
+  #rag-rgs-fr .rs-bar-bg{flex:1;height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+  #rag-rgs-fr .rs-bar-fill{height:100%;border-radius:4px;transition:width .25s ease}
+  #rag-rgs-fr .rs-bar-pct{font-size:10px;width:34px;text-align:right;font-family:monospace;color:#64748b}
+  #rag-rgs-fr .rs-sep{border:none;border-top:1px solid #e2e8f0;margin:14px 0}
+  #rag-rgs-fr .rs-diag{border-radius:6px;padding:12px 16px;font-size:12px;line-height:1.7;border-left:4px solid}
+  #rag-rgs-fr .rs-diag strong{display:block;margin-bottom:5px;font-size:13px}
   </style>
-  <div class="rg-bars" id="rgs-bars-fr"></div>
-  <div class="rg-row"><span class="rg-lbl">Faithfulness</span><input type="range" id="rg-f-fr" min="0" max="100" value="45" oninput="rgsUpdateFr()"><span class="rg-val" id="rv-f-fr" style="color:#ef4444">0.45</span></div>
-  <div class="rg-row"><span class="rg-lbl">Answer Relevance</span><input type="range" id="rg-a-fr" min="0" max="100" value="80" oninput="rgsUpdateFr()"><span class="rg-val" id="rv-a-fr" style="color:#10b981">0.80</span></div>
-  <div class="rg-row"><span class="rg-lbl">Context Recall</span><input type="range" id="rg-c-fr" min="0" max="100" value="72" oninput="rgsUpdateFr()"><span class="rg-val" id="rv-c-fr" style="color:#f59e0b">0.72</span></div>
-  <div class="rg-row"><span class="rg-lbl">Context Precision</span><input type="range" id="rg-p-fr" min="0" max="100" value="65" oninput="rgsUpdateFr()"><span class="rg-val" id="rv-p-fr" style="color:#f59e0b">0.65</span></div>
-  <div class="rg-diag" id="rgs-diag-fr"></div>
+
+  <!-- BARRES (statiques — seules les largeurs sont mises à jour par JS) -->
+  <div class="rs-bars">
+    <div class="rs-bar-row">
+      <span class="rs-bar-lbl">Faithfulness</span>
+      <div class="rs-bar-bg"><div class="rs-bar-fill" id="rbar-f-fr" style="width:45%;background:#6366f1"></div></div>
+      <span class="rs-bar-pct" id="rbpct-f-fr">0.45</span>
+    </div>
+    <div class="rs-bar-row">
+      <span class="rs-bar-lbl">Answer Relevance</span>
+      <div class="rs-bar-bg"><div class="rs-bar-fill" id="rbar-a-fr" style="width:80%;background:#10b981"></div></div>
+      <span class="rs-bar-pct" id="rbpct-a-fr">0.80</span>
+    </div>
+    <div class="rs-bar-row">
+      <span class="rs-bar-lbl">Context Recall</span>
+      <div class="rs-bar-bg"><div class="rs-bar-fill" id="rbar-c-fr" style="width:72%;background:#f59e0b"></div></div>
+      <span class="rs-bar-pct" id="rbpct-c-fr">0.72</span>
+    </div>
+    <div class="rs-bar-row">
+      <span class="rs-bar-lbl">Context Precision</span>
+      <div class="rs-bar-bg"><div class="rs-bar-fill" id="rbar-p-fr" style="width:65%;background:#8b5cf6"></div></div>
+      <span class="rs-bar-pct" id="rbpct-p-fr">0.65</span>
+    </div>
+  </div>
+  <hr class="rs-sep">
+
+  <!-- CURSEURS -->
+  <div class="rs-row">
+    <span class="rs-lbl">Faithfulness</span>
+    <input type="range" id="rg-f-fr" min="0" max="100" value="45" oninput="rgsUpdateFr()">
+    <span class="rs-num" id="rv-f-fr" style="color:#6366f1">0.45</span>
+  </div>
+  <div class="rs-row">
+    <span class="rs-lbl">Answer Relevance</span>
+    <input type="range" id="rg-a-fr" min="0" max="100" value="80" oninput="rgsUpdateFr()">
+    <span class="rs-num" id="rv-a-fr" style="color:#10b981">0.80</span>
+  </div>
+  <div class="rs-row">
+    <span class="rs-lbl">Context Recall</span>
+    <input type="range" id="rg-c-fr" min="0" max="100" value="72" oninput="rgsUpdateFr()">
+    <span class="rs-num" id="rv-c-fr" style="color:#f59e0b">0.72</span>
+  </div>
+  <div class="rs-row">
+    <span class="rs-lbl">Context Precision</span>
+    <input type="range" id="rg-p-fr" min="0" max="100" value="65" oninput="rgsUpdateFr()">
+    <span class="rs-num" id="rv-p-fr" style="color:#8b5cf6">0.65</span>
+  </div>
+  <hr class="rs-sep">
+
+  <!-- DIAGNOSTIC -->
+  <div class="rs-diag" id="rgs-diag-fr"></div>
+
   <script>
   (function(){
-    var metrics=[
-      {id:"rg-f-fr",vid:"rv-f-fr",lbl:"Faithfulness",thr:0.75},
-      {id:"rg-a-fr",vid:"rv-a-fr",lbl:"Answer Relevance",thr:0.75},
-      {id:"rg-c-fr",vid:"rv-c-fr",lbl:"Context Recall",thr:0.80},
-      {id:"rg-p-fr",vid:"rv-p-fr",lbl:"Context Precision",thr:0.70}
+    var cfg=[
+      {sId:"rg-f-fr", nId:"rv-f-fr", bId:"rbar-f-fr", pId:"rbpct-f-fr", thr:0.75, lbl:"Faithfulness"},
+      {sId:"rg-a-fr", nId:"rv-a-fr", bId:"rbar-a-fr", pId:"rbpct-a-fr", thr:0.75, lbl:"Answer Relevance"},
+      {sId:"rg-c-fr", nId:"rv-c-fr", bId:"rbar-c-fr", pId:"rbpct-c-fr", thr:0.80, lbl:"Context Recall"},
+      {sId:"rg-p-fr", nId:"rv-p-fr", bId:"rbar-p-fr", pId:"rbpct-p-fr", thr:0.70, lbl:"Context Precision"}
     ];
-    var colors=["#6366f1","#10b981","#f59e0b","#8b5cf6"];
-    function getColor(v,thr){return v>=thr?"#10b981":v>=thr*0.75?"#f59e0b":"#ef4444";}
+    function valColor(v,thr){return v>=thr?"#16a34a":v>=thr*0.75?"#d97706":"#dc2626";}
     function render(){
-      var vals=metrics.map(function(m){return parseFloat(document.getElementById(m.id).value)/100;});
-      var bars=document.getElementById("rgs-bars-fr");
-      bars.innerHTML="";
-      metrics.forEach(function(m,i){
-        var v=vals[i];
-        var color=getColor(v,m.thr);
-        document.getElementById(m.vid).textContent=v.toFixed(2);
-        document.getElementById(m.vid).style.color=color;
-        var row=document.createElement("div");row.className="rg-bar-row";
-        var bg=document.createElement("div");bg.className="rg-bar-bg";
-        var fill=document.createElement("div");fill.className="rg-bar-fill";
-        fill.style.width=(v*100)+"%";fill.style.background=colors[i];
-        bg.appendChild(fill);
-        var lbl=document.createElement("span");lbl.style.cssText="font-size:9px;color:#64748b;width:130px;flex-shrink:0";lbl.textContent=m.lbl;
-        row.appendChild(lbl);row.appendChild(bg);
-        var vs=document.createElement("span");vs.style.cssText="font-size:9px;color:"+color+";width:30px;text-align:right";vs.textContent=v.toFixed(2);
-        row.appendChild(vs);bars.appendChild(row);
+      var vals=cfg.map(function(m){return parseFloat(document.getElementById(m.sId).value)/100;});
+      cfg.forEach(function(m,i){
+        var v=vals[i], col=valColor(v,m.thr);
+        document.getElementById(m.nId).textContent=v.toFixed(2);
+        document.getElementById(m.nId).style.color=col;
+        document.getElementById(m.bId).style.width=(v*100)+"%";
+        document.getElementById(m.pId).textContent=v.toFixed(2);
+        document.getElementById(m.pId).style.color=col;
       });
-      var f=vals[0],a=vals[1],c=vals[2],p=vals[3];
+      var f=vals[0],a=vals[1],cr=vals[2],p=vals[3];
       var diag=document.getElementById("rgs-diag-fr");
-      var msg,color,border;
+      var txt,bg,border;
       if(f<0.60){
-        msg="<strong>🔴 Hallucination détectée</strong>Faithfulness faible ("+f.toFixed(2)+") : le LLM génère depuis sa mémoire d'entraînement, pas depuis le contexte. Le problème n'est PAS dans le retrieval — il est dans le modèle ou dans le prompt. Vérifiez si le contexte récupéré est suffisant et si le prompt demande de citer les sources.";
-        color="#2e100a";border="#ef4444";
-      } else if(c<0.65){
-        msg="<strong>🔴 Retrieval incomplet</strong>Context Recall faible ("+c.toFixed(2)+") : le système ne récupère pas les fragments pertinents. Le problème est dans l'embedding ou le chunking, pas dans le LLM. Vérifiez : taille de chunk, modèle d'embedding, seuil de similarité, couverture du corpus.";
-        color="#2e100a";border="#ef4444";
+        txt="<strong>🔴 Hallucination détectée</strong>Faithfulness faible ("+f.toFixed(2)+") : le LLM génère depuis sa mémoire d'entraînement, pas depuis le contexte. Vérifiez si le contexte récupéré est suffisant et si le prompt demande de citer les sources.";
+        bg="#fef2f2";border="#dc2626";
+      } else if(cr<0.65){
+        txt="<strong>🔴 Retrieval incomplet</strong>Context Recall faible ("+cr.toFixed(2)+") : le système ne récupère pas les fragments pertinents. Le problème est dans l'embedding ou le chunking, pas dans le LLM. Vérifiez le modèle d'embedding et la taille de chunk.";
+        bg="#fef2f2";border="#dc2626";
       } else if(p<0.55){
-        msg="<strong>🟡 Bruit dans le contexte</strong>Context Precision faible ("+p.toFixed(2)+") : des fragments non pertinents contaminent le contexte. Ajoutez un re-ranking (CrossEncoder) ou ajustez le seuil de similarité pour filtrer le bruit avant de passer au LLM.";
-        color="#3d2c06";border="#f59e0b";
+        txt="<strong>🟡 Bruit dans le contexte</strong>Context Precision faible ("+p.toFixed(2)+") : des fragments non pertinents contaminent le prompt. Ajoutez un re-ranking (CrossEncoder) ou ajustez le seuil de similarité.";
+        bg="#fffbeb";border="#d97706";
       } else if(a<0.65){
-        msg="<strong>🟡 La réponse ne répond pas à la question</strong>Answer Relevance faible ("+a.toFixed(2)+") : le modèle comprend le contexte mais ne répond pas à ce qui est demandé. Révisez le prompt système et envisagez de décomposer les questions complexes (step-back prompting).";
-        color="#3d2c06";border="#f59e0b";
+        txt="<strong>🟡 La réponse ne répond pas à la question</strong>Answer Relevance faible ("+a.toFixed(2)+") : le modèle comprend le contexte mais ne répond pas à ce qui est demandé. Révisez le system prompt et envisagez le step-back prompting.";
+        bg="#fffbeb";border="#d97706";
       } else {
-        msg="<strong>✅ Système sain</strong>Toutes les métriques dans les seuils. Faithfulness "+f.toFixed(2)+" · Context Recall "+c.toFixed(2)+" · Precision "+p.toFixed(2)+" · Relevance "+a.toFixed(2)+". Surveillez en production avec des échantillons hebdomadaires.";
-        color="#0a2e28";border="#10b981";
+        txt="<strong>✅ Système sain</strong>Toutes les métriques dans les seuils. Faithfulness "+f.toFixed(2)+" · Context Recall "+cr.toFixed(2)+" · Precision "+p.toFixed(2)+" · Relevance "+a.toFixed(2)+". Surveillez avec des échantillons hebdomadaires en production.";
+        bg="#f0fdf4";border="#16a34a";
       }
-      diag.innerHTML=msg;diag.style.background=color;diag.style.borderLeftColor=border;diag.style.color="#d1d5db";
+      diag.innerHTML=txt;
+      diag.style.background=bg;
+      diag.style.borderLeftColor=border;
+      diag.style.color="#1e293b";
     }
-    window.rgsUpdateFr=render;render();
+    window.rgsUpdateFr=render;
+    render();
   })();
   </script>
   </div>
@@ -2645,6 +2689,7 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
 <p>Dans vos systèmes de qualité, vous avez des seuils et des actions : si le taux de nulls dépasse 5 %, vous bloquez le chargement. Si la distribution change de plus de 2 écarts-types, vous déclenchez une alerte. Dans les systèmes d'IA, le même principe s'applique mais sur des dimensions de qualité probabilistes.</p>
 
 
+  <table>
   <thead>
     <tr><th>Situation</th><th>Seuil indicatif</th><th>Action recommandée</th></tr>
   </thead>
@@ -2805,7 +2850,7 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
 
 <p><strong>La décision est-elle réversible ?</strong> Si le système se trompe et que quelqu'un agit sur la base de cette réponse, le préjudice peut-il être corrigé ? Afficher un produit incorrect dans une recommandation est réversible. Rejeter une demande de crédit peut ne pas l'être pour la personne concernée.</p>
 
-</table>
+<table>
   <thead>
     <tr><th>Vérifiabilité</th><th>Réversibilité</th><th>Niveau de risque</th><th>Contrôle minimum nécessaire</th></tr>
   </thead>
@@ -3269,7 +3314,7 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
         <td>Le contexte long n'offre pas de traçabilité : vous ne savez pas quel fragment a influencé la réponse.</td>
       </tr>
   </tbody>
-</table>
+
 
 <div class="callout">
   <strong>📊 Au-delà du biais positionnel : LongBench v2 et le plafond de la compréhension profonde</strong>
@@ -3347,7 +3392,7 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
         <td>La majeure partie du "raisonnement" est déjà faite. Le fine-tuning ajoute la dernière couche de décision, et c'est ce qui a vraiment besoin de peu d'exemples.</td>
       </tr>
   </tbody>
-</table>
+
 
 <h3>5.7.3 Ce qui change exactement : l'impact sur les distributions de probabilité</h3>
 
@@ -4592,7 +4637,7 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
         <td>Moyen (appel LLM supplémentaire sur le chemin de la requête)</td>
       </tr>
   </tbody>
-</table>
+
 
 <div class="callout">
   <strong>💡 Le modèle de préfixage en pratique</strong>
@@ -5190,7 +5235,7 @@ modele_optimise = optimiseur.compile(RAGModule(), trainset=train_set)</pre>
         <td>❌ DSPy ne résoudra pas le problème</td>
       </tr>
   </tbody>
-</table>
+
 
 <h3>Autres architectures de raisonnement automatique</h3>
 <p><strong>Self-ask :</strong> le modèle se pose des sous-questions avant de répondre. Utile pour les tâches multi-étapes où l'ordre n'est pas évident.</p>
@@ -5277,7 +5322,7 @@ jobs:
 <h2>8.7 Gestion des prompts en production</h2>
 
 <h3>Outils de gestion</h3>
-</table>
+<table>
   <thead>
     <tr><th>Outil</th><th>Fonction principale</th><th>Modèle de prix</th></tr>
   </thead>
@@ -5541,7 +5586,7 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
 <p>Les modèles de raisonnement natifs sont une famille de LLM qui effectuent une phase de "pensée interne" avant de générer la réponse visible. Cette pensée — invisible pour l'utilisateur par défaut — fonctionne comme un brouillon où le modèle explore de multiples chemins, détecte les incohérences, corrige les erreurs intermédiaires et synthétise une réponse plus robuste.</p>
 <p>Ce n'est pas une Chain-of-Thought externe. C'est un processus interne du modèle, entraîné spécifiquement pour raisonner avant de répondre, et non pour raisonner en répondant.</p>
 
-</table>
+<table>
   <thead>
     <tr><th>Modèle</th><th>Fournisseur</th><th>Raisonnement</th><th>Disponibilité</th></tr>
   </thead>
@@ -5980,7 +6025,7 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
         <td>Si le modèle de raisonnement visible conclut X dans sa chaîne de pensée mais produit Y comme sortie finale, quelque chose a échoué. Surveiller cette divergence est un signal de qualité spécifique aux modèles de raisonnement qui n'existe pas dans les LLM standards.</td>
       </tr>
   </tbody>
-</table>
+
 
 <hr class="sep">
 
@@ -6063,7 +6108,7 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
 
 <h3>Tableau de sélection des architectures hybrides</h3>
 
-</table>
+<table>
   <thead>
     <tr><th>Cas d'usage</th><th>Architecture recommandée</th><th>Pourquoi pas l'alternative</th></tr>
   </thead>
@@ -6137,7 +6182,7 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
 <h2>10.2 Le principe de l'agent minimal viable</h2>
 <p>La tentation en découvrant les agents est d'ajouter de la complexité. La discipline d'architecture correcte est l'inverse : commencez par le système le plus simple qui résout le problème, et n'ajoutez des agents que lorsque ce système plus simple a montré ses limites.</p>
 
-</table>
+<table>
   <thead>
     <tr><th>Avant d'ajouter un agent, demandez-vous</th><th>Si la réponse est…</th><th>Alors</th></tr>
   </thead>
@@ -7237,7 +7282,7 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
         <td>Certification préalable au déploiement</td>
       </tr>
   </tbody>
-</table>
+
 
 <h2>11.4 L'erreur d'échelle : quand le Niveau 2 est en réalité du Niveau 3</h2>
 <p>L'erreur de classification la plus fréquente se produit lorsque l'on ne tient pas compte de l'échelle. Un système de tri de CV qui traite 100 candidats par mois avec un biais de 3 % discrimine 3 personnes. Le même système traitant 50 000 candidats par mois discrimine 1 500 personnes. L'architecture doit répondre au risque réel, non au risque nominal.</p>
@@ -7288,7 +7333,7 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
         <td>De multiples décès documentés. Enquête de la NHTSA sur plus de 900 incidents.</td>
       </tr>
   </tbody>
-</table>
+
 
 <div class="callout">
   <strong>💡 Le schéma commun dans tous les cas</strong>
@@ -7640,7 +7685,7 @@ def evaluer_demande(texte: str, id_requete: str) -> dict:
         <td>Analyse segmentée sur golden dataset stratifié</td>
       </tr>
   </tbody>
-</table>
+
 
 <h2>13.2 Le golden dataset comme base de tout</h2>
 <p>Sans golden dataset, vous ne pouvez rien mesurer rigoureusement. Mais le construire correctement demande de la discipline :</p>
@@ -7755,7 +7800,7 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
         <td>Audit d'équité. Enrichissement du corpus pour les segments sous-représentés.</td>
       </tr>
   </tbody>
-</table>
+
 
 <h2>13.5 Tests de robustesse et tests adversariaux</h2>
 <p>Les tests standard (golden dataset + métriques RAGAS) mesurent la performance nominale. Les tests de robustesse et tests adversariaux mesurent si le système peut être manipulé ou s'il échoue dans des conditions de stress :</p>
@@ -7806,7 +7851,7 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
         <td>Possible dégradation de l'infra ou changement de taille de contexte. Vérifier les logs.</td>
       </tr>
   </tbody>
-</table>
+
 
 <div class="warning">
   <strong>⚠️ L'erreur "nous avons testé au lancement"</strong>
@@ -7871,7 +7916,7 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
         <td>Taux de retour négatif, durée de session, taux de reformulation de question, escalade à un humain</td>
       </tr>
   </tbody>
-</table>
+
 
 <div class="callout">
   <strong>💡 L'indicateur proxy le plus utile en production lorsqu'il n'y a pas de retour explicite</strong>
@@ -7998,7 +8043,7 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
 </div>
 
 <h2>14.1 Trois paradigmes de supervision humaine</h2>
-</tr>
+<table>
   <thead>
     <tr><th>Paradigme</th><th>Description</th><th>Quand l'appliquer</th><th>Risque principal</th></tr>
   </thead>
@@ -8453,7 +8498,7 @@ jobs:
 </ul>
 
 <h2>15.6 Outils de l'écosystème MLOps pour l'IA</h2>
-</table>
+<table>
   <thead>
     <tr><th>Fonction</th><th>Outil</th><th>Coût</th><th>Idéal pour</th></tr>
   </thead>
@@ -10060,7 +10105,7 @@ jobs:
         <td>2-5 s (Groq peut être dramatiquement plus rapide)</td>
       </tr>
     </tbody>
-  </table>
+  
 
   <h3>Streaming : pourquoi la perception change même si la latence totale non</h3>
   <p>Le <strong>streaming</strong> envoie chaque token au client dès que le modèle le génère, au lieu d'attendre la réponse complète. La latence totale jusqu'au dernier token ne change pas, mais le temps jusqu'au premier token (TTFT) oui — il passe de l'égalité avec la latence totale à des fractions de seconde. Pour les interfaces conversationnelles, c'est la différence entre une expérience acceptable et une expérience perçue comme cassée. Pour les pipelines agentiques non interactifs, où la sortie complète alimente l'étape suivante, le streaming est sans intérêt : le nœud suivant a besoin de la réponse entière avant de commencer.</p>
