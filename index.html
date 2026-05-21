@@ -5083,22 +5083,24 @@ const response = await openai.chat.completions.create({
 
   <h3>La structure optimale du prompt pour les domaines spécifiques</h3>
 
-  <pre><code class="language-text">// COUCHE 1 : System prompt — le « manifeste » du domaine
+  <pre style="overflow-x:auto;white-space:pre-wrap;word-break:break-word;"><code class="language-text">// COUCHE 1 : System prompt — le « manifeste » du domaine
 Tu es un système de modération expert pour une plateforme de [description du domaine].
 Contexte culturel : [description du langage et des normes spécifiques au domaine].
-Ne censure pas le langage naturel du contexte — ton objectif est de détecter [description précise de ce qui est problématique].
+Ne censure pas le langage naturel : ton objectif est de détecter
+  [description précise de ce qui est problématique].
 
 // COUCHE 2 : Few-shot — les « exemples en or »
 // Inclure 4 à 6 exemples frontière avec raisonnement explicite :
 
 Exemple 1 :
-Message : « [Texte avec vocabulaire spécifique au domaine, mais contenu légitime] »
-Raisonnement : C'est un échange dans les codes de la plateforme. Il n'y a ni asymétrie ni coercition.
+Message : « [Texte avec vocabulaire spécifique au domaine, contenu légitime] »
+Raisonnement : Échange dans les codes de la plateforme. Ni asymétrie ni coercition.
 Classification : VERT
 
 Exemple 2 :
 Message : « [Texte apparemment neutre mais avec tactique de manipulation] »
-Raisonnement : Flatterie excessive + tentative de déplacement vers un canal externe. Possible pattern de captation.
+Raisonnement : Flatterie excessive + tentative de déplacement vers canal externe.
+  Possible pattern de captation.
 Classification : ORANGE
 
 // COUCHE 3 : User prompt — injection dynamique du contenu à classifier
@@ -11515,8 +11517,16 @@ window.addEventListener('scroll', () => {
     <div class="chapter-tag">Annexe C · Lectures techniques commentées</div>
     <h1>Références techniques essentielles</h1>
     <p class="chapter-subtitle">Quoi lire, pourquoi et quand. Ce n'est pas une bibliographie — c'est un guide de navigation.</p>
+    <div class="chapter-meta"><span>📚 Référence sélective</span><span>🎯 Pour approfondir chaque paradigme</span></div>
+  </div>
 
-<table>
+  <div class="callout">
+    <strong>📌 Comment utiliser cette annexe</strong>
+    Ne lisez pas tout. Sélectionnez 2 à 3 ressources qui correspondent à votre cas d'utilisation actuel. Implémentez un prototype minimal. Mesurez sur votre golden dataset. Si faithfulness ou recall ne s'améliorent pas, écartez la ressource et continuez avec une architecture plus simple. La sophistication n'est pas un objectif — c'est un coût qui doit se justifier.
+  </div>
+
+  <h2>C.1 Recherche (Retrieval)</h2>
+  <table>
     <thead><tr><th>Ressource</th><th>Ce qu'il apporte</th><th>Quand l'utiliser</th><th>Limite / avertissement</th></tr></thead>
     <tbody>
       <tr>
