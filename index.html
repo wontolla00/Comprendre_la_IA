@@ -5032,7 +5032,99 @@ const response = await openai.chat.completions.create({
   </tbody>
 </table>
 
-<h2>8.5 Optimisation algorithmique des prompts : DSPy</h2>
+
+  <h2>8.4b Prompt zéro-shot : portée et limites réelles</h2>
+
+  <p>Le prompt zéro-shot est la forme la plus basique d'instruction : on demande au modèle d'effectuer une tâche sans lui fournir aucun exemple préalable. Le modèle agit exclusivement sur ses connaissances préentraînées.</p>
+
+  <div class="nota">
+    <strong>📌 Définition technique précise</strong>
+    Zéro-shot = inférence sans exemples dans le contexte. Le modèle n'apprend rien de nouveau pendant l'appel ; il applique des corrélations statistiques apprises lors du préentraînement. Son utilité dépend directement de la représentation de la tâche dans le corpus d'entraînement.
+  </div>
+
+  <h3>Quand cela fonctionne bien</h3>
+  <ul>
+    <li><strong>Tâches standards bien représentées :</strong> traduction, résumé, classification de sentiment, génération de texte générique. Ces tâches apparaissent des millions de fois dans le corpus de préentraînement.</li>
+    <li><strong>Prototypes rapides :</strong> lorsqu'on veut uniquement valider si le modèle comprend le concept de la tâche avant d'investir en ingénierie de prompt.</li>
+    <li><strong>Modèles de raisonnement natif :</strong> avec o1, o3 ou DeepSeek-R1, les prompts concis et directs fonctionnent mieux que les détaillés (voir section 9.3).</li>
+  </ul>
+
+  <h3>Quand cela échoue systématiquement</h3>
+  <ul>
+    <li><strong>Langage spécifique à une communauté ou un domaine :</strong> vocabulaire absent (ou présent avec un sens différent) du corpus d'entraînement généraliste. Le modèle applique son prior statistique général, qui peut être complètement inadapté au domaine réel.</li>
+    <li><strong>Tâches avec biais d'alignement :</strong> les modèles alignés (RLHF/DPO) ont des tendances conservatrices qui peuvent classer incorrectement un contenu légitime dans des domaines sensibles — même avec des instructions explicites contraires.</li>
+    <li><strong>Formats d'output très spécifiques :</strong> le modèle tend vers le format statistiquement le plus fréquent dans son corpus, qui peut ne pas correspondre au format requis.</li>
+  </ul>
+
+  <div class="warning">
+    <strong>⚠️ Anti-pattern critique : le « prompt déterministe »</strong>
+    Affirmer qu'un bon system prompt rend le LLM déterministe, reproductible et auditable est une simplification incorrecte. Le prompt comprime la distribution des outputs, mais n'élimine pas la nature probabiliste du modèle. Avec température=0 et graine fixe sur la même infrastructure, on obtient une reproductibilité fonctionnelle (&gt;99% de cohérence), pas un déterminisme absolu. Les sources réelles de variation en production sont : les mises à jour du modèle par le fournisseur, les changements d'infrastructure et les appels concurrents sans graine fixée.
+  </div>
+
+  <h2>8.4c Few-shot comme technique de calibration culturelle et de domaine</h2>
+
+  <p>Le few-shot prompting fournit 2 à 6 exemples de la paire (input → output attendu) dans le prompt. C'est la technique avec le meilleur retour sur investissement pour les domaines à langage spécifique, car elle agit comme un <strong>interrupteur de biais</strong> : elle redirige le prior statistique du modèle depuis le corpus général vers les patterns du domaine réel.</p>
+
+  <h3>Pourquoi les modèles apprennent par analogie, pas seulement par définition</h3>
+  <p>Même si le system prompt peut <em>définir</em> théoriquement les critères, les modèles de langage ont beaucoup plus de facilité à répliquer des patterns concrets qu'à appliquer des définitions abstraites. Cette asymétrie a des conséquences pratiques importantes :</p>
+
+  <div class="comparativa">
+    <div class="comp-lado a">
+      <h4>Définition seule (zéro-shot)</h4>
+      <p>« Un échange est valide s'il est explicitement consenti entre adultes. Il est problématique s'il inclut de la coercition, de l'isolement ou une tentative de déplacer la communication hors de la plateforme. »</p>
+      <p><em>Résultat :</em> le modèle applique son prior statistique général, qui peut sur-modérer le vocabulaire légitime du domaine.</p>
+    </div>
+    <div class="comp-lado b">
+      <h4>Définition + exemples (few-shot)</h4>
+      <p>Même définition, plus 4 exemples « frontière » où le modèle voit des cas réels correctement classifiés, incluant le raisonnement.</p>
+      <p><em>Résultat :</em> le modèle apprend le <em>critère</em>, pas seulement la catégorie. Il généralise depuis les exemples de façon bien plus précise.</p>
+    </div>
+  </div>
+
+  <h3>La structure optimale du prompt pour les domaines spécifiques</h3>
+
+  <pre><code class="language-text">// COUCHE 1 : System prompt — le « manifeste » du domaine
+Tu es un système de modération expert pour une plateforme de [description du domaine].
+Contexte culturel : [description du langage et des normes spécifiques au domaine].
+Ne censure pas le langage naturel du contexte — ton objectif est de détecter [description précise de ce qui est problématique].
+
+// COUCHE 2 : Few-shot — les « exemples en or »
+// Inclure 4 à 6 exemples frontière avec raisonnement explicite :
+
+Exemple 1 :
+Message : « [Texte avec vocabulaire spécifique au domaine, mais contenu légitime] »
+Raisonnement : C'est un échange dans les codes de la plateforme. Il n'y a ni asymétrie ni coercition.
+Classification : VERT
+
+Exemple 2 :
+Message : « [Texte apparemment neutre mais avec tactique de manipulation] »
+Raisonnement : Flatterie excessive + tentative de déplacement vers un canal externe. Possible pattern de captation.
+Classification : ORANGE
+
+// COUCHE 3 : User prompt — injection dynamique du contenu à classifier
+Analyse le message suivant et fournis :
+1. Raisonnement bref
+2. Classification : VERT / ORANGE / ROUGE
+Message : {{message}}
+</code></pre>
+
+  <div class="callout">
+    <strong>💡 Pourquoi les exemples doivent inclure le raisonnement</strong>
+    Quand le few-shot inclut le processus de pensée dans chaque exemple (pas seulement la classification finale), le modèle réplique ce raisonnement en production (Chain-of-Thought implicite). Cela produit deux avantages : une meilleure précision sur les cas frontière, et des outputs auditables où on peut lire pourquoi le modèle a pris une décision.
+  </div>
+
+  <h3>Quand le few-shot surpasse le fine-tuning</h3>
+  <p>Un ensemble de 4 à 6 exemples soigneusement sélectionnés (les « exemples en or ») surpasse fréquemment le fine-tuning dans les premières phases d'un projet car :</p>
+  <ul>
+    <li>Il ne nécessite pas de corpus étiqueté de milliers d'exemples</li>
+    <li>Les critères peuvent être modifiés en changeant le prompt, sans réentraîner</li>
+    <li>Le résultat est immédiatement auditable (le prompt est le modèle de décision)</li>
+    <li>Il évite le risque de surapprentissage sur un corpus petit ou biaisé</li>
+  </ul>
+  <p>Le fine-tuning devient pertinent quand le few-shot ne dépasse pas 85% de précision sur le golden dataset et qu'on dispose de plus de 1 000 exemples étiquetés de qualité — typiquement entre 9 et 12 mois après le lancement d'un système en production.</p>
+
+
+  <h2>8.5 Optimisation algorithmique des prompts : DSPy</h2>
 
 <p>L'ajustement manuel des prompts — tester, observer, modifier, répéter — est la méthode la plus courante, mais aussi la moins efficace. Il existe des frameworks qui traitent le prompt comme un programme optimisable, pas comme une instruction en langage naturel.</p>
 
@@ -5983,7 +6075,49 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
 
 <hr class="sep">
 
-<h2>9.8 Tendances hybrides : RAG + RAFT + modèles de raisonnement</h2>
+
+  <h3>Fine-tuning des modèles de raisonnement : les trois voies</h3>
+
+  <p>Fine-tuner un modèle de raisonnement natif n'est pas équivalent à fine-tuner un LLM standard. La différence critique concerne les données d'entraînement, pas les outils (qui sont les mêmes : Hugging Face, PEFT, TRL, LoRA/QLoRA).</p>
+
+  <div class="warning">
+    <strong>⚠️ L'erreur de conception fréquente : SFT sans traces de raisonnement</strong>
+    Réaliser un SFT (Supervised Fine-Tuning) avec seulement des paires input→output final (sans inclure le processus de pensée) peut dégrader la capacité de raisonnement du modèle. Le modèle apprend à donner des réponses directes, mais perd les poids qui activent sa logique analytique profonde. Le SFT ne détruit pas le raisonnement — le SFT <em>sans traces de raisonnement</em> peut le faire.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Voie</th><th>Données requises</th><th>Complexité</th><th>Quand l'utiliser</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Voie 1 : SFT avec traces de raisonnement</strong></td>
+        <td>Dataset incluant la « pensée » idéale dans chaque exemple (pas seulement l'output final). Format : <code>&lt;think&gt;raisonnement étape par étape&lt;/think&gt; → réponse finale</code></td>
+        <td>Moyenne</td>
+        <td>Première phase d'alignement au domaine (équivalent au « cold start » de DeepSeek-R1). Efficace quand on peut curer manuellement 500 à 1 000 exemples avec raisonnement explicite.</td>
+      </tr>
+      <tr>
+        <td><strong>Voie 2 : Domain Adaptation continu</strong></td>
+        <td>Textes du domaine non étiquetés — uniquement pour enrichir le vocabulaire du modèle</td>
+        <td>Faible</td>
+        <td>Quand le modèle commet des erreurs par méconnaissance de l'argot ou du vocabulaire spécifique au domaine. Ne modifie pas le comportement de raisonnement, seulement le vocabulaire.</td>
+      </tr>
+      <tr>
+        <td><strong>Voie 3 : RL avec GRPO ou RLHF</strong></td>
+        <td>Système de récompenses : fonction qui note la qualité des réponses générées. Pour GRPO : comparaison relative entre groupes de réponses du même modèle.</td>
+        <td>Élevée (requiert une ingénierie ML avancée)</td>
+        <td>Quand on a besoin du maximum de précision et d'une infrastructure d'entraînement dédiée. Non recommandé comme première approche.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>💡 La recommandation pratique pour la plupart des projets</strong>
+    Avant tout fine-tuning, exploiter au maximum le few-shot avancé (section 8.4c). Les modèles de raisonnement absorbent des règles complexes du domaine à travers des exemples avec une efficacité remarquable. Si 4 à 6 exemples en or + system prompt détaillé atteignent &gt;85% de précision sur le golden dataset, le fine-tuning ajoute de la complexité sans bénéfice proportionnel. Le fine-tuning ne se justifie que quand le few-shot a atteint son plafond mesuré.
+  </div>
+
+
+  <h2>9.8 Tendances hybrides : RAG + RAFT + modèles de raisonnement</h2>
 
 <div class="warning">
   <strong>⚡ Section à obsolescence rapide</strong>
@@ -7319,7 +7453,94 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   Si votre système prend la même décision sur des milliers de personnes en utilisant le même modèle, le niveau de criticité augmente automatiquement d'un niveau par rapport à celui qu'il aurait dans un cas individuel. L'échelle transforme des biais marginaux en discrimination systémique.
 </div>
 
-<h2>11.5 Cas réels : ce qui se passe quand la classification échoue</h2>
+
+  <h2>11.5b Architecture de modération de contenu : le pipeline en cascade</h2>
+
+  <p>La modération de contenu à l'échelle est l'un des cas d'usage IA les plus courants en production et l'un des plus mal conçus. L'erreur la plus fréquente est de supposer que la réponse est toujours un LLM — alors que la plupart des tâches de modération sont des tâches de <strong>classification</strong>, pas de génération, et il existe des outils spécifiques plus adaptés.</p>
+
+  <h3>La distinction fondamentale : classification vs compréhension contextuelle</h3>
+
+  <table>
+    <thead>
+      <tr><th>Type de tâche</th><th>Outil correct</th><th>Exemple</th><th>Latence</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Classification discrète avec catégories fixes et bien définies</strong></td>
+        <td>Classificateur spécialisé (détecteur NSFW, BERT-family, heuristiques)</td>
+        <td>Détecter la nudité explicite dans une image, détecter des mots interdits dans une liste noire</td>
+        <td>&lt;20ms (sans GPU pour beaucoup de modèles)</td>
+      </tr>
+      <tr>
+        <td><strong>Compréhension contextuelle du langage</strong></td>
+        <td>LLM (zéro-shot ou few-shot)</td>
+        <td>Détecter le grooming subtil, la pression relationnelle, la manipulation psychologique camouflée dans un langage normal</td>
+        <td>200-600ms</td>
+      </tr>
+      <tr>
+        <td><strong>Analyse psychologique profonde de patterns</strong></td>
+        <td>Modèle de raisonnement (asynchrone)</td>
+        <td>Analyse d'une conversation complète pour détecter des tactiques de captation progressives</td>
+        <td>2-8s (file asynchrone)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout concept">
+    <h4>📐 Concept de l'auteur : Le détecteur NSFW comme classificateur spécialisé</h4>
+    <p>Un <strong>détecteur NSFW</strong> (<em>Not Safe For Work</em>) est un modèle de classification d'images entraîné spécifiquement pour détecter un contenu visuel explicite ou inapproprié. Contrairement à un LLM multimodal, il ne cherche pas à « comprendre » l'image — il classifie si elle appartient à des catégories prédéfinies (nudité, violence, contenu adulte). Cette spécificité le rend plus rapide, moins cher et plus précis dans son domaine que n'importe quel modèle génératif.</p>
+    <p>Modèles représentatifs : <strong>NudeNet</strong> (détecteur de nudité segmenté, open source), <strong>Falconsai/nsfw_image_detection</strong> (HuggingFace), modèles basés sur <strong>CLIP</strong> avec embeddings NSFW. Tous fonctionnent en CPU pour l'inférence, sans GPU dédié, avec une latence &lt;50ms par image.</p>
+
+    <div class="warning">
+      <strong>⚠️ Anti-pattern critique : utiliser un LLM pour vérifier des images</strong>
+      Appeler un LLM multimodal (GPT-4o Vision, Claude, Gemini) pour vérifier si une photo de profil contient du contenu explicite est entre 50x et 200x plus cher et plus lent qu'un détecteur NSFW spécialisé, avec une précision équivalente ou inférieure dans ce domaine spécifique. Le LLM n'apporte une valeur ajoutée que quand on a besoin d'une compréhension contextuelle de l'image — pas pour la détection binaire de catégories visuelles.
+    </div>
+  </div>
+
+  <h3>Le pipeline en cascade : architecture recommandée</h3>
+
+  <div class="pipeline">
+    <div class="pipe-step">
+      <span class="pi">🔍</span>
+      <div class="pl">Couche 1 : Classificateur</div>
+      <div class="ps">Heuristiques + Détecteur NSFW<br>&lt;20ms · sans GPU</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">
+      <span class="pi">🧠</span>
+      <div class="pl">Couche 2 : LLM few-shot</div>
+      <div class="ps">Compréhension contextuelle<br>200-600ms · GPU</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step hi">
+      <span class="pi">⚖️</span>
+      <div class="pl">Couche 3 : Modèle raisonnement</div>
+      <div class="ps">File asynchrone (orange seulement)<br>2-8s · GPU partagé</div>
+    </div>
+    <div class="pipe-arrow">→</div>
+    <div class="pipe-step">
+      <span class="pi">👤</span>
+      <div class="pl">Couche 4 : Humain</div>
+      <div class="ps">Décision finale + étiquetage<br>SLA &lt;2h</div>
+    </div>
+  </div>
+
+  <h3>Le principe de l'orange par défaut</h3>
+  <p>Dans tout système de modération de contenu ayant des conséquences sur les droits des utilisateurs, la position correcte face à l'incertitude est toujours la révision humaine, pas la décision automatique. Ce principe a des conséquences de conception concrètes :</p>
+
+  <ul>
+    <li>Blocage automatique (<span style="color:var(--red)">🔴 Rouge</span>) : seulement quand la confiance dépasse 95% ET que la catégorie est absolument interdite (contenu illégal, matériel causant un préjudice irréversible)</li>
+    <li>Approbation automatique (<span style="color:var(--green)">🟢 Vert</span>) : quand le contenu est clairement conforme dans toutes les couches</li>
+    <li>Révision humaine (<span style="color:var(--gold)">🟡 Orange</span>) : tout conflit entre couches, toute confiance en dessous du seuil, tout langage de domaine non reconnu</li>
+  </ul>
+
+  <div class="nota">
+    <strong>📌 Le problème circulaire du corpus initial (phantom data problem)</strong>
+    Pour entraîner un détecteur de comportements problématiques spécifiques au domaine, on a besoin d'exemples étiquetés de ces comportements. Pour avoir ces exemples, il faut avoir déjà opéré le système et identifié des cas. La solution n'est pas d'« attendre d'avoir des données » mais de concevoir dès le premier jour l'infrastructure de logging permettant à l'équipe de modération d'étiqueter manuellement chaque cas sanctionné. Ce corpus accumulé est la base de données d'entraînement réelle. À partir de 500 à 1 000 cas étiquetés (habituel-lement 6 à 9 mois de production), le fine-tuning supervisé devient viable.
+  </div>
+
+
+  <h2>11.5 Cas réels : ce qui se passe quand la classification échoue</h2>
 <tr>
 <table>
   <thead>
@@ -7547,7 +7768,82 @@ def evaluer_demande(texte: str, id_requete: str) -> dict:
             self.enregistrer_resultat(True)
             return fn_secours(*args, **kwargs)</pre>
 
-<h2>12.5 Anti-modèles critiques du système sandwich</h2>
+
+  <h2>12.4b Classificateurs spécialisés vs LLM : la troisième voie absente de la plupart des débats</h2>
+
+  <p>Le débat habituel sur l'architecture IA en production est « LLMs ou règles ? ». Cette dichotomie omet une catégorie entière d'outils qui résout de nombreux problèmes de production mieux que les deux options : les <strong>classificateurs spécialisés</strong>.</p>
+
+  <h3>La taxonomie complète des outils</h3>
+
+  <table>
+    <thead>
+      <tr><th>Catégorie</th><th>Exemples</th><th>Quand utiliser</th><th>Latence</th><th>Coût</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Règles déterministes</strong></td>
+        <td>Regex, listes noires, heuristiques, parsers</td>
+        <td>Catégories absolument discrètes et stables. Pas besoin de compréhension sémantique.</td>
+        <td>&lt;1ms</td>
+        <td>Minimal</td>
+      </tr>
+      <tr>
+        <td><strong>Classificateurs spécialisés</strong></td>
+        <td>Détecteurs NSFW (NudeNet, CLIP-based), BERT-family (RoBERTa, CamemBERT), classificateurs de spam, détecteurs de langue</td>
+        <td>Classification en catégories fixes avec compréhension sémantique basique. La tâche est stable et bien définie.</td>
+        <td>5-50ms</td>
+        <td>Faible (sans GPU pour les plus petits)</td>
+      </tr>
+      <tr>
+        <td><strong>LLM (génératifs)</strong></td>
+        <td>Llama 3, Mistral, GPT-4o, Claude</td>
+        <td>Compréhension contextuelle ouverte, raisonnement multi-étapes, tâches où le critère de classification est complexe ou change avec le contexte.</td>
+        <td>200-800ms</td>
+        <td>Moyen-élevé</td>
+      </tr>
+      <tr>
+        <td><strong>Modèles de raisonnement</strong></td>
+        <td>o1, o3, DeepSeek-R1, distillés de raisonnement</td>
+        <td>Analyse profonde de problèmes complexes, détection de patterns de manipulation, raisonnement multi-étapes vérifiable.</td>
+        <td>2-30s</td>
+        <td>Élevé</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>La règle de décision sur les outils</h3>
+
+  <div class="comparativa">
+    <div class="comp-lado a">
+      <h4>Utilise un classificateur quand...</h4>
+      <ul>
+        <li>La tâche a N catégories fixes et bien définies</li>
+        <li>Les critères de classification sont stables (ne changent pas avec le contexte de la phrase)</li>
+        <li>La latence ou le coût sont des contraintes réelles</li>
+        <li>L'auditabilité est critique (le classificateur a un comportement plus prévisible qu'un LLM)</li>
+      </ul>
+    </div>
+    <div class="comp-lado b">
+      <h4>Utilise un LLM quand...</h4>
+      <ul>
+        <li>La classification dépend du ton, de l'intention ou du contexte de la conversation</li>
+        <li>Le langage du domaine nécessite une calibration culturelle spécifique</li>
+        <li>La tâche peut évoluer graduellement et requiert de l'adaptabilité</li>
+        <li>On a besoin d'une explication du raisonnement, pas seulement de la catégorie</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Le coût d'utiliser le mauvais outil</strong>
+    Utiliser un LLM multimodal pour classifier si une image contient de la nudité explicite (à la place d'un détecteur NSFW spécialisé) est entre 50x et 200x plus cher, 10 à 20x plus lent, et fréquemment moins précis dans cette tâche spécifique. Le LLM apporte de la valeur là où il y a une compréhension contextuelle que le classificateur ne peut pas fournir — pas là où la tâche est binaire et bien définie. L'erreur est fréquente car les LLM sont des outils familiers ; les classificateurs spécialisés, moins.
+  </div>
+
+  <h3>Domain Adaptation pour les classificateurs BERT-family</h3>
+  <p>Quand un classificateur BERT standard commet des erreurs par méconnaissance du vocabulaire spécifique au domaine (faux positifs dus à de l'argot non représenté), la solution la plus efficace avant le fine-tuning est le <strong>Domain Adaptation continu</strong> : pré-entraînement supplémentaire du modèle avec des textes du domaine <em>non étiquetés</em>. Le modèle enrichit son vocabulaire sans avoir besoin de données étiquetées, ce qui permet de le faire avec un coût bien inférieur à un fine-tuning complet.</p>
+
+
+  <h2>12.5 Anti-modèles critiques du système sandwich</h2>
 <table>
   <thead>
     <tr><th>Anti-modèle</th><th>Symptôme</th><th>Correction</th></tr>
@@ -7796,7 +8092,86 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
 
     return resultat</pre>
 
-<h2>13.4 Taxonomie des erreurs : tous les échecs ne se valent pas</h2>
+
+  <h2>13.3b Le déterminisme dans les LLM : ce qu'on peut et ne peut pas garantir</h2>
+
+  <p>L'affirmation « avec un bon system prompt, le système devient déterministe, reproductible et auditable » est l'une des plus fréquentes dans les discussions sur l'IA en production — et l'une des plus incorrectes. Comprendre ce que garantit précisément chaque mécanisme évite des décisions d'architecture basées sur de fausses hypothèses.</p>
+
+  <h3>Ce que température=0 garantit réellement et ce qu'il ne garantit pas</h3>
+
+  <table>
+    <thead>
+      <tr><th>Mécanisme</th><th>Ce qu'il permet réellement</th><th>Ce qu'il ne permet pas</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>température=0</strong></td>
+        <td>Échantillonnage greedy : le modèle choisit toujours le token avec la probabilité maximale. Réduit significativement la variance de l'output.</td>
+        <td>Ne garantit pas des outputs identiques entre différentes infrastructures, versions de modèles ou en opérations parallèles avec batching.</td>
+      </tr>
+      <tr>
+        <td><strong>température=0 + graine fixe</strong></td>
+        <td>Reproductibilité fonctionnelle (&gt;99% de cohérence) sur la même infrastructure et version de modèle.</td>
+        <td>Pas un déterminisme absolu. Les opérations en virgule flottante (FP16/BF16) sur GPU peuvent introduire des variations infimes qui affectent rarement l'output, mais peuvent le faire.</td>
+      </tr>
+      <tr>
+        <td><strong>System prompt détaillé</strong></td>
+        <td>Comprime l'espace des outputs possibles vers le comportement souhaité. Réduit les cas où le modèle s'écarte de l'objectif.</td>
+        <td>N'élimine pas la nature probabiliste du modèle. Ne prévient pas les mises à jour silencieuses du modèle par le fournisseur qui changeraient le comportement.</td>
+      </tr>
+      <tr>
+        <td><strong>Few-shot avec exemples</strong></td>
+        <td>Calibre le prior du modèle vers le domaine. Améliore la cohérence statistique dans le domaine spécifique.</td>
+        <td>Ne garantit pas que le modèle généralise correctement à des cas non représentés dans les exemples.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Les sources réelles de variation en production</h3>
+  <p>En pratique, le non-déterminisme qui affecte les systèmes de production ne vient pas de l'arithmétique FP16 du GPU — mais de :</p>
+  <ul>
+    <li><strong>Mises à jour silencieuses du modèle :</strong> les fournisseurs d'API mettent à jour leurs modèles sans préavis dans des versions « point ». Un système qui fonctionnait avec température=0 peut changer de comportement après une mise à jour.</li>
+    <li><strong>Batching concurrent :</strong> dans les déploiements à haut volume, les requêtes peuvent être regroupées de façon à affecter l'output si une graine explicite n'est pas utilisée à chaque appel.</li>
+    <li><strong>Dérive sémantique du domaine :</strong> le langage du domaine évolue, et les exemples du few-shot peuvent devenir obsolètes, dégradant progressivement la précision.</li>
+  </ul>
+
+  <h3>Comment construire une auditabilité réelle sans déterminisme absolu</h3>
+
+  <table>
+    <thead>
+      <tr><th>Exigence</th><th>Mécanisme technique</th><th>Limitation</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Reproductibilité pratique</strong></td>
+        <td>température=0 + graine fixe + version du modèle épinglée explicitement dans l'appel API</td>
+        <td>Fonctionne sur la même infrastructure ; ne garantit pas la reproductibilité entre fournisseurs ou infrastructures différents</td>
+      </tr>
+      <tr>
+        <td><strong>Explicabilité</strong></td>
+        <td>Chain-of-Thought forcé dans l'output : le modèle fournit un raisonnement avant la classification finale</td>
+        <td>Le raisonnement visible est plausible mais peut être post-hoc ; ne prouve pas que le processus interne coïncidait avec le raisonnement présenté</td>
+      </tr>
+      <tr>
+        <td><strong>Auditabilité</strong></td>
+        <td>Logging structuré de (input, output, raisonnement, timestamp, version du modèle) pour chaque décision</td>
+        <td>Le log documente que la décision a été prise et avec quel output, pas que la décision était correcte</td>
+      </tr>
+      <tr>
+        <td><strong>Détection de dérive</strong></td>
+        <td>Corpus de référence fixe (100 cas étiquetés) évalué hebdomadairement. Alerte si la précision chute &gt;5% par rapport au baseline</td>
+        <td>Nécessite une maintenance active du corpus de référence et un processus d'évaluation périodique</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>💡 La position correcte face à l'incertitude probabiliste</strong>
+    Dans les systèmes où une décision incorrecte a des conséquences sur les droits ou la sécurité, la bonne conception n'est pas d'augmenter la confiance en l'IA au point de prendre des décisions automatiques irréversibles. C'est de concevoir le flux pour que l'incertitude du modèle active toujours une voie de révision humaine. L'objectif est un système <em>auditable-ment conservateur</em>, pas un système qui semble déterministe.
+  </div>
+
+
+  <h2>13.4 Taxonomie des erreurs : tous les échecs ne se valent pas</h2>
 <p>Classer les erreurs est la première étape pour les corriger systématiquement. Les systèmes d'IA produisent des types d'erreurs différents de ceux des systèmes déterministes :</p>
 
 <tr>
@@ -10428,7 +10803,72 @@ jobs:
     <div class="gterm-def">Quantité maximale de tokens qu'un LLM peut traiter en un seul appel, incluant le prompt, l'historique de la conversation, les fragments RAG et la réponse générée. Les modèles actuels ont des fenêtres de 128K (GPT-4o), 200K (Claude 3.7) ou 1M tokens (Gemini 1.5 Pro). Les informations en dehors de la fenêtre n'existent pas pour le modèle. → Voir Chap. 5 (Module 2).</div>
   </div>
 
-  <!-- D -->
+  <!-- C (ajouts) -->
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Classificateur spécialisé</span>
+        <span class="gterm-en">Specialized classifier</span>
+        <span class="gterm-cat cat-arquitectura">Architecture</span>
+      </div>
+      <div class="gterm-def">Modèle de machine learning entraîné spécifiquement pour une tâche de classification discrète et bien définie. Contrairement aux LLM génératifs, il ne produit pas de texte libre — il produit une catégorie ou un score. Exemples : détecteurs NSFW (classification de contenu visuel explicite), BERT-family (classification de texte en catégories fixes), classificateurs de spam, détecteurs de langue. Ils sont plus rapides (latence &lt;50ms dans de nombreux cas), moins chers et plus prévisibles qu'un LLM pour les tâches où les catégories sont stables et connues a priori. → Voir Chap. 12 (section 12.4b).</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Détecteur NSFW</span>
+        <span class="gterm-en">NSFW detector</span>
+        <span class="gterm-cat cat-arquitectura">Architecture</span>
+      </div>
+      <div class="gterm-def"><em>Not Safe For Work detector.</em> Classificateur spécialisé d'images entraîné pour détecter un contenu visuel explicite ou inapproprié (nudité, violence, contenu adulte). Fonctionne en CPU pour l'inférence avec une latence &lt;50ms par image. Modèles représentatifs : NudeNet (open source, segmentation par catégories de nudité), Falconsai/nsfw_image_detection (HuggingFace), modèles CLIP-based avec embeddings NSFW. Contraste avec l'utilisation de LLM multimodaux pour la même tâche : le détecteur NSFW est entre 50x et 200x moins cher et plus rapide pour la classification binaire de contenu explicite. → Voir Chap. 11 (section 11.5b), Chap. 12 (section 12.4b).</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Domain Adaptation (NLP)</span>
+        <span class="gterm-en">Domain adaptation</span>
+        <span class="gterm-cat cat-entrenamiento">Entraînement</span>
+      </div>
+      <div class="gterm-def">Technique de pré-entraînement continu qui alimente un modèle existant avec des textes du domaine cible <em>non étiquetés</em>, dans le but d'enrichir son vocabulaire et de le familiariser avec le style du domaine avant tout fine-tuning supervisé. Contrairement au fine-tuning (qui nécessite des données étiquetées) : le domain adaptation n'a besoin que de texte brut du domaine. Particulièrement utile quand un modèle généraliste commet des erreurs par méconnaissance de l'argot du domaine, et qu'on dispose d'un corpus de texte mais pas de cas étiquetés. → Voir Chap. 9 (section 9.6), Chap. 12 (section 12.4b).</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Prompt zéro-shot</span>
+        <span class="gterm-en">Zero-shot prompting</span>
+        <span class="gterm-cat cat-prompt">Ingénierie de prompt</span>
+      </div>
+      <div class="gterm-def">Technique de prompting où le modèle reçoit l'instruction de la tâche sans aucun exemple de référence. Le modèle agit exclusivement sur ses connaissances préentraînées. Fonctionne bien pour les tâches standards bien représentées dans le corpus d'entraînement. Échoue dans les domaines à langage spécifique non représenté, dans les tâches avec biais d'alignement, et quand le critère de classification est culturellement chargé. Complémentaire au few-shot (qui ajoute des exemples de calibration). → Voir Chap. 8 (section 8.4b).</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">GRPO</span>
+        <span class="gterm-en">Group Relative Policy Optimization</span>
+        <span class="gterm-cat cat-entrenamiento">Entraînement</span>
+      </div>
+      <div class="gterm-def"><em>Group Relative Policy Optimization.</em> Algorithme de Reinforcement Learning introduit par DeepSeek (2025) pour l'entraînement de modèles de raisonnement. Contrairement au RLHF classique (qui compare les outputs du modèle contre un modèle de récompense séparé), GRPO optimise la politique du modèle relativement au groupe de réponses qu'il génère lui-même : il calcule la récompense de chaque réponse en relation aux autres du groupe, produisant des gradients de politique plus stables sans nécessiter de modèle de récompense séparé. C'est l'algorithme central derrière l'entraînement de DeepSeek-R1. <em>Note :</em> parfois référencé incorrectement comme « Generalized Reward Optimization » — la dénomination correcte est Group Relative Policy Optimization. → Voir Chap. 9 (section 9.6).</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Pipeline de modération en cascade</span>
+        <span class="gterm-en">Cascade moderation pipeline</span>
+        <span class="gterm-cat cat-arquitectura">Architecture</span>
+      </div>
+      <div class="gterm-def">Architecture de modération de contenu qui organise les outils IA en couches séquentielles de vitesse et de profondeur croissantes : (1) classificateur rapide pour les cas absolus (&lt;20ms), (2) LLM contextuel pour les cas ambigus (200-600ms), (3) modèle de raisonnement en file asynchrone pour l'analyse profonde (2-8s), (4) révision humaine avec SLA défini. Le contenu passe à la couche suivante uniquement si la couche précédente ne peut pas le classifier avec une confiance suffisante. Principe central : l'« orange » (révision humaine) est la position par défaut face à toute incertitude — le blocage automatique est réservé aux cas avec confiance &gt;95% dans des catégories absolues. → Voir Chap. 11 (section 11.5b).</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Phantom data problem</span>
+        <span class="gterm-cat cat-datos">Données</span>
+      </div>
+      <div class="gterm-def">Problème circulaire dans la conception de systèmes de modération IA : pour entraîner un détecteur de comportements problématiques spécifiques au domaine, on a besoin d'exemples étiquetés, mais pour avoir ces exemples il faut avoir déjà opéré le système et identifié des cas, ce qui nécessite des signaux préalables. La solution n'est pas d'attendre d'avoir des données « suffisantes » mais de concevoir dès le premier jour l'infrastructure de logging et le processus d'étiquetage manuel par l'équipe de modération. Chaque cas sanctionné est un exemple d'entraînement potentiel. À partir de 500 à 1 000 cas étiquetés (habituellement 6 à 9 mois de production), le fine-tuning supervisé devient viable. → Voir Chap. 11 (section 11.5b).</div>
+    </div>
+
+
+    <!-- D -->
   <div id="g-d" style="scroll-margin-top:80px;"></div>
 
   <div class="gterm">
