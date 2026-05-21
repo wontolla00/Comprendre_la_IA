@@ -1859,10 +1859,31 @@ de référence et de distance.</p>
     Appliquer la même stratégie de chunking à tous les types de documents du corpus. Un contrat juridique, un article technique et un email ont des structures complètement différentes. Un bon pipeline RAG a des stratégies de chunking différenciées par type de source, comme vous avez des transformations différentes pour chaque origine dans votre ETL.
   </div>
 
-  <div class="callout">
-    <strong>💡 Simplification productive vs simplification dégradante</strong>
-    Toute stratégie de chunking est une opération de simplification : vous prenez un document et vous le réduisez en fragments. Mais il existe deux types qualitativement distincts de simplification, et les confondre est la cause d'un pourcentage significatif d'échecs silencieux en production. La <strong>simplification productive</strong> compresse en préservant l'essentiel : les détails que vous perdez sont accidentels, ce que vous conservez permet de construire sur le fragment sans perte fonctionnelle. La spécification technique, la procédure opérationnelle, le résumé exécutif d'un rapport — ce sont des domaines où fragmenter fonctionne. La <strong>simplification dégradante</strong> se produit dans les domaines où la structure argumentative, l'ambiguïté ou la progression dialectique sont constitutives du sens : un argument juridique complexe, un texte philosophique, une interprétation clinique nuancée. Là, fragmenter n'est pas compresser — c'est détruire ce qui était destiné à être transmis. La question pratique pour l'architecte : avant de définir la stratégie de chunking, identifiez si le domaine du corpus tolère la simplification ou si la structure est le message. Si c'est le second, envisagez des chunks plus grands, un chunking hiérarchique avec préservation du parent, ou des architectures différentes (GraphRAG, retrieval avec document complet) avant de supposer que le chunking conventionnel fonctionnera.
+<div class="callout concept">
+  <h4>📐 Concept de l'auteur : Simplification productive vs. dégradante</h4>
+  <p>Tout chunking est une réduction, mais toutes les réductions ne sont pas équivalentes. L'architecture RAG exerce une pression de sélection silencieuse sur le corpus : elle récompense ce qui est autonome et pénalise ce qui est contextuel. Distinguer deux types de simplification est un critère de conception, pas une nuance philosophique :</p>
+  <ul>
+    <li><strong>Simplification productive :</strong> compresse en préservant l'opérationnel. Les détails perdus sont accidentels ; ce qui est conservé permet d'agir sans perte fonctionnelle. (Ex : manuels techniques, procédures, fiches de données, FAQ).</li>
+    <li><strong>Simplification dégradante :</strong> élimine le constitutif. Le fragment « répond » mais détruit la structure argumentative, la tension dialectique ou le contexte clinique/juridique qui donnait sa validité au contenu. (Ex : argumentation juridique complexe, interprétation éthique, raisonnement clinique nuancé, textes philosophiques).</li>
+  </ul>
+
+  <div class="warning">
+    <strong>⚠️ Anti-pattern : La « coupe aveugle »</strong>
+    Appliquer la même stratégie de chunking à tous les domaines. Un contrat juridique, un article technique et un email ont des structures ontologiquement différentes. Optimiser uniquement pour la récupérabilité (similarité cosinus élevée) produit des réponses factuellement correctes mais épistémiquement vides dans les domaines où la structure est le message.
   </div>
+
+  <div class="nota">
+    <strong>💡 Guide pratique : Matrice de chunking par domaine</strong>
+    <table>
+      <thead><tr><th>Domaine</th><th>Stratégie recommandée</th><th>Pourquoi</th><th>Métrique de validation</th></tr></thead>
+      <tbody>
+        <tr><td>Procédures / FAQ</td><td>Taille fixe + overlap (10-15 %)</td><td>La précision factuelle est l'objectif</td><td>Hit Rate@5 &gt; 0,85</td></tr>
+        <tr><td>Juridique / Conformité</td><td>Hiérarchique (parent-enfant) + préservation des articles</td><td>La validité dépend de la structure normative</td><td>Context Recall + Faithfulness &gt; 0,80</td></tr>
+        <tr><td>Clinique / Éthique / Philosophique</td><td>Chunks larges + retrieval avec document complet ou GraphRAG (voir Chap. 6)</td><td>Le sens réside dans la progression argumentative</td><td>Taux de reformulation &lt; 15 %</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
   <h2>1.5 La base de données vectorielle : votre nouveau type de stockage</h2>
 
@@ -5538,21 +5559,36 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
         <td>Open source + API</td>
       </tr>
   </tbody>
-<tr>
+</table>
+
+
+<div class="callout concept">
+  <h4>📐 Concept de l'auteur : ARC-AGI-3 — la limite architecturale des LLM</h4>
+  <p>Le 25 mars 2026, François Chollet (créateur de Keras) a présenté <strong>ARC-AGI-3</strong> à Y Combinator : un benchmark d'environnements interactifs sans instructions. Il n'y a ni règles déclarées ni objectifs explicites. L'agent doit explorer, déduire comment fonctionne l'environnement et découvrir ce que signifie « gagner » — exactement ce que fait un enfant de 10 ans face à un nouveau jeu vidéo.</p>
+  <p>Les résultats constituent la donnée empirique la plus significative sur les limites architecturales des LLM en 2026 :</p>
+  <table>
+    <thead><tr><th>Système</th><th>Score ARC-AGI-3</th></tr></thead>
+    <tbody>
+      <tr><td>Humains</td><td><strong>100 %</strong></td></tr>
+      <tr><td>Gemini 3.1 Pro</td><td>0,37 %</td></tr>
+      <tr><td>Claude Opus 4.6</td><td>0,25 %</td></tr>
+      <tr><td>GPT-5.4</td><td>≈ 0 %</td></tr>
+    </tbody>
+  </table>
+  <p>La cause n'est pas un manque de données ou de paramètres — deux ans d'expérimentation à l'échelle industrielle n'ont pas produit de progression linéaire pour ce type de tâches. La cause est <strong>structurelle</strong> :</p>
+  <ul>
+    <li>Un réseau neuronal apprend des <em>corrélations statistiques</em> sur des données vues. Il le fait remarquablement bien.</li>
+    <li>Un enfant de 10 ans raisonne <em>symboliquement</em> : il forme des hypothèses, les teste, déduit des règles et les applique à des cas nouveaux.</li>
+  </ul>
+  <p>Ce sont des opérations cognitives distinctes. Un LLM optimisé pour la reconnaissance de motifs ne peut pas réaliser la seconde par conception, indépendamment de sa taille.</p>
+  <div class="warning">
+    <strong>⚠️ Implication de conception</strong>
+    Lorsque vous évaluez si un modèle de raisonnement natif résout votre problème, demandez-vous si la tâche consiste à <em>récupérer et synthétiser des patterns connus</em> (où les LLM excellent) ou à <em>explorer un espace de règles inconnu et construire de nouvelles connaissances</em> (où ARC-AGI-3 démontre que tous les LLM actuels échouent). La différence n'est pas de degré — elle est de nature.
+  </div>
+</div>
 
 <h2>9.2 En quoi ils sont supérieurs : le profil des tâches</h2>
 <p>Les modèles de raisonnement ne sont pas meilleurs en tout. Ils sont significativement supérieurs dans un profil spécifique de tâches et n'apportent pas d'avantage (ou sont plus lents et plus chers) dans le reste.</p>
-
-<table>
-    <thead><tr><th>Modèle</th><th>Fournisseur</th><th>Raisonnement</th><th>Disponibilité</th></tr></thead>
-    <tbody>
-      <tr><td>o1</td><td>OpenAI</td><td>Chaîne de pensée interne, non visible</td><td>API + ChatGPT Pro</td></tr>
-      <tr><td>o3 / o3-mini</td><td>OpenAI</td><td>Raisonnement plus puissant que o1, ajustable</td><td>API (2025)</td></tr>
-      <tr><td>Gemini 2.0 Flash Thinking</td><td>Google</td><td>Pensée visible dans la réponse</td><td>API + AI Studio</td></tr>
-      <tr><td>Claude 3.7 Sonnet (extended thinking)</td><td>Anthropic</td><td>Budget de « thinking tokens » configurable</td><td>API</td></tr>
-      <tr><td>DeepSeek R1</td><td>DeepSeek</td><td>Chaîne de pensée visible, open weights</td><td>Open source + API</td></tr>
-    </tbody>
-  </table>
 
 <div class="comparativa">
   <div class="comp-lado b">
@@ -6023,6 +6059,42 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   <li><strong>Retrieve (optionnel) :</strong> si la synthèse identifie des lacunes, un nouveau cycle de retrieval avant la réponse finale</li>
 </ol>
 <p>Ce modèle se rapproche le plus de la façon dont un analyste humain aborde une question complexe : il identifie d'abord ce qu'il a besoin de savoir, puis consulte les sources, puis intègre l'information. En 2025-2026, il existe des implémentations expérimentales dans des environnements de recherche, mais la latence accumulée (appels multiples au modèle de raisonnement + retrieval multiple) le rend non viable pour la plupart des cas d'usage en production.</p>
+
+
+
+<h3>Combinaison 5 : IA Neurosymbolique — LLM léger + planificateur symbolique (émergent avec preuve solide)</h3>
+<p>La cinquième combinaison n'est pas une variante RAG : c'est une architecture qualitativement différente qui superpose un <strong>moteur de raisonnement symbolique</strong> (vérificateur formel, planificateur logique, graphe de connaissances) sur un LLM de plus petite taille. La preuve empirique de son efficacité existe déjà :</p>
+
+<div class="comparativa">
+  <div class="comp-lado b">
+    <h4>Preuves empiriques (DeepMind, 2024)</h4>
+    <ul>
+      <li><strong>AlphaGeometry</strong> (janvier 2024) : LLM couplé à un moteur de déduction symbolique → <strong>25 problèmes sur 30</strong> de l'IMO résolus. Le même LLM seul : <strong>0</strong>.</li>
+      <li><strong>AlphaProof</strong> (2024) : médaille d'argent à l'IMO combinant architectures neurales et symboliques.</li>
+      <li>Ce que le composant symbolique apporte : la <em>traçabilité de la chaîne d'inférence</em> — chaque étape est vérifiable et auditable indépendamment.</li>
+    </ul>
+  </div>
+  <div class="comp-lado a">
+    <h4>Pourquoi cela compte en production</h4>
+    <ul>
+      <li><strong>Conformité (AI Act) :</strong> la chaîne d'inférence neurosymbolique est auditable par conception — ce que l'AI Act exige pour les systèmes à haut risque.</li>
+      <li><strong>Coût :</strong> LLM léger + planificateur symbolique = réduction estimée de <strong>60 à 80 %</strong> vs. modèle frontier seul, sur les tâches à vérification formelle.</li>
+      <li><strong>Fiabilité formelle :</strong> conformité, diagnostic, décisions financières — domaines où la correction logique prime sur la fluidité.</li>
+    </ul>
+  </div>
+</div>
+
+<p><strong>En pratique :</strong> le LLM assure l'interface langage naturel et génère des hypothèses. Le planificateur symbolique vérifie, valide et rejette selon des règles formelles. Le résultat n'est livré à l'utilisateur qu'après convergence des deux couches.</p>
+
+<div class="callout">
+  <strong>💡 Déjà en production ?</strong>
+  Sous forme émergente : Claude Code, les agents de raisonnement avancés et les systèmes RAG de dernière génération intègrent déjà des couches symboliques implicites (vérificateurs formels, graphes de connaissances). L'IA neurosymbolique explicite formalise ces couches comme composants de première classe — non comme ajouts post-hoc.
+</div>
+
+<div class="warning">
+  <strong>⚠️ Quand ne pas l'utiliser</strong>
+  Uniquement pertinent quand le domaine dispose de règles formalisables (logique, normes juridiques explicites, protocoles médicaux). Pas adapté au langage naturel ouvert, à la créativité ou au contexte implicite — le LLM pur reste supérieur dans ces cas. L'erreur classique : formaliser ce qui ne l'est pas.
+</div>
 
 <h3>Tableau de sélection des architectures hybrides</h3>
 
@@ -7205,6 +7277,30 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   </tbody>
 </table>
 
+
+<div class="callout concept">
+  <h4>📐 Concept de l'auteur : Première et Seconde Sécurité</h4>
+  <p>La gouvernance IA traditionnelle se concentre sur la <strong>Première Sécurité</strong> : prévenir les dommages immédiats, bloquer les instructions dangereuses, se conformer à l'AI Act et protéger les droits fondamentaux. Elle est nécessaire, mais insuffisante pour les systèmes à usage continu.</p>
+  <p>Il existe une <strong>Seconde Sécurité</strong> : la préservation de l'agentivité cognitive de l'utilisateur. Elle évite la dépendance silencieuse, l'atrophie du jugement critique et la normalisation des réponses sans friction. Un système respecte la Première Sécurité s'il ne cause pas de tort ; il respecte la Seconde s'il ne se substitue pas à la capacité humaine de penser.</p>
+
+  <div class="warning">
+    <strong>⚠️ Risque de gouvernance : Respecter la norme, éroder la capacité</strong>
+    Un système de Niveau 3 (RH, crédit) peut avoir une traçabilité complète, un HITL obligatoire et zéro biais discriminatoire (Première Sécurité), mais si son interface délivre des réponses si fluides et conclusives que le réviseur humain valide par inertie (<em>rubber-stamping</em>), il a échoué à la Seconde Sécurité. La conformité réglementaire ne protège pas contre la fatigue de délégation.
+  </div>
+
+  <div class="nota">
+    <strong>💡 Guide de gouvernance étendue</strong>
+    <table>
+      <thead><tr><th>Niveau de risque</th><th>Première Sécurité (obligatoire / AI Act)</th><th>Seconde Sécurité (recommandée / avancée)</th></tr></thead>
+      <tbody>
+        <tr><td>Niveau 1 (Informatif)</td><td>Journalisation de base, transparence sur l'utilisation de l'IA</td><td>Friction progressive : afficher sources et niveau de confiance avant la synthèse</td></tr>
+        <tr><td>Niveau 2 (Économique)</td><td>Golden dataset, HITL sur cas limites, audit interne</td><td>Mode sonde actif sur les requêtes stratégiques : exposer hypothèses et alternatives avant de décider</td></tr>
+        <tr><td>Niveaux 3-4 (Social/Vital)</td><td>Traçabilité complète, HITL obligatoire, certification</td><td>Protocoles de délibération : le système prépare la décision, ne la clôt pas. Métrique : taux d'acceptation sans vérification &lt; 15 %</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 <h2>11.4 L'erreur d'échelle : quand le Niveau 2 est en réalité du Niveau 3</h2>
 <p>L'erreur de classification la plus fréquente se produit lorsque l'on ne tient pas compte de l'échelle. Un système de tri de CV qui traite 100 candidats par mois avec un biais de 3 % discrimine 3 personnes. Le même système traitant 50 000 candidats par mois discrimine 1 500 personnes. L'architecture doit répondre au risque réel, non au risque nominal.</p>
 
@@ -7650,6 +7746,28 @@ def evaluer_demande(texte: str, id_requete: str) -> dict:
   <strong>💡 La taille minimale viable</strong>
   50 paires bien construites et validées par des experts valent plus que 500 générées automatiquement. Commencez petit et rigoureux. La couverture s'étend avec le temps en utilisant des cas réels de production où le système a échoué ou où l'utilisateur a donné un retour négatif.
 </div>
+<div class="callout concept">
+  <h4>📐 Concept de l'auteur : Complexité colonisée et validation épistémique</h4>
+  <p>On appelle <strong>complexité colonisée</strong> l'application d'outils de récupération déterministe (conçus pour des domaines compliqués, où la cause-effet est vérifiable) à des problèmes qui nécessitent l'exploration d'hypothèses, la tension entre cadres ou la reconnaissance de l'incertitude (domaines complexes). Un système RAG peut obtenir un Faithfulness de 0,92 et échouer structurellement s'il applique un pattern de retrieval déterministe à un problème qui exige de maintenir une incertitude productive. La métrique mesure le support factuel, pas l'adéquation épistémique.</p>
+
+  <div class="warning">
+    <strong>⚠️ Erreur d'évaluation : Valider uniquement ce que le benchmark capture</strong>
+    Un golden dataset composé exclusivement de questions factuelles ou procédurales validera un système qui ne dit jamais « je ne sais pas », ne questionne jamais le cadrage et n'expose jamais ses hypothèses. La haute métrique masque un risque opérationnel : le système effondre prématurément l'incertitude nécessaire aux décisions complexes.
+  </div>
+
+  <div class="nota">
+    <strong>💡 Guide pratique : Checklist de diagnostic épistémique (à intégrer à l'évaluation offline)</strong>
+    <p>Avant de valider un système en production, répondez à :</p>
+    <ul>
+      <li>La question cherche-t-elle une donnée vérifiable ou une décision contextuelle à variables multiples ?</li>
+      <li>Le système délivre-t-il une réponse unique fermée ou expose-t-il explicitement les hypothèses et les alternatives plausibles ?</li>
+      <li>La métrique de « succès » mesure-t-elle la correction factuelle ou l'adéquation au domaine du problème ?</li>
+    </ul>
+    <p>→ <strong>Action :</strong> Ajoutez intentionnellement 15-20 % de questions complexes/ambiguës au golden dataset. Mesurez si le système maintient la tension productive ou force une synthèse prématurée. Si le système force une synthèse dans &gt;40 % de ces cas, la conception du prompt ou du système de récupération est insuffisante.</p>
+  </div>
+</div>
+
+
 
 <h2>13.3 Le pipeline d'évaluation automatisée</h2>
 
@@ -8007,6 +8125,29 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
 <div class="warning">
   <strong>⚠️ La fatigue des alertes : le plus grand risque de la supervision</strong>
   Un système avec 200 alertes par jour et 198 faux positifs a un taux d'attention effectif &lt; 1 %. C'est pire que de ne pas avoir d'alertes : cela crée l'illusion de supervision sans la réalité. Calibrez les seuils d'alerte pour que le taux de faux positifs soit inférieur à 20 %. Une alerte que l'opérateur ignore toujours n'est pas une alerte : c'est du bruit.
+</div>
+
+<div class="callout concept">
+  <h4>📐 Concept de l'auteur : Mode Oracle vs Mode Sonde / Interlocuteur</h4>
+  <p>Le même système peut fonctionner dans deux registres épistémiques distincts. Le choix n'est pas technique — c'est une décision de conception d'interface et de routage d'intention :</p>
+  <ul>
+    <li><strong>Mode Oracle</strong> (par défaut pour les requêtes factuelles) : réponse directe, faible latence, citation des sources. Objectif : efficacité opérationnelle.</li>
+    <li><strong>Mode Sonde / Interlocuteur</strong> (pour les requêtes stratégiques, éthiques ou de conception) : le système expose explicitement les hypothèses, présente 2-3 cadres alternatifs et formule des questions de contraste avant de synthétiser. Objectif : expansion de l'espace du problème.</li>
+  </ul>
+
+  <div class="warning">
+    <strong>⚠️ Anti-pattern de supervision : L'humain comme « tampon encreur »</strong>
+    Configurer le système en Mode Oracle permanent et attendre que le superviseur humain détecte les nuances complexes sous pression temporelle. L'interface ne modélise pas l'interrogation — elle la livre résolue. Le résultat est l'illusion du contrôle (HOTL) sans la réalité cognitive.
+  </div>
+
+  <div class="nota">
+    <strong>💡 Guide pratique : Implémentation technique minimale du routage</strong>
+    <ul>
+      <li>Classificateur d'intention dans le routeur : <em>information-seeking</em> (fait/procédure) vs <em>advice-seeking / complex</em> (décision/stratégie).</li>
+      <li>System prompt conditionnel : si complexe, injecter une instruction de friction socratique et d'exposition de l'incertitude (ex : « Avant de conclure, identifiez 2 hypothèses cachées dans la requête »). L'implémentation technique de ces conditionnels est détaillée au Chap. 8.</li>
+      <li>Métrique de suivi opérationnelle : <strong>Taux d'acceptation aveugle</strong>. Si &gt;70 % des réponses complexes sont acceptées sans reformulation ni vérification, le système opère en mode oracle sur des domaines complexes. Réajuster l'interface ou le seuil de friction.</li>
+    </ul>
+  </div>
 </div>
 
 <h2>14.3 Conception d'interfaces de supervision qui fonctionnent</h2>
@@ -8593,7 +8734,7 @@ jobs:
         <td>Bureau de gouvernance de l'IA</td>
       </tr>
   </tbody>
-<tr>
+</table>
 
 <div class="warning">
   <strong>⚠️ Les amendes sont réelles</strong>
@@ -9026,7 +9167,6 @@ jobs:
     </tbody>
   </table>
 
-?
 <table>
   <thead>
     <tr><th>Rôle</th><th>Vous avez déjà ✅</th><th>Ce que vous devez ajouter 📚</th><th>Durée estimée de l'écart</th></tr>
@@ -9057,7 +9197,7 @@ jobs:
         <td>3–5 mois avec étude dédiée</td>
       </tr>
   </tbody>
-?>
+</table>
 
 <h2>17.4 Rôles hybrides : la combinaison qui génère le plus de valeur</h2>
 <p>En pratique, les profils les plus demandés en 2025-2026 ne sont pas "purs" sur une seule dimension. Ils sont hybrides, combinant les compétences des données et celles de l'IA de manière spécifique :</p>
@@ -9714,7 +9854,15 @@ jobs:
     Les LLM ne produisent pas le meilleur argument disponible : ils produisent l'argument statistiquement le plus probable compte tenu de leur corpus. Lorsque la bonne réponse est une position minoritaire, une donnée de niche ou un raisonnement contre-intuitif, le modèle la marginalisera non pas parce qu'elle est incorrecte mais parce qu'elle est statistiquement rare. Le phénomène est une conséquence directe de l'entraînement par maximum de vraisemblance sur des corpus qui reflètent la distribution existante du discours. → Définition complète dans le glossaire (section S).
   
 
-  <h2>20.2 L'aplatissement de la structure argumentative</h2>
+  
+<div class="callout concept">
+  <h4>📐 Concept de l'auteur : Le conservatisme statistique face au raisonnement nouveau — preuve ARC-AGI-3</h4>
+  <p>Le conservatisme statistique décrit dans cette section n'est pas seulement une tendance qualitative : il dispose d'une démonstration empirique quantitative avec le benchmark ARC-AGI-3 (Chollet, mars 2026). Le test mesure la capacité d'un agent à explorer un environnement sans instructions, à en déduire les règles et à apprendre à « gagner » — précisément le type de raisonnement qui ne s'acquiert <em>pas</em> par corrélation statistique.</p>
+  <p>Les modèles de langage les plus avancés disponibles en 2026 ont obtenu des scores proches de zéro face aux 100 % des évaluateurs humains. La cause n'est pas un manque de données ou de paramètres : c'est que le raisonnement symbolique genuinement nouveau — former des hypothèses, les tester, déduire des règles et les appliquer à des situations inédites — est une opération cognitive qualitativement différente de la prédiction statistique de tokens.</p>
+  <p>Pour le concepteur de systèmes, cela a une conséquence directe sur la construction du golden dataset : si tous vos cas d'évaluation sont des variations de patterns déjà vus dans le corpus, vous mesurez le conservatisme statistique, pas le raisonnement. Ajoutez intentionnellement des cas qui exigent d'inférer de nouvelles règles à partir d'exemples minimaux.</p>
+</div>
+
+<h2>20.2 L'aplatissement de la structure argumentative</h2>
   <p>Les <span class="gt">embeddings<span class="tt">Représentations numériques de texte dans des espaces vectoriels de haute dimension. Les textes similaires ont des vecteurs proches.</span></span> sont extraordinairement bons pour capturer la similarité sémantique entre fragments. Ils sont très mauvais pour préserver la structure logique d'un argument. Une thèse et son antithèse ont des embeddings proches : elles parlent du même sujet, utilisent un vocabulaire similaire. La tension entre elles n'est pas représentée.</p>
   <p>Cela signifie qu'un système RAG qui récupère "les fragments les plus pertinents" peut récupérer des arguments qui se contredisent mutuellement sans que le système sache qu'ils se contredisent. Le LLM tentera de les synthétiser, produisant une réponse qui élimine la tension productive au lieu de la résoudre.</p>
   <p>Pour les utilisateurs : la progression argumentative qui nécessite de maintenir la contradiction en mémoire pendant plusieurs étapes de raisonnement — le type de pensée qui produit des synthèses authentiques — n'est pas ce qu'un système RAG facilite naturellement. Il facilite la récupération de ce qui est lié, non la construction de ce qui est nouveau.</p>
@@ -9747,7 +9895,28 @@ jobs:
   <p>La conséquence directe pour les systèmes que nous construisons : il n'existe pas d'embedding culturellement neutre. Tout espace vectoriel est une projection de la distribution culturelle du corpus qui l'a généré. Les systèmes qui prennent des décisions basées sur des embeddings — systèmes de sélection du personnel, de scoring de crédit, de modération de contenu — héritent de ces biais culturels de manière invisible.</p>
   <p>Ce n'est pas une limitation technique résoluble avec plus de données. C'est une conséquence structurelle de l'architecture. Le concepteur du système a la responsabilité de la mesurer (outils d'équité comme Fairlearn ou AIF360) et de la communiquer explicitement aux parties prenantes.</p>
 
-  <h2>20.5 L'effondrement du modèle (model collapse) : le risque du corpus autopoïétique</h2>
+  <div class="callout concept">
+  <h4>📐 Concept de l'auteur : La limite culturelle de l'alignement et le « Grey Alignment »</h4>
+  <p>On appelle <strong>Grey Alignment</strong> la tendance documentée des paradigmes d'alignement actuels (RLHF, DPO, Constitutional AI) à optimiser les réponses vers la clarté, la neutralité et l'évitement du conflit, en récompensant ce qui est statistiquement acceptable au détriment de la fertilité épistémique ou de la dissension productive. Cela fonctionne dans de nombreux contextes, mais peut entrer en collision avec des traditions qui structurent la connaissance par consensus indirect, humilité relationnelle ou préservation du contexte hiérarchique. Déployer un modèle « aligné » globalement sans audit impose un template cognitif étranger.</p>
+
+  <div class="warning">
+    <strong>⚠️ Statut épistémique</strong>
+    Il s'agit d'un avertissement fondé sur l'analyse des biais de corpus et la littérature sur l'équité — pas d'un résultat empirique définitif. À utiliser comme hypothèse de travail pour les déploiements globaux, non comme règle architecturale.
+  </div>
+
+  <div class="nota">
+    <strong>💡 Checklist d'audit culturel par déploiement</strong>
+    <p>Avant de déployer un système aligné sur un nouveau marché ou une nouvelle culture :</p>
+    <ul>
+      <li>Les évaluateurs du golden dataset et les juges d'alignement reflètent-ils la diversité culturelle et discursive du public cible ?</li>
+      <li>Le système pénalise-t-il systématiquement des styles de réponse valides dans d'autres traditions (ex : réponses circulaires, fondées sur le consensus, ou qui privilégient la relation à la conclusion immédiate) ?</li>
+      <li>Existe-t-il un canal de feedback explicite pour : « cette réponse semble une imposition culturelle, pas une erreur factuelle » ?</li>
+    </ul>
+    <p>→ <strong>Action :</strong> Inclure 10-15 % de requêtes de « style discursif local » dans le golden dataset de validation pré-déploiement. Si la qualité perçue baisse ou si le ton devient défensivement neutre, recalibrer les critères d'évaluation avant la mise en production.</p>
+  </div>
+</div>
+
+<h2>20.5 L'effondrement du modèle (model collapse) : le risque du corpus autopoïétique</h2>
   <p>Shumailov et al. (2023) ont démontré expérimentalement un effet qu'ils ont appelé "model collapse" : lorsque les modèles sont entraînés avec des données générées par des modèles antérieurs, la diversité des sorties diminue progressivement, les erreurs s'amplifient génération après génération, et le modèle "oublie" les connaissances rares ou spécialisées.</p>
   <p>L'implication à l'échelle sociale : si une fraction significative du contenu publié sur Internet est générée par des LLM, et que ce contenu est incorporé dans le corpus d'entraînement des modèles de la prochaine génération, il existe un mécanisme de rétroaction qui tend vers l'homogénéisation du corpus et, par conséquent, vers l'homogénéisation des sorties. Les idées qui apparaissent peu dans le corpus original apparaissent encore moins dans le corpus autopoïétique.</p>
 
@@ -9974,7 +10143,23 @@ jobs:
     Les coûts des API et GPU changent mensuellement. Ce tableau est un ordre de grandeur pour 2026, pas un budget ferme. <strong>Règle d'or :</strong> si un composant ajoute plus de 30 % de coût ou plus de 500 ms de latence, il doit démontrer une amélioration mesurable de la faithfulness ou du recall sur votre golden dataset avant d'être déployé. Sinon, c'est de la dette technique déguisée en innovation.
   </div>
 
-  <h2>A.3 Latence : l'autre dimension de la viabilité</h2>
+  
+<div class="callout concept">
+  <h4>📐 Concept de l'auteur : Réduction de coût avec les architectures neurosymboliques</h4>
+  <p>Le tableau précédent couvre les architectures où le grand LLM est le composant central. Les architectures neurosymboliques changent l'équation de coût de façon qualitative : le composant linguistique peut être un LLM léger (petit modèle, optimisé pour l'interface en langage naturel), tandis que la vérification et le raisonnement logique sont pris en charge par un planificateur symbolique déterministe — computationnellement peu coûteux comparé à l'inférence d'un grand LLM.</p>
+  <table>
+    <thead><tr><th>Architecture</th><th>Coût relatif d'inférence</th><th>Quand l'utiliser</th></tr></thead>
+    <tbody>
+      <tr><td>Grand LLM (frontier model) seul</td><td>100 % (référence)</td><td>Langage général, créativité, contexte implicite</td></tr>
+      <tr><td>RAG + grand LLM</td><td>110-140 % (+ retrieval)</td><td>Connaissance actualisable, domaine spécifique</td></tr>
+      <tr><td>LLM léger + planificateur symbolique</td><td><strong>20-40 %</strong> (estimé)</td><td>Domaines à règles formalisables, conformité, diagnostic</td></tr>
+      <tr><td>RAG + LLM léger + vérificateur formel</td><td><strong>30-50 %</strong> (estimé)</td><td>Combinaison : connaissance actualisable + traçabilité logique</td></tr>
+    </tbody>
+  </table>
+  <p><em>Note : les pourcentages de réduction (estimations 2025-2026, source : Escudero 2026) sont indicatifs. La réduction réelle nécessite une mesure sur votre golden dataset — ne supposez pas qu'elle se produira automatiquement.</em></p>
+</div>
+
+<h2>A.3 Latence : l'autre dimension de la viabilité</h2>
   <p>Le coût par requête peut rendre un projet non viable économiquement. La latence peut le rendre non viable fonctionnellement. Une réponse correcte qui arrive 30 secondes après la question n'est pas une réponse correcte — c'est une réponse que l'utilisateur n'attend plus.</p>
 
 <table>
