@@ -1096,7 +1096,7 @@ body.dark svg {
         <div class="modulo-title">Fondements propres de l'IA</div>
         <div class="modulo-desc">Ce qui n'a pas d'équivalent direct dans les données : embeddings, RAG, architectures d'agents, ingénierie des prompts, modèles de raisonnement. Le noyau technique du manuel.</div>
         <div class="modulo-tags">
-          <span class="tag">Chap. 5–11, 21–23, 33–34</span>
+          <span class="tag">Chap. 5–10</span>
           <span class="tag naranja">Technique</span>
           <span class="tag">~8 heures</span>
         </div>
@@ -1109,7 +1109,7 @@ body.dark svg {
         <div class="modulo-title">Construire en production</div>
         <div class="modulo-desc">Systèmes critiques, architectures responsables, validation et QA pour l'IA. Ici, votre expérience des données est votre plus grand avantage. Le matériel le plus directement applicable au travail.</div>
         <div class="modulo-tags">
-          <span class="tag">Chap. 12–17, 24–32</span>
+          <span class="tag">Chap. 11–16</span>
           <span class="tag morado">Production</span>
           <span class="tag">~7 heures</span>
         </div>
@@ -1173,6 +1173,82 @@ body.dark svg {
 
   </div>
 
+  <div style="margin:2rem 0 1.5rem;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent,#6366f1);margin-bottom:1rem">// prérequis minimaux par profil</div>
+    <p style="font-size:.9rem;color:var(--text-muted);margin-bottom:1.25rem">Ce tableau ne liste pas des technologies à maîtriser avant de commencer — c'est la carte de ce dont vous avez besoin pour tirer parti des chapitres qui vous importent le plus. Si votre profil n'apparaît pas exactement, choisissez le plus proche ou combinez les lignes.</p>
+    <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:.88rem;">
+      <thead>
+        <tr style="background:var(--code-bg,#1e293b);color:#f8fafc;">
+          <th style="padding:.7rem 1rem;text-align:left;font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;">Profil</th>
+          <th style="padding:.7rem 1rem;text-align:left;font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;">Chapitres critiques</th>
+          <th style="padding:.7rem 1rem;text-align:left;font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;">Verbe Bloom minimal</th>
+          <th style="padding:.7rem 1rem;text-align:left;font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;">Prérequis technique réel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border,#e2e8f0);">
+          <td style="padding:.65rem 1rem;font-weight:600;color:var(--text);">🛠️ Ingénieur données</td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);">
+            <a href="#cap5" style="color:var(--accent);">5</a>,
+            <a href="#cap6" style="color:var(--accent);">6</a>,
+            <a href="#cap7" style="color:var(--accent);">7</a>,
+            <a href="#cap12" style="color:var(--accent);">12</a>,
+            <a href="#cap15" style="color:var(--accent);">15</a>
+          </td>
+          <td style="padding:.65rem 1rem;"><span style="background:#dcfce7;color:#166534;padding:.2rem .6rem;border-radius:4px;font-size:.8rem;font-weight:600;">Implémenter</span></td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);font-size:.83rem;">Python fonctionnel (listes, dicts, fonctions). Notion de pipeline de données. SQL basique utile mais non bloquant.</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border,#e2e8f0);background:var(--hover-bg,#f8fafc);">
+          <td style="padding:.65rem 1rem;font-weight:600;color:var(--text);">⚖️ Gouvernance / Conformité</td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);">
+            <a href="#cap4" style="color:var(--accent);">4</a>,
+            <a href="#cap11" style="color:var(--accent);">11</a>,
+            <a href="#cap14" style="color:var(--accent);">14</a>,
+            <a href="#cap16" style="color:var(--accent);">16</a>
+          </td>
+          <td style="padding:.65rem 1rem;"><span style="background:#dbeafe;color:#1e40af;padding:.2rem .6rem;border-radius:4px;font-size:.8rem;font-weight:600;">Évaluer</span></td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);font-size:.83rem;">Aucun prérequis technique bloquant. Une familiarité avec la gestion des risques ou les cadres réglementaires aide mais n'est pas obligatoire.</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border,#e2e8f0);">
+          <td style="padding:.65rem 1rem;font-weight:600;color:var(--text);">📊 Analyste BI / Données</td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);">
+            <a href="#cap1" style="color:var(--accent);">1</a>–<a href="#cap3" style="color:var(--accent);">3</a>,
+            <a href="#cap7" style="color:var(--accent);">7</a>
+          </td>
+          <td style="padding:.65rem 1rem;"><span style="background:#fef9c3;color:#854d0e;padding:.2rem .6rem;border-radius:4px;font-size:.8rem;font-weight:600;">Appliquer</span></td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);font-size:.83rem;">SQL intermédiaire. Connaissance des pipelines de données et des métriques de qualité. Python basique aide au Chap. 7 mais une alternative sans code existe.</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border,#e2e8f0);background:var(--hover-bg,#f8fafc);">
+          <td style="padding:.65rem 1rem;font-weight:600;color:var(--text);">🏗️ Architecte de solutions</td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);">
+            <a href="#cap5" style="color:var(--accent);">5</a>,
+            <a href="#cap8" style="color:var(--accent);">8</a>,
+            <a href="#cap9" style="color:var(--accent);">9</a>,
+            <a href="#cap12" style="color:var(--accent);">12</a>,
+            <a href="#cap14" style="color:var(--accent);">14</a>
+          </td>
+          <td style="padding:.65rem 1rem;"><span style="background:#f3e8ff;color:#6b21a8;padding:.2rem .6rem;border-radius:4px;font-size:.8rem;font-weight:600;">Concevoir</span></td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);font-size:.83rem;">Expérience avec la conception de systèmes distribués. Le Chap. 8 (DSPy) nécessite Python. Le reste est majoritairement conceptuel.</td>
+        </tr>
+        <tr>
+          <td style="padding:.65rem 1rem;font-weight:600;color:var(--text);">👔 Manager / Produit</td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);">
+            <a href="#cap0" style="color:var(--accent);">0</a>,
+            <a href="#cap10" style="color:var(--accent);">10</a>,
+            <a href="#cap11" style="color:var(--accent);">11</a>,
+            <a href="#cap17" style="color:var(--accent);">17</a>–<a href="#cap19" style="color:var(--accent);">19</a>
+          </td>
+          <td style="padding:.65rem 1rem;"><span style="background:#fee2e2;color:#991b1b;padding:.2rem .6rem;border-radius:4px;font-size:.8rem;font-weight:600;">Comprendre</span></td>
+          <td style="padding:.65rem 1rem;color:var(--text-muted);font-size:.83rem;">Aucun prérequis technique. Capacité à lire des tableaux de données et comprendre des métriques métier. Le Module 4 est conçu spécifiquement pour ce profil.</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:.78rem;color:var(--text-muted);margin-top:.75rem;font-style:italic;">⚠️ Alerte spécifique : si vous êtes analyste BI sans Python et atteignez le Chap. 8 (DSPy), il vous bloquera. Passez directement au Chap. 9 ou lisez uniquement les sections 8.1–8.4d qui ne nécessitent pas de code.</p>
+  </div>
+
+
   <div class="callout" style="border-left:5px solid #7c3aed;background:#f5f3ff;">
     <strong>🎯 Parcours MVP — Si vous n'avez du temps que pour l'essentiel</strong>
     Si votre objectif est d'être opérationnel en production le plus rapidement possible, voici la séquence minimale au meilleur rendement :<br><br>
@@ -1200,7 +1276,7 @@ body.dark svg {
     <strong>🚨 Avertissement transversal — le risque architectural qui structure ce manuel</strong>
     Il y a une affirmation qui apparaît formulée de trois manières différentes tout au long du manuel et qu'il convient de garder à l'esprit dès le premier chapitre : <strong>les systèmes multi-agents et les architectures récursives accumulent les erreurs de manière multiplicative, non additive</strong>. Un agent avec 95 % de fiabilité enchaîné trois fois produit un système avec ~85 % de fiabilité — et c'est le cas optimiste, en supposant des erreurs indépendantes. En pratique, les erreurs sont corrélées (un agent erroné contamine les prémisses du suivant) et la dégradation est pire.
     <br><br>
-    Cette dynamique a un nom opérationnel dans le manuel — <em>entropie accumulée</em> — et se développe à trois niveaux progressifs : (1) l'entropie architecturale du chap. 9.5 lorsqu'on construit des pipelines linéaires avec des LLM standard ; (2) l'entropie de la pensée du chap. 9.7 lorsque l'on utilise des modèles de raisonnement comme nœuds ; (3) l'entropie accumulée du chap. 10.3 dans les systèmes multi-agents, qui devient qualitativement pire dans les architectures récursives (chap. 10.3b).
+    Cette dynamique a un nom opérationnel dans le manuel — <em>entropie accumulée</em> <a href="#cap9" style="font-size:.82em;color:var(--accent);font-family:var(--ff-mono);">[→ définition complète : Chap. 9.5]</a> — et se développe à trois niveaux progressifs : (1) l'entropie architecturale du chap. 9.5 lorsqu'on construit des pipelines linéaires avec des LLM standard ; (2) l'entropie de la pensée du chap. 9.7 lorsque l'on utilise des modèles de raisonnement comme nœuds ; (3) l'entropie accumulée du chap. 10.3 dans les systèmes multi-agents, qui devient qualitativement pire dans les architectures récursives (chap. 10.3b).
     <br><br>
     <strong>Pourquoi c'est important avant de lire le reste du manuel :</strong> le marché de l'IA en 2026 est saturé de propositions promettant des "agents autonomes" et un "raisonnement en plusieurs étapes" comme s'il s'agissait d'améliorations gratuites. Ce n'est pas le cas. Chaque composant ajouté à un pipeline a un coût de fiabilité concret. Toute décision architecturale que vous prendrez tout au long du manuel doit être pondérée par ce risque. La question par défaut lorsque vous envisagez un agent de plus, une itération récursive de plus, une étape de raisonnement de plus, n'est pas "qu'est-ce que cela apporte ?" mais "<em>quelle fiabilité perds-je et puis-je me le permettre ?</em>"
   </div>
@@ -1291,6 +1367,11 @@ body.dark svg {
     <strong>🧵 À quoi cela vous sert</strong>
     Avant de construire avec l'IA, vous devez comprendre pourquoi elle se comporte comme elle se comporte. Ce chapitre vous donne le modèle mental minimal : comment elle prédit, pourquoi elle n'est pas déterministe, pourquoi elle hallucine et comment la tracer. Si vous avez déjà de l'expérience avec les LLM, confirmez votre intuition en 20 minutes et passez au Chapitre 1.
   </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Expliquer</strong> — Vous expliquerez avec vos propres mots pourquoi un LLM n'est pas une base de données ni un moteur de recherche — et ce que cela implique pour la fiabilité de ses réponses.</p>
+  </div>
+
 
   <h2>0.1 Qu'est-ce qu'un modèle de langage en réalité ?</h2>
 
@@ -1464,7 +1545,7 @@ de référence et de distance.</p>
 <p>Les <span class="gt">modèles de langage<span class="tt">Modèle de langage à grande échelle entraîné sur d'énormes corpus textuels. Fondement des systèmes génératifs actuels.</span></span> n'opèrent pas comme des programmes <span class="gt">déterministes<span class="tt">Propriété d'un système de produire toujours exactement la même sortie pour la même entrée. Les LLM sont probabilistes, non déterministes.</span></span> classiques. Leur fonctionnement repose sur des distributions de probabilité. Le système ne calcule pas une réponse unique, mais une distribution sur les continuations possibles.</p>
 
 <h3>3.3 Le paramètre de température</h3>
-<p>La <span class="gt">température<span class="tt">Paramètre contrôlant l'aléatoire de la sélection des tokens. T=0 : presque déterministe. T>1 : haute créativité/variabilité.</span></span> agit comme un régulateur de la distribution de probabilité. Avec une <span class="gt">température<span class="tt">Paramètre contrôlant l'aléatoire de la sélection des tokens. T=0 : presque déterministe. T>1 : haute créativité/variabilité.</span></span> basse (≤ 0,2), le <span class="gt">token<span class="tt">Unité de base de texte pour un modèle de langage. Peut être un mot entier, un sous-mot, un caractère ou un signe de ponctuation.</span></span> le plus probable domine et le comportement est presque <span class="gt">déterministe<span class="tt">Propriété d'un système de produire toujours exactement la même sortie pour la même entrée. Les LLM sont probabilistes, non déterministes.</span></span>. Avec une <span class="gt">température<span class="tt">Paramètre contrôlant l'aléatoire de la sélection des tokens. T=0 : presque déterministe. T>1 : haute créativité/variabilité.</span></span> haute (> 1,0), la distribution s'aplatit et les options moins probables ont plus de chances.</p>
+<p>La température agit comme un régulateur de la distribution de probabilité. Avec une température basse (≤ 0,2), le <span class="gt">token<span class="tt">Unité de base de texte pour un modèle de langage. Peut être un mot entier, un sous-mot, un caractère ou un signe de ponctuation.</span></span> le plus probable domine et le comportement est presque <span class="gt">déterministe<span class="tt">Propriété d'un système de produire toujours exactement la même sortie pour la même entrée. Les LLM sont probabilistes, non déterministes.</span></span>. Avec une température haute (> 1,0), la distribution s'aplatit et les options moins probables ont plus de chances.</p>
 <table>
   <tr><th>Température</th><th>Comportement</th><th>Utilisation recommandée</th><th>Risque</th></tr>
   <tr><td>0,0 – 0,2</td><td>Presque déterministe</td><td>Données structurées, code, faits vérifiables</td><td>Réponses répétitives</td></tr>
@@ -1481,7 +1562,7 @@ de référence et de distance.</p>
 </ul>
 
 <h3>3.5 Le non-déterminisme résiduel</h3>
-<p>Même avec <span class="gt">température<span class="tt">Paramètre contrôlant l'aléatoire de la sélection des tokens. T=0 : presque déterministe. T>1 : haute créativité/variabilité.</span></span> = 0, une variabilité résiduelle peut apparaître (<span class="gt">non-déterminisme résiduel<span class="tt">Variabilité irréductible dans les systèmes LLM même avec température=0 et paramètres fixes, due au matériel parallèle et à la non-associativité de la virgule flottante.</span></span>) pour trois raisons techniques : matériel parallèle (GPU/TPU), <span class="gt">non-associativité de la virgule flottante<span class="tt">Propriété de l'arithmétique float16/float32 par laquelle (a+b)+c ≠ a+(b+c) en raison de l'arrondi. Produit une variabilité résiduelle même à température=0.</span></span>, et état du cache et hiérarchie mémoire.</p>
+<p>Même avec température = 0, une variabilité résiduelle peut apparaître (<span class="gt">non-déterminisme résiduel<span class="tt">Variabilité irréductible dans les systèmes LLM même avec température=0 et paramètres fixes, due au matériel parallèle et à la non-associativité de la virgule flottante.</span></span>) pour trois raisons techniques : matériel parallèle (GPU/TPU), <span class="gt">non-associativité de la virgule flottante<span class="tt">Propriété de l'arithmétique float16/float32 par laquelle (a+b)+c ≠ a+(b+c) en raison de l'arrondi. Produit une variabilité résiduelle même à température=0.</span></span>, et état du cache et hiérarchie mémoire.</p>
 
 <h3>3.6 Variabilité dans les systèmes complexes</h3>
 <p>Dans les systèmes complexes qui enchaînent plusieurs composants (reformulation de requête, recherche <span class="gt">RAG<span class="tt">Architecture combinant récupération d'information et génération de texte. Réduit les hallucinations en ancrant les réponses à des sources vérifiables.</span></span>, sélection de fragments, génération, validation), chaque étape introduit sa propre variabilité.</p>
@@ -1494,7 +1575,7 @@ de référence et de distance.</p>
 </table>
 
 <h3>3.7 Le dilemme entre variabilité et fiabilité</h3>
-<p>Le paramètre de <span class="gt">température<span class="tt">Paramètre contrôlant l'aléatoire de la sélection des tokens. T=0 : presque déterministe. T>1 : haute créativité/variabilité.</span></span> et les méthodes d'échantillonnage (<span class="gt">top-k, top-p<span class="tt">Méthodes d'échantillonnage qui limitent la sélection des tokens au sous-ensemble de plus haute probabilité. Top-k limite aux k tokens les plus probables ; top-p sélectionne l'ensemble dont la probabilité cumulée atteint le seuil p.</span></span>) permettent d'ajuster cet équilibre en fonction du contexte. Il n'existe pas de configuration universellement optimale : chaque cas d'usage nécessite un calibrage spécifique qui équilibre le besoin de variabilité créative avec les exigences de fiabilité.</p>
+<p>Le paramètre de température et les méthodes d'échantillonnage (<span class="gt">top-k, top-p<span class="tt">Méthodes d'échantillonnage qui limitent la sélection des tokens au sous-ensemble de plus haute probabilité. Top-k limite aux k tokens les plus probables ; top-p sélectionne l'ensemble dont la probabilité cumulée atteint le seuil p.</span></span>) permettent d'ajuster cet équilibre en fonction du contexte. Il n'existe pas de configuration universellement optimale : chaque cas d'usage nécessite un calibrage spécifique qui équilibre le besoin de variabilité créative avec les exigences de fiabilité.</p>
 
 
 
@@ -1572,7 +1653,7 @@ de référence et de distance.</p>
 <p>Le véritable danger des <span class="gt">hallucinations<span class="tt">Génération de texte grammaticalement correct et sémantiquement fluide mais factuellement faux. N'implique pas d'intention trompeuse : c'est une conséquence structurelle du modèle probabiliste.</span></span> n'est pas l'erreur en elle-même, mais l'autorité avec laquelle elle se présente. Cela génère ce que nous pouvons appeler une <strong>dette cognitive</strong> : l'utilisateur, séduit par la fluidité du texte, relâche sa vigilance critique. Dans les systèmes critiques, cette "fausse fluidité" peut agir comme un cheval de Troie, introduisant des données erronées dans des processus de décision importants.</p>
 
 <h3>4.5 La température et la bifurcation critique</h3>
-<p>Même avec <span class="gt">température<span class="tt">Paramètre contrôlant l'aléatoire de la sélection des tokens. T=0 : presque déterministe. T>1 : haute créativité/variabilité.</span></span> = 0, les <span class="gt">hallucinations<span class="tt">Génération de texte grammaticalement correct et sémantiquement fluide mais factuellement faux. N'implique pas d'intention trompeuse : c'est une conséquence structurelle du modèle probabiliste.</span></span> peuvent persister en raison du phénomène de bifurcation critique : le modèle arrive à un point où deux <span class="gt">tokens<span class="tt">Unité de base de texte pour un modèle de langage. Peut être un mot entier, un sous-mot, un caractère ou un signe de ponctuation.</span></span> ont des probabilités très proches (ex : 0,481 vs 0,479). Une micro-variation numérique décide lequel est sélectionné. À partir de là, le <span class="gt">Transformer<span class="tt">Architecture de réseau neuronal basée sur le mécanisme d'attention (Vaswani et al., 2017). Fondement de tous les LLM modernes.</span></span> génère la réponse en maintenant une cohérence interne avec ce choix initial — même s'il est erroné. L'erreur s'auto-perpétue jusqu'à la fin de la réponse.</p>
+<p>Même avec température = 0, les <span class="gt">hallucinations<span class="tt">Génération de texte grammaticalement correct et sémantiquement fluide mais factuellement faux. N'implique pas d'intention trompeuse : c'est une conséquence structurelle du modèle probabiliste.</span></span> peuvent persister en raison du phénomène de bifurcation critique : le modèle arrive à un point où deux <span class="gt">tokens<span class="tt">Unité de base de texte pour un modèle de langage. Peut être un mot entier, un sous-mot, un caractère ou un signe de ponctuation.</span></span> ont des probabilités très proches (ex : 0,481 vs 0,479). Une micro-variation numérique décide lequel est sélectionné. À partir de là, le <span class="gt">Transformer<span class="tt">Architecture de réseau neuronal basée sur le mécanisme d'attention (Vaswani et al., 2017). Fondement de tous les LLM modernes.</span></span> génère la réponse en maintenant une cohérence interne avec ce choix initial — même s'il est erroné. L'erreur s'auto-perpétue jusqu'à la fin de la réponse.</p>
 
 
 
@@ -1655,6 +1736,11 @@ de référence et de distance.</p>
     <strong>🧵 À quoi cela vous sert</strong>
     Quand quelqu'un vous dira "nous devons monter un système RAG", vous saurez exactement de quoi il parle en termes d'architecture, de flux de données et de responsabilités. Ce n'est pas magique : c'est votre pipeline ETL avec deux nouvelles pièces.
   </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Cartographier</strong> — Vous cartographierez chaque phase de votre ETL actuel vers son équivalent dans un pipeline RAG, en identifiant ce qui se conserve et ce qui change.</p>
+  </div>
+
 
   <h2>1.1 Le problème que RAG résout</h2>
 
@@ -2091,7 +2177,9 @@ de référence et de distance.</p>
   </div>
 
   
-  <hr class="sep">
+  
+  <div data-lab-ref="1"></div>
+<hr class="sep">
   <h2>1.x Exercice pratique : pipeline RAG minimal exécutable</h2>
   <p>Le code suivant implémente un pipeline RAG complet et exécutable avec les bibliothèques les plus courantes. C'est le "hello world" du RAG : il indexe des documents, récupère des fragments pertinents et génère une réponse fondée. Nécessite <code>pip install openai chromadb sentence-transformers</code>.</p>
 
@@ -2208,6 +2296,11 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
     <strong>🧵 À quoi cela vous sert</strong>
     Les embeddings sont la pièce centrale de presque tout dans l'IA moderne : RAG, recherche sémantique, classification, détection d'anomalies. Lorsque vous comprendrez ce qu'ils sont géométriquement, les décisions d'architecture — quel modèle utiliser, comment évaluer la qualité, pourquoi la recherche échoue — cesseront d'être magiques et deviendront de l'ingénierie.
   </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Transformer</strong> — Vous transformerez un schéma relationnel en une stratégie de chunking et d'embedding, en justifiant les décisions de granularité et de chevauchement.</p>
+  </div>
+
 
   <h2>2.1 Le problème du schéma en IA</h2>
 
@@ -2368,7 +2461,9 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
     <li><strong>Données tabulaires :</strong> C'est le cas le plus difficile. Les modèles de texte ne représentent pas bien les données numériques structurées. Pour les tableaux, envisagez des approches hybrides : convertissez les lignes en texte descriptif avant d'embedder, ou utilisez des modèles spécialisés pour les données tabulaires.</li>
   </ul>
 
-  <hr class="sep">
+  
+  <div data-lab-ref="2"></div>
+<hr class="sep">
 
   <div class="resultado-final">
     <h3>✅ Résultat de ce chapitre</h3>
@@ -2398,6 +2493,11 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
   <strong>🧵 À quoi cela vous sert</strong>
   Lorsque votre entreprise déploiera un système d'IA, quelqu'un devra répondre à la question : « comment savons-nous qu'il fonctionne bien ? ». Cette personne, ce peut être vous. Ce chapitre vous donne le cadre conceptuel pour y répondre avec rigueur, même si la sortie est du texte généré et non un nombre dans une cellule.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Configurer</strong> — Vous configurerez température, top-p et top-k pour 3 niveaux de criticité en utilisant le tableau 3.1, et expliquerez le compromis entre déterminisme et créativité dans chaque cas.</p>
+  </div>
+
 
 <h2>3.1 Le grand changement : de la certitude binaire à la confiance probabiliste</h2>
 
@@ -2649,6 +2749,8 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
   </tbody>
 </table>
 
+
+  <div data-lab-ref="3"></div>
 <hr class="sep">
 
 <div class="resultado-final">
@@ -2682,6 +2784,11 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
   <strong>🧵 À quoi cela vous sert</strong>
   Lorsque le régulateur, le client ou l'équipe juridique demandera « comment le système est-il arrivé à cette réponse ? », vous devez pouvoir répondre. Ce chapitre vous montre où la traçabilité classique des données s'applique directement en IA et où les règles changent.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Auditer</strong> — Vous auditerez un pipeline RAG en identifiant 5 points de perte de lignage et en assignant une responsabilité technique à chacun.</p>
+  </div>
+
 
 <h2>4.1 Le lignage dans les systèmes d'IA : plus complexe, pas différent</h2>
 
@@ -2814,6 +2921,8 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
   Traiter tous les systèmes d'IA avec le même niveau de contrôle indépendamment de leur risque réel. C'est inefficace dans les cas à faible risque et insuffisant dans les cas à haut risque. La matrice de vérifiabilité/réversibilité vous permet de calibrer le contrôle approprié pour chaque cas.
 </div>
 
+
+  <div data-lab-ref="4"></div>
 <hr class="sep">
 
 <div class="resultado-final">
@@ -2845,6 +2954,11 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
   <strong>🧵 À quoi cela vous sert</strong>
   Vous n'avez pas besoin de savoir faire de la rétropropagation pour bien travailler avec les LLM. Mais vous devez comprendre ce qui se passe à l'intérieur pour savoir quand le modèle échoue structurellement et quand le problème vient de votre utilisation. Ce chapitre vous donne cette intuition.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Comparer</strong> — Vous comparerez fine-tuning vs RAG vs prompt engineering pour un cas donné.</p>
+  </div>
+
 
 <h2>5.1 Comment le modèle "connaît" : distribution statistique et représentations internes</h2>
 <p>La confusion la plus fréquente à propos des LLM naît d'une métaphore erronée : penser que le modèle possède une base de connaissances qu'il consulte, comme une base de données. Ce n'est pas le cas — mais ce n'est pas non plus un simple prédicteur de tokens vide de contenu.</p>
@@ -3275,6 +3389,8 @@ detectar_fuera_de_cobertura("Quel est le salaire minimum interprofessionnel ?")
 </ul>
 <p>Solution : RAG pour les connaissances qui changent ; instruction explicite de la date actuelle dans le prompt système pour les tâches dépendant du temps.</p>
 
+
+  <div data-lab-ref="5"></div>
 <hr class="sep">
 
 <h2>5.7 Fine-tuning : comment un modèle immense apprend à partir de quelques exemples</h2>
@@ -3636,6 +3752,11 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
   <strong>🧵 À quoi cela vous sert</strong>
   La recherche sémantique a un angle mort qui surprend la plupart des gens : elle n'est pas bonne avec les termes exacts, les noms propres ni les codes. Ce chapitre vous enseigne l'architecture de recherche hybride utilisée par les systèmes RAG en production, et comment choisir la bonne stratégie pour chaque type de requête.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Implémenter</strong> — Vous implémenterez une recherche hybride (BM25 + vectorielle) sur un index de test et mesurerez la différence de recall@10 par rapport à la recherche dense seule.</p>
+  </div>
+
 
 <h2>6.1 L'angle mort de la recherche sémantique</h2>
 <p>Supposons que vous ayez un corpus de contrats et que l'utilisateur cherche le numéro de contrat <code>C-2024-0891</code>. La recherche sémantique échouera probablement : ce code n'a pas de "sens" sémantique, seulement une identité exacte. La même chose se produit avec les noms de personnes, les codes produit, les ID système ou les références légales.</p>
@@ -4390,6 +4511,8 @@ Coût d'inférence : une fois entraîné, le modèle ajusté consomme les mêmes
   <p>Vous pouvez concevoir la stratégie de récupération adaptée à chaque type de requête. Vous savez quand utiliser la recherche vectorielle seule, quand ajouter BM25, quand intégrer du re-ranking (et avec quel outil selon le budget : Cohere, BGE, Jina) et quand le problème nécessite GraphRAG. Vous connaissez le pipeline opérationnel complet de GraphRAG — extraction, graphe, détection de communautés, requête hybride — et les coûts réels de chaque étape pour prendre la décision avant de vous engager sur l'architecture. Et vous avez les métriques concrètes pour savoir si votre retrieval fonctionne avant d'incriminer le LLM.</p>
 </div>
 
+
+  <div data-lab-ref="6"></div>
 <hr class="sep">
 <h2>6.x Exercice pratique : recherche hybride BM25 + sémantique</h2>
 <p>La recherche hybride combine la récupération lexicale (BM25) et sémantique (vecteurs). C'est l'architecture recommandée en production pour couvrir les angles morts de chaque approche. Nécessite <code>pip install rank-bm25 sentence-transformers numpy</code>.</p>
@@ -4476,6 +4599,11 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
   <strong>🧵 À quoi cela vous sert</strong>
   Un système RAG en production qui "échoue parfois" est la situation la plus frustrante en IA appliquée. Ce chapitre vous donne le cadre de diagnostic systématique pour trouver le maillon brisé en cinq étapes et les techniques d'optimisation éprouvées pour chaque type de défaillance.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Diagnostiquer</strong> — Vous diagnostiquerez un RAG défaillant en appliquant les 5 étapes du Chap. 6.5 et produirez un rapport de cause racine avec proposition de correction.</p>
+  </div>
+
 
 <h2>7.1 Les cinq points de défaillance dans un pipeline RAG</h2>
 <p>Lorsqu'un système RAG produit une réponse incorrecte, l'erreur se trouve à l'un des cinq endroits. Les diagnostiquer dans l'ordre — de l'amont vers l'aval — vous fait gagner des heures de recherche erronée.</p>
@@ -4766,6 +4894,8 @@ for alpha in [0.0, 0.3, 0.5, 0.7, 1.0]:
   <p>Lorsqu'un système RAG échoue, vous savez exactement où regarder en premier et quels outils utiliser pour le diagnostiquer en moins de 15 minutes. Vous avez un menu de techniques d'optimisation pour chaque couche du pipeline. Et vous savez ce qu'il faut surveiller en production pour détecter la dégradation avant qu'elle n'atteigne l'utilisateur.</p>
 </div>
 
+
+  <div data-lab-ref="7"></div>
 <hr class="sep">
 <h2>7.x Exercice pratique : diagnostic RAG avec RAGAS</h2>
 <p>Le bloc suivant implémente un pipeline de diagnostic complet sur un système RAG. Il inclut les quatre métriques principales de RAGAS et un rapport actionnable automatique. Nécessite <code>pip install ragas langchain-openai datasets</code>.</p>
@@ -4858,6 +4988,11 @@ if all(v >= 0.8 for v in [resultado['faithfulness'], resultado['answer_relevancy
   <strong>🧵 À quoi cela vous sert</strong>
   Le prompt est l'interface de programmation du LLM. Écrire de bons prompts n'est pas un talent : c'est connaître les principes qui déterminent comment le modèle interprète les instructions. Ce chapitre vous donne ces principes, les techniques ayant le plus d'impact, les outils pour les optimiser automatiquement et le système pour les gérer en production. L'ingénierie des prompts mal faite est la deuxième cause principale de défaillance des systèmes RAG en production, après les problèmes de retrieval.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Évaluer</strong> — Vous évaluerez la fragilité d'un prompt avec au moins 3 métriques DSPy et redéfinirez le prompt le plus fragile pour dépasser le seuil de robustesse défini.</p>
+  </div>
+
 
 <div class="callout">
   <strong>📌 Note de périmètre</strong>
@@ -5124,6 +5259,77 @@ Message : {{message}}
     <li>Il évite le risque de surapprentissage sur un corpus petit ou biaisé</li>
   </ul>
   <p>Le fine-tuning devient pertinent quand le few-shot ne dépasse pas 85% de précision sur le golden dataset et qu'on dispose de plus de 1 000 exemples étiquetés de qualité — typiquement entre 9 et 12 mois après le lancement d'un système en production.</p>
+
+
+  
+  <h2>8.4d Confidentialité des artefacts de production : ce qu'il faut protéger et pourquoi</h2>
+
+  <p>L'ingénierie des prompts couvre habituellement la conception et l'itération des prompts. Mais elle n'aborde pas une question critique pour les systèmes en production : <strong>quels artefacts du système IA doivent être traités comme des secrets opérationnels ?</strong> Cette question n'est pas théorique — elle a des implications directes sur la sécurité du système.</p>
+
+  <div class="callout concept">
+    <h4>📐 Concept de l'auteur : La carte des brèches du système</h4>
+    <p>Le system prompt de production d'un système de modération contient nécessairement les critères exacts qui activent chaque niveau d'alerte, les formulations qui distinguent un contenu problématique d'un contenu légitime, et les exemples frontière qui calibrent le modèle. Ces critères sont, du point de vue d'un acteur malveillant, une <em>carte des brèches du système</em> : une cartographie des formulations à éviter pour ne pas être détecté.</p>
+    <p>Cette information a un statut différent du reste de la connaissance technique du projet. Elle n'est pas confidentielle parce qu'elle constitue un secret commercial — elle l'est parce que sa diffusion dégrade activement l'efficacité du système de protection des utilisateurs.</p>
+  </div>
+
+  <h3>La distinction fondamentale : artefacts de conception vs artefacts opérationnels</h3>
+
+  <table>
+    <thead>
+      <tr><th>Artefact</th><th>Classification</th><th>Peut circuler hors de l'infrastructure sécurisée ?</th><th>Justification</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Architecture de la pipeline (couches, latences, outils choisis)</td>
+        <td><span style="color:var(--green-dk);font-weight:600">Public / Conception</span></td>
+        <td>Oui — documentation, réunions, outils de collaboration externes</td>
+        <td>Information générique, ne révèle pas les critères d'activation</td>
+      </tr>
+      <tr>
+        <td>Choix de modèles (NudeNet, Llama 3, seuils généraux &gt;95%)</td>
+        <td><span style="color:var(--green-dk);font-weight:600">Public / Conception</span></td>
+        <td>Oui</td>
+        <td>Standards techniques publiés, sans valeur d'ingénierie inverse</td>
+      </tr>
+      <tr>
+        <td>Structure du system prompt (rôle, format de sortie, logique générale)</td>
+        <td><span style="color:var(--gold);font-weight:600">Interne / Conception</span></td>
+        <td>Oui, pendant la phase de développement</td>
+        <td>La structure sans le contenu ne révèle pas les critères réels</td>
+      </tr>
+      <tr>
+        <td><strong>System prompt de production</strong> avec critères réels et formulations exactes</td>
+        <td><span style="color:var(--red);font-weight:600">Confidentiel / Opérationnel</span></td>
+        <td><strong>Non</strong> — uniquement dans l'infrastructure sécurisée</td>
+        <td>Carte des brèches : révèle exactement quelles formulations évitent la détection</td>
+      </tr>
+      <tr>
+        <td><strong>Exemples few-shot de production</strong> avec vrais cas limites de la plateforme</td>
+        <td><span style="color:var(--red);font-weight:600">Confidentiel / Opérationnel</span></td>
+        <td><strong>Non</strong></td>
+        <td>Révèle les comportements à la frontière du tolérable</td>
+      </tr>
+      <tr>
+        <td><strong>Corpus étiqueté</strong> de vrais cas de modération</td>
+        <td><span style="color:var(--red);font-weight:600">Confidentiel / Données</span></td>
+        <td><strong>Non</strong> — peut contenir des données indirectement identifiables</td>
+        <td>RGPD Art. 9 + risque d'identification indirecte des utilisateurs sanctionnés</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>L'erreur opérationnelle la plus fréquente</h3>
+  <p>La friction d'accès à l'environnement sécurisé pour ajuster le prompt de production conduit les équipes à "tester rapidement" une variation dans un chat externe (ChatGPT, Gemini, Claude.ai). Ce réflexe est la brèche la plus courante. Le system prompt de production avec des critères réels a quitté l'infrastructure, a été traité par un tiers, et peut figurer dans les logs d'entraînement du fournisseur.</p>
+
+  <div class="nota">
+    <strong>💡 Implémentation pratique pour éviter cette erreur</strong>
+    La solution n'est pas d'interdire le testing — c'est de créer un environnement de staging sécurisé qui permet d'itérer sans quitter l'infrastructure. Un dépôt Git privé avec deux branches est suffisant pour la plupart des projets : une branche <code>prompt-design</code> avec des exemples fictifs (itérable avec des outils externes), et une branche protégée <code>prompt-production</code> uniquement accessible depuis l'environnement de production. La règle en une phrase : <em>"Si le prompt contient des critères qui, connus d'un acteur malveillant, lui permettraient de contourner la modération — ce prompt ne quitte pas l'infrastructure sécurisée."</em>
+  </div>
+
+  <div class="warning">
+    <strong>⚠️ Portée de cette règle : pas seulement le code</strong>
+    La confidentialité des artefacts opérationnels s'applique aussi aux canaux de communication de l'équipe. Le system prompt de production ne devrait pas circuler dans Slack, par email non chiffré ou dans des documents partagés sans contrôle d'accès. Cela est indépendant du respect du RGPD sur les données utilisateurs — c'est une question de sécurité opérationnelle du système de modération.
+  </div>
 
 
   <h2>8.5 Optimisation algorithmique des prompts : DSPy</h2>
@@ -5577,6 +5783,8 @@ score_actuel = 0.87
 score_nouveau   = 0.81  # changement dégradant
 evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
 
+
+  <div data-lab-ref="8"></div>
 <hr class="sep">
 <div class="resultado-final">
   <h3>✅ Résultat de ce chapitre</h3>
@@ -5604,6 +5812,11 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   <strong>🧵 À quoi cela vous sert</strong>
   Si vous appliquez les techniques du Chapitre 8 à un modèle de raisonnement comme o3, vous obtiendrez de moins bons résultats que si vous ne les appliquiez pas. Les règles sont différentes. Ce chapitre explique pourquoi et comment adapter votre approche.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Distinguer</strong> — Vous distinguerez quand un modèle de raisonnement natif apporte une valeur mesurable par rapport à un LLM standard avec CoT — et quand ce n'est pas le cas.</p>
+  </div>
+
 
 <div class="warning">
   <strong>⚡ Chapitre à obsolescence rapide — Vérifier avant d'appliquer</strong>
@@ -6267,6 +6480,8 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   </tbody>
 </table>
 
+
+  <div data-lab-ref="9"></div>
 <hr class="sep">
 <div class="resultado-final">
   <h3>✅ Résultat de ce chapitre</h3>
@@ -6294,6 +6509,11 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   <strong>🧵 À quoi cela vous sert</strong>
   Les agents sont la frontière la plus active de l'IA appliquée en 2025-2026. Ils sont aussi le domaine où les équipes commettent les erreurs d'architecture les plus coûteuses. Ce chapitre vous donne le cadre pour exploiter leur puissance sans tomber dans leurs pièges — y compris le piège central, qui est de supposer qu'un système multi-agents est la bonne réponse alors qu'un pipeline plus simple résoudrait le problème avec beaucoup moins de risques.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Calculer</strong> — Vous calculerez la dégradation de fiabilité accumulée dans une chaîne de 3 agents en utilisant le modèle d'entropie accumulée du Chap. 10.3.</p>
+  </div>
+
 
 <h2>10.1 Ce qui fait qu'un système est un agent</h2>
 <p>Un agent d'IA n'est pas simplement un LLM qui répond à des questions. C'est un système capable de :</p>
@@ -7045,6 +7265,8 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   </div>
 </div>
 
+
+  <div data-lab-ref="10"></div>
 <hr class="sep">
 <div style="background:var(--bg);border:2px solid var(--border);border-radius:12px;padding:28px 32px;margin-top:48px;">
 
@@ -7257,6 +7479,11 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   <strong>🧵 À quoi cela vous sert</strong>
   Chaque décision d'architecture que vous prenez en production devrait commencer par savoir à quel niveau de risque appartient votre système. Sans cette classification, vous prendrez les mêmes mesures pour un chatbot de FAQ que pour un système de sélection de personnel, et vous ferez de la sur-ingénierie sur l'un et de la sous-ingénierie sur l'autre.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Classifier</strong> — Vous classerez un système IA réel en Niveau 1, 2 ou 3 selon les critères de l'AI Act, justifierez les contrôles minimaux requis et signalerez les blocages légaux éventuels.</p>
+  </div>
+
 
 <h2>11.1 Le test rapide de criticité</h2>
 <p>Avant tout cadre, cette question :</p>
@@ -7542,6 +7769,76 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   </div>
 
 
+  
+  <h3>Cadre juridique comparatif : sanctions par juridiction</h3>
+  <p>La conformité réglementaire n'est pas une décision unique — c'est une décision géographique. Un système IA de modération qui traite du contenu sensible ou pouvant être accédé par des mineurs doit respecter des cadres différents selon les marchés où il opère. Les sanctions sont précises et en aucun cas symboliques :</p>
+
+  <table>
+    <thead>
+      <tr><th>Juridiction</th><th>Législation applicable</th><th>Obligation principale</th><th>Sanction maximale</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Union Européenne</strong></td>
+        <td>AI Act (UE 2024/1689) + DSA (UE 2022/2065) + Loi SREN (France, Loi n°2024-449)</td>
+        <td>Contrôle d'âge effectif préservant l'anonymat. Supervision humaine pour les systèmes à haut risque. Interdiction pour le fournisseur de stocker les données d'identité.</td>
+        <td><strong>10M€ ou 2% du volume mondial des ventes annuelles</strong></td>
+      </tr>
+      <tr>
+        <td><strong>Royaume-Uni</strong></td>
+        <td>Online Safety Act 2023</td>
+        <td>Vérification d'âge "hautement efficace" pour tout contenu probablement accessible par des mineurs</td>
+        <td><strong>£18M ou 10% du chiffre d'affaires annuel global</strong></td>
+      </tr>
+      <tr>
+        <td><strong>États-Unis</strong></td>
+        <td>Patchwork législatif étatique (Utah, Louisiane, Californie…). Plusieurs lois bloquées en justice pour conflit avec le Premier Amendement.</td>
+        <td>Apple et Google exigent déjà de leur propre initiative une vérification tierce pour les apps classées 18+. Applicable globalement via les stores.</td>
+        <td>Sanctions civiles et pénales variables par état</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="nota">
+    <strong>📌 Donnée empirique décisive sur les déclarations d'âge</strong>
+    44% des jeunes de 11 à 18 ans en France avouent mentir sur leur âge sur les plateformes numériques (études sectorielles 2024). Cette donnée élimine l'option « age gate déclaratif » comme solution conforme : elle est légalement insuffisante et empiriquement inefficace. Les solutions techniques viables sont des services de vérification tiers (Yoti, IDnow, Jumio) avec estimation d'âge faciale ou preuves à divulgation nulle (ZKP), ou la « Declared Age Range API » d'Apple pour les applications mobiles. Un processus de vérification bien conçu ne réduit pas nécessairement les taux de conversion — des études du secteur iGaming montrent qu'une vérification mobile fluide peut les améliorer.
+  </div>
+
+  <div class="callout concept">
+    <h4>📐 Concept de l'auteur : Le triangle des tensions dans la conception des systèmes de gouvernance IA</h4>
+    <p>Tout système IA opérant dans un domaine avec des exigences réglementaires, de la confidentialité et des utilisateurs finaux navigue un <strong>triangle de tensions structurel</strong>. Les trois dimensions entrent en conflit permanent et les décisions de conception sont toujours des compromis entre elles — jamais des solutions qui optimisent les trois simultanément :</p>
+
+    <div class="comparativa">
+      <div class="comp-lado a">
+        <h4>Friction utilisateur</h4>
+        <p>Réduire la friction maximise le taux de conversion et l'expérience d'usage. Mais les solutions à faible friction (déclaration d'âge, consentement implicite) sont celles à la plus faible fiabilité légale.</p>
+      </div>
+      <div class="comp-lado b">
+        <h4>Confidentialité</h4>
+        <p>Les solutions à haute confidentialité (anonymisation forte, traitement local, données éphémères) sont les plus difficiles à auditer et celles qui compliquent le plus la preuve de conformité devant un régulateur.</p>
+      </div>
+      <div class="comp-lado b">
+        <h4>Conformité réglementaire</h4>
+        <p>Les solutions à haute conformité (vérification d'identité robuste, logging complet, audit des décisions IA) sont celles à plus haute friction et celles qui concentrent le plus de données sensibles en un point unique.</p>
+      </div>
+    </div>
+
+    <div class="warning">
+      <strong>⚠️ Implication de conception : il n'existe pas de solution optimale, seulement des compromis explicites</strong>
+      L'erreur la plus courante dans la conception de systèmes de gouvernance IA est de chercher une solution qui optimise les trois dimensions à la fois. Elle n'existe pas. La tâche de l'architecte est de documenter explicitement quelle dimension est prioritaire, pourquoi, et quels risques sont assumés sur les deux autres. Cette documentation est la base de l'analyse de risque exigée par l'AI Act pour les systèmes à haut risque.
+    </div>
+
+    <div class="nota">
+      <strong>📌 Le triangle appliqué à la vérification d'âge</strong>
+      <ul>
+        <li><strong>Conformité maximale :</strong> scan de document d'identité (Jumio/Onfido) → haute fiabilité légale, haute friction, forte concentration de données sensibles chez le prestataire de vérification</li>
+        <li><strong>Confidentialité maximale :</strong> ZKP (preuve à divulgation nulle) → le vérificateur confirme « majeur » sans accéder aux données d'identité → conformité légale modérée (encore en discussion réglementaire en 2026)</li>
+        <li><strong>Friction minimale :</strong> déclaration de majorité → 0 donnée, 0 friction, 0 conformité réelle (44% des mineurs mentent)</li>
+      </ul>
+    </div>
+  </div>
+
+
   <h2>11.5 Cas réels : ce qui se passe quand la classification échoue</h2>
 <tr>
 <table>
@@ -7591,6 +7888,8 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
     </tbody>
   </table>
 
+
+  <div data-lab-ref="11"></div>
 <hr class="sep">
 <div class="resultado-final">
   <h3>✅ Résultat de ce chapitre</h3>
@@ -7613,6 +7912,11 @@ evaluer_changement_prompt(score_actuel, score_nouveau)</pre>
   <strong>🧵 À quoi cela vous sert</strong>
   L'architecture hybride est le modèle de production le plus important en IA appliquée pour les systèmes de niveau 2 ou supérieur. Elle n'est pas optionnelle : c'est ce qui fait la différence entre un système qui peut être certifié et audité, et un système qui ne le peut pas.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Concevoir</strong> — Vous concevrez une architecture sandwich pour un système de Niveau 2, en spécifiant la couche de vérification symbolique et le mécanisme de circuit-breaker.</p>
+  </div>
+
 
 <h2>12.1 Le problème du LLM qui décide directement</h2>
 <p>Lorsqu'un LLM reçoit une requête et agit directement sur des systèmes externes — sans aucune couche de validation entre les deux — toute hallucination ou mauvaise interprétation se transforme immédiatement en action. Et les actions peuvent être irréversibles.</p>
@@ -7935,6 +8239,8 @@ def evaluer_demande(texte: str, id_requete: str) -> dict:
   La fonction d'anonymisation du prompt doit être agressive (mieux vaut un faux positif qu'un faux négatif — préfère anonymiser "Jean Dupont" même s'il s'avère être un nom fictif dans l'exemple). La fonction d'anonymisation de la réponse doit être conservatrice (évite d'anonymiser "Recursive Language Model" comme [NOM_PERSONNE]). Ce sont deux problèmes distincts qui nécessitent deux stratégies distinctes.
 </div>
 
+
+  <div data-lab-ref="12"></div>
 <hr class="sep">
 <div class="resultado-final">
   <h3>✅ Résultat de ce chapitre</h3>
@@ -7957,6 +8263,11 @@ def evaluer_demande(texte: str, id_requete: str) -> dict:
   <strong>🧵 À quoi cela vous sert</strong>
   Un système d'IA en production sans validation continue, c'est comme un entrepôt de données sans surveillance de qualité : il semble fonctionner jusqu'à ce que quelqu'un découvre qu'il produit des résultats incorrects depuis des mois. Ce chapitre vous donne le cadre complet pour éviter cela.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Construire</strong> — Vous construirez un golden dataset minimal de 20 paires question-réponse avec des critères documentés de couverture, de difficulté et de distribution des types.</p>
+  </div>
+
 
 <h2>13.1 Les quatre dimensions de la qualité en IA</h2>
 <div class="warning">
@@ -8173,6 +8484,91 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
   </div>
 
 
+  
+  <h2>13.3c Dashboard de KPIs pour les systèmes de modération en production</h2>
+
+  <p>Les systèmes de modération IA en production nécessitent un ensemble de métriques spécifique qui va au-delà des métriques d'évaluation hors ligne (Faithfulness, Context Recall, Hit Rate). Les métriques hors ligne mesurent si le système fonctionne correctement sur le golden dataset. Les métriques de production mesurent s'il fonctionne correctement sur le problème réel.</p>
+
+  <div class="warning">
+    <strong>⚠️ La métrique insuffisante la plus fréquente</strong>
+    Surveiller uniquement le « taux de détection » ou le « nombre de contenus bloqués » donne une image fausse du système. Un système qui bloque tout a un taux de détection parfait et détruit la communauté. Un système qui approuve tout a un taux de faux négatifs parfait et ne protège personne. Les métriques utiles mesurent les deux directions et la santé globale du système.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Métrique</th><th>Ce qu'elle mesure</th><th>Seuil d'alerte</th><th>Action si déclenché</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Rétention du profil le plus vulnérable à J30</strong></td>
+        <td>Thermomètre de santé globale du système. Le segment utilisateur avec la plus faible tolérance aux défaillances l'abandonne silencieusement.</td>
+        <td>Chute &gt;10% en 2 semaines</td>
+        <td>Audit complet : faux positifs qui censurent leur contenu ? Faux négatifs qui permettent le harcèlement ? Friction asymétrique dans l'UX ?</td>
+      </tr>
+      <tr>
+        <td><strong>Taux de faux positifs</strong></td>
+        <td>% de contenu légitime incorrectement bloqué. Mesure le coût en expérience utilisateur de la modération.</td>
+        <td>&gt;5% des décisions orange</td>
+        <td>Réviser le system prompt, ajouter des exemples few-shot de cas légitimes mal classifiés</td>
+      </tr>
+      <tr>
+        <td><strong>Taux de faux négatifs</strong></td>
+        <td>% de contenu problématique non détecté (estimé depuis les signalements utilisateurs). Mesure la couverture réelle du système.</td>
+        <td>&gt;2% des cas signalés par les utilisateurs</td>
+        <td>Ajuster les seuils Couche 1, réviser les exemples few-shot de comportements problématiques</td>
+      </tr>
+      <tr>
+        <td><strong>Volume et délai de résolution des appels</strong></td>
+        <td>Charge sur l'équipe de modération humaine + efficacité du processus de contestation.</td>
+        <td>&gt;10 appels/jour ou délai moyen &gt;48h</td>
+        <td>Recruter un modérateur part-time, réviser les critères qui génèrent trop d'orange</td>
+      </tr>
+      <tr>
+        <td><strong>Délai moyen de réponse aux alertes de détresse</strong></td>
+        <td>Efficacité du flux de gestion de crise. KPI critique de sécurité : mesure le temps jusqu'à la première intervention humaine.</td>
+        <td>&gt;30 min entre alerte et première action</td>
+        <td>Revoir la priorisation des tickets, ajouter des notifications temps réel dans le panneau du modérateur</td>
+      </tr>
+      <tr>
+        <td><strong>Taux de récidive</strong></td>
+        <td>% d'utilisateurs sanctionnés qui récidivent dans les 30 jours suivants. Mesure l'efficacité à long terme des sanctions — pas seulement la détection initiale.</td>
+        <td>&gt;20%</td>
+        <td>Réviser la gradation des sanctions (avertissement → suspension temporaire → ban permanent). Un taux élevé indique que les sanctions sont insuffisamment dissuasives.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>💡 La métrique qui connecte le système IA et le métier</strong>
+    De toutes les métriques ci-dessus, le taux de récidive est la plus importante pour l'apprentissage à long terme du système : les cas de récidive sont les plus riches pour le corpus d'étiquetage futur. Un utilisateur qui contourne la première détection et récidive apporte de l'information sur les techniques d'évasion — exactement ce que le système a besoin d'apprendre. Le modérateur humain qui étiquette un cas de récidive produit une valeur d'entraînement double : il documente la technique d'évasion <em>et</em> la réponse correcte.
+  </div>
+
+  <h3>La relation entre métriques hors ligne et métriques de production</h3>
+
+  <table>
+    <thead>
+      <tr><th>Dimension</th><th>Métriques hors ligne (golden dataset)</th><th>Métriques de production</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Ce qu'elles mesurent</strong></td>
+        <td>Si le système fonctionne correctement sur les cas que nous avions anticipés</td>
+        <td>S'il fonctionne correctement sur le problème réel, y compris les cas non anticipés</td>
+      </tr>
+      <tr>
+        <td><strong>Fréquence d'évaluation</strong></td>
+        <td>Avant chaque déploiement</td>
+        <td>Continue (dashboard en temps réel)</td>
+      </tr>
+      <tr>
+        <td><strong>Risque si on ne regarde que ces métriques</strong></td>
+        <td>Le système passe tous les tests et échoue en production sur des cas non représentés dans le golden dataset</td>
+        <td>Le système semble stable en production mais a un biais systématique invisible sans l'analyse hors ligne</td>
+      </tr>
+    </tbody>
+  </table>
+
+
   <h2>13.4 Taxonomie des erreurs : tous les échecs ne se valent pas</h2>
 <p>Classer les erreurs est la première étape pour les corriger systématiquement. Les systèmes d'IA produisent des types d'erreurs différents de ceux des systèmes déterministes :</p>
 
@@ -8380,6 +8776,8 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
   Arrêter un test dès qu'une différence statistiquement significative apparaît (p &lt; 0.05) produit des taux de faux positifs élevés — le phénomène du "<span class="gt">peeking<span class="tt">Erreur dans les tests A/B : arrêter l'expérience dès que p<0.05 apparaît sans avoir atteint la taille d'échantillon cible. Produit des taux de faux positifs élevés.</span></span>". Définissez la taille d'échantillon cible avant de commencer le test et ne prenez pas de décision avant de l'avoir atteinte. Dans les systèmes RAG avec un faible trafic, cela peut signifier attendre des semaines. Une différence de 3 points de faithfulness qui n'atteint pas la taille d'échantillon cible n'est pas une preuve d'amélioration : c'est du bruit.
 </div>
 
+
+  <div data-lab-ref="13"></div>
 <hr class="sep">
 <h2>13.8 Détection des hallucinations sans vérité terrain : clustering de cohérence</h2>
 
@@ -8452,6 +8850,11 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
   <strong>🧵 À quoi cela vous sert</strong>
   La supervision humaine est l'une des exigences qui s'avère le plus souvent inefficace en pratique : elle existe sur le papier — un humain dans le processus — mais elle n'est pas conçue pour détecter les défaillances qui comptent vraiment. Cette observation provient de l'expérience de l'auteur et de cas documentés ; les études empiriques à grande échelle sur la qualité de la supervision humaine en IA sont encore rares. Ce chapitre vous donne les principes pour que la supervision soit réelle, non décorative, et pour construire l'infrastructure de gouvernance que l'AI Act et vos parties prenantes exigeront.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Définir</strong> — Vous définirez des seuils d'escalade humaine pour 3 types de pannes distincts et concevrez le flux de notification correspondant pour chacun.</p>
+  </div>
+
 
 <h2>14.1 Trois paradigmes de supervision humaine</h2>
 </tr>
@@ -8674,6 +9077,8 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
   L'extension doit être configurée avec le consentement éclairé de l'utilisateur — elle ne peut pas être silencieuse. La politique de confidentialité doit spécifier ce qui est capturé (métadonnées d'utilisation + prompts anonymisés) et ce qui ne l'est pas (contenu des conversations personnelles en dehors des heures de travail, si détecté). Le mode "métadonnées uniquement" (sans capture de contenu) permet de surveiller le coût et le fournisseur sans accéder au contenu des prompts, ce qui peut être suffisant pour les cas d'usage de gouvernance de base avec le moindre impact sur la vie privée de l'utilisateur.
 </div>
 
+
+  <div data-lab-ref="14"></div>
 <hr class="sep">
 <div class="resultado-final">
   <h3>✅ Résultat de ce chapitre</h3>
@@ -8696,6 +9101,11 @@ def evaluer_echantillon_production(logs_du_jour: list) -> dict:
   <strong>🧵 À quoi cela vous sert</strong>
   Un système RAG en production n'est pas un prototype déployé : c'est un système qui doit être mis à jour, surveillé, versionné et capable de se remettre de pannes. Votre expérience des pipelines de données est directement applicable ici. Ce chapitre montre le plus clairement que le MLOps pour l'IA est, à 70 %, des données bien gérées. <em>Note : cette proportion est représentative des systèmes RAG classiques. Dans les systèmes basés sur des agents ou des modèles de raisonnement natifs (Module 2, chap. 9–10), la distribution de la complexité se déplace vers l'orchestration, la gestion des outils et les boucles de vérification.</em>
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Automatiser</strong> — Vous automatiserez l'évaluation continue de la faithfulness dans un pipeline CI/CD, avec un seuil d'alerte et un mécanisme de rollback définis.</p>
+  </div>
+
 
 <h2>15.1 Les trois cycles de vie à gérer</h2>
 <p>Contrairement à un microservice standard, un système RAG a trois cycles de vie indépendants à gérer séparément :</p>
@@ -8971,6 +9381,8 @@ jobs:
   </tbody>
 </table>
 
+
+  <div data-lab-ref="15"></div>
 <hr class="sep">
 <div class="resultado-final">
   <h3>✅ Résultat de ce chapitre</h3>
@@ -8993,6 +9405,11 @@ jobs:
   <strong>🧵 À quoi cela vous sert</strong>
   L'AI Act est déjà en vigueur. Si votre organisation opère dans l'UE ou traite des données de citoyens européens, certaines obligations s'appliquent déjà et d'autres ont des délais qui se rapprochent. Ce chapitre vous donne la carte de ce qui s'applique à vous, quand, et quelles actions concrètes vous devez entreprendre.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Cartographier</strong> — Vous cartographierez les articles 10–17 de l'AI Act vers des contrôles techniques concrets de votre pipeline, en identifiant les obligations nécessitant un changement architectural.</p>
+  </div>
+
 
 <div class="warning">
   <strong>🚨 Dates critiques — Vérifiez avant de lire</strong>
@@ -9360,6 +9777,8 @@ jobs:
   </div>
 </div>
 
+
+  <div data-lab-ref="16"></div>
 <hr class="sep">
 <div style="background:var(--bg);border:2px solid var(--border);border-radius:12px;padding:28px 32px;margin-top:48px;">
 
@@ -9455,6 +9874,11 @@ jobs:
   <strong>🧵 À quoi cela vous sert</strong>
   Savoir qu'"il y a des opportunités dans l'IA" est trop vague pour agir. Ce chapitre vous donne une description concrète de quatre rôles émergents, ce qu'ils font exactement, les compétences qu'ils requièrent, et l'écart réel entre ce que vous possédez déjà et ce que vous devez construire.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Identifier</strong> — Vous identifierez votre profil cible parmi les rôles émergents du chapitre et listerez au moins 3 lacunes de compétences avec leur parcours de comblement.</p>
+  </div>
+
 
 <h2>17.1 Le contexte : pourquoi les équipes d'IA ont besoin de professionnels des données</h2>
 <p>Les équipes d'IA pures (chercheurs, ingénieurs ML) maîtrisent les modèles mais sous-estiment souvent ce qui se passe avant et après : la qualité du corpus, le lignage des données d'évaluation, la gouvernance des modèles en production, l'interprétation des métriques métier. Ce sont exactement les domaines où un professionnel des données a un avantage structurel.</p>
@@ -9647,6 +10071,8 @@ jobs:
   <li><strong>Vous n'avez pas besoin d'un master en IA.</strong> Ce dont vous avez besoin, c'est d'un projet réel en production que vous pouvez montrer. Le marché valorise beaucoup plus ce dernier.</li>
 </ul>
 
+
+  <div data-lab-ref="17"></div>
 <hr class="sep">
 <div class="resultado-final">
   <h3>✅ Résultat de ce chapitre</h3>
@@ -9669,6 +10095,11 @@ jobs:
   <strong>🧵 À quoi cela vous sert</strong>
   Lire un manuel ne fait pas la transition. La transition se fait en construisant des choses réelles avec ce que vous avez appris. Ce chapitre vous donne un plan concret, exécutable en parallèle de votre travail actuel, avec des jalons clairs et sans prétendre que vous disposez de 40 heures par semaine.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Planifier</strong> — Vous planifierez votre parcours de transition de 6 mois avec des jalons mensuels livrables, des métriques de progression et des critères de validation externe.</p>
+  </div>
+
 
 <h2>18.1 Le piège de l'apprentissage infini</h2>
 <p>Le domaine de l'IA produit du nouveau contenu à une vitesse qui rend impossible d'être "à jour" avant de commencer à construire. Le piège de l'apprentissage infini piège de nombreux professionnels dans un cycle de consommation de contenu sans production de rien de tangible : un cours de plus, un article de plus, un podcast de plus.</p>
@@ -9825,6 +10256,8 @@ jobs:
   Ce n'est pas "je comprends plus de concepts d'IA". C'est "un collègue ou un manager m'a demandé de l'aide sur quelque chose d'IA parce qu'il sait que j'en sais plus que lui à ce sujet". Ce moment — qui survient généralement avant le mois 3 si vous travaillez dans un environnement où il y a des projets d'IA — est le signe que la transition est vraiment en cours.
 </div>
 
+
+  <div data-lab-ref="18"></div>
 <hr class="sep">
 <div class="resultado-final">
   <h3>✅ Résultat de ce chapitre</h3>
@@ -9847,6 +10280,11 @@ jobs:
   <strong>🧵 À quoi cela vous sert</strong>
   Le marché de l'IA a un problème de signal : il y a beaucoup de gens qui savent parler de l'IA et peu qui savent démontrer qu'ils l'ont construite en production. Ce chapitre vous donne les outils pour être dans le deuxième groupe, qui est infiniment plus petit et plus précieux.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Produire</strong> — Vous produirez un livrable auditable combinant architecture documentée + golden dataset minimal, prêt à être revu par un pair technique.</p>
+  </div>
+
 
 <h2>19.1 Ce que le marché valorise vs. ce qu'il croit valoriser</h2>
 <p>Il y a un écart entre ce que les offres d'emploi disent requérir et ce qui fait vraiment la différence entre les candidats dans le processus de sélection :</p>
@@ -10071,6 +10509,8 @@ jobs:
 
 
 <!-- ═══ CHECKPOINT ═══ -->
+
+  <div data-lab-ref="19"></div>
 <hr class="sep">
 <div style="background:var(--bg);border:2px solid var(--border);border-radius:12px;padding:28px 32px;margin-top:48px;">
   <h2 style="margin-top:0;border:none;padding:0;font-size:1.15rem;">🏁 Checkpoint du Module 4</h2>
@@ -10221,6 +10661,11 @@ jobs:
   <strong>🧵 À quoi cela vous sert</strong>
   Les quatre modules précédents vous ont appris à construire des systèmes d'IA responsables. Ce chapitre pose une question différente : quels effets ont sur les personnes et les organisations le fait que ces systèmes existent et soient utilisés couramment ? La réponse a des conséquences directes sur la façon dont vous concevez, déployez et formez les utilisateurs de vos systèmes.
 </div>
+  <div style="background:var(--accent-light,#f0fdf4);border:1px solid var(--green,#16a34a);border-left:4px solid var(--green,#16a34a);padding:1.1rem 1.5rem;margin:.5rem 0 2rem;border-radius:0 6px 6px 0;">
+    <div style="font-family:var(--ff-mono,monospace);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--green,#16a34a);margin-bottom:.6rem">// au terme de ce chapitre, vous serez capable de</div>
+    <p style="margin:0;font-size:.92rem;color:var(--text)"><strong style="color:var(--green,#16a34a)">Argumenter</strong> — Vous argumenterez pourquoi la cohérence statistique n'implique pas la correction épistémique dans un cas réel, en utilisant au moins un exemple concret du chapitre.</p>
+  </div>
+
 
 <h2>20.1 Le conservatisme statistique de la connaissance</h2>
 <p>Un LLM ne produit pas le meilleur argument disponible sur un sujet. Il produit l'argument statistiquement le plus probable compte tenu de son corpus d'entraînement. Cela a une implication qui n'est pas évidente au premier abord : <strong>les idées rares, les arguments minoritaires et les perspectives non hégémoniques sont structurellement sous-représentés dans la sortie de tout modèle génératif</strong>, non pas parce que le modèle les a évalués et rejetés, mais parce qu'ils apparaissent moins fréquemment dans le corpus.</p>
@@ -10870,6 +11315,45 @@ jobs:
     </div>
 
 
+    <!-- T-Z (ajouts) -->
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Triangle des tensions (gouvernance IA)</span>
+        <span class="gterm-en">Governance tension triangle</span>
+        <span class="gterm-cat cat-arquitectura">Gouvernance</span>
+      </div>
+      <div class="gterm-def">Cadre conceptuel qui identifie trois dimensions structurellement en conflit dans tout système IA avec des exigences réglementaires, des utilisateurs finaux et des données sensibles : <strong>friction utilisateur</strong> (facilité d'usage et taux de conversion), <strong>confidentialité</strong> (minimisation des données et traitement local) et <strong>conformité réglementaire</strong> (vérifiabilité, audit et respect légal). Les décisions de conception sont toujours des compromis entre ces trois dimensions — il n'existe pas de solution qui optimise les trois simultanément. L'AI Act pour les systèmes à haut risque exige de documenter explicitement ces compromis dans l'analyse de risque. → Voir Chap. 11.</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Taux de récidive (modération)</span>
+        <span class="gterm-en">Recidivism rate</span>
+        <span class="gterm-cat cat-datos">Évaluation</span>
+      </div>
+      <div class="gterm-def">Métrique de production qui mesure le pourcentage d'utilisateurs sanctionnés par le système de modération qui enfreignent à nouveau les règles dans une période définie (habituellement 30 jours). Complète les métriques de détection (faux positifs/négatifs) en mesurant l'efficacité à long terme des sanctions, pas seulement la précision de la détection initiale. Un seuil d'alerte habituel est &gt;20%. Les cas de récidive sont particulièrement précieux pour le corpus d'entraînement car ils documentent les techniques d'évasion du système — exactement ce que le modèle a besoin d'apprendre en V2. → Voir Chap. 13.</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">Artefact opérationnel IA</span>
+        <span class="gterm-en">AI operational artifact</span>
+        <span class="gterm-cat cat-arquitectura">Sécurité opérationnelle</span>
+      </div>
+      <div class="gterm-def">Artefact du système IA dont la diffusion dégrade activement l'efficacité du système. Se distingue de l'artefact de conception (architecture, choix de modèles, structure du prompt — partageable) par le fait qu'il contient les critères opérationnels réels : le system prompt de production avec les seuils exacts d'activation, les exemples few-shot avec de vrais cas limites, le corpus étiqueté d'incidents. Dans les systèmes de modération, les artefacts opérationnels constituent la « carte des brèches » : un acteur malveillant y ayant accès peut concevoir du contenu évitant la détection. Leur classification comme confidentiel/opérationnel est une décision de sécurité, pas de conformité RGPD. → Voir Chap. 8 (section 8.4d).</div>
+    </div>
+
+    <div class="gterm">
+      <div class="gterm-header">
+        <span class="gterm-nombre">ZKP (Zero-Knowledge Proof) appliquée à la vérification d'âge</span>
+        <span class="gterm-en">Zero-Knowledge Proof for age verification</span>
+        <span class="gterm-cat cat-arquitectura">Gouvernance · Confidentialité</span>
+      </div>
+      <div class="gterm-def">Technique cryptographique permettant à un vérificateur de confirmer un attribut d'un utilisateur (par exemple « a plus de 18 ans ») sans accéder aux données d'identité qui le prouvent. Le fournisseur du service reçoit uniquement la confirmation booléenne, pas le document ni la date de naissance. Dans le contexte de la vérification d'âge pour les plateformes numériques, les ZKP sont l'option qui maximise la confidentialité dans le triangle des tensions — bien que leur niveau de conformité réglementaire explicite reste en discussion dans l'UE (SREN, DSA) en 2026. Elles sont généralement implémentées via des services tiers comme Yoti ou des solutions basées sur l'identité autodéterminée. → Voir Chap. 11.</div>
+    </div>
+
+
     <!-- D -->
   <div id="g-d" style="scroll-margin-top:80px;"></div>
 
@@ -11423,6 +11907,8 @@ jobs:
 </div><!-- fin du glossaire -->
 
 <!-- ═══ PIED DE PAGE ═══ -->
+
+  <div data-lab-ref="20"></div>
 <hr class="sep">
 <div style="text-align:center;margin-top:48px;padding-top:32px;border-top:2px solid var(--accent-light);">
   <p style="font-family:system-ui,sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:16px;">Manuel complet — Comprendre l'IA · Édition 2026</p>
@@ -11685,6 +12171,31 @@ window.addEventListener('scroll', () => {
     La plupart des articles et documentations techniques sont en anglais. Pour une compréhension en français : le blog officiel de Hugging Face publie des traductions des articles les plus importants ; la communauté LangChain en français (Discord + forum) est active ; et les chaînes YouTube de Midudev et Dotcsv couvrent les implémentations pratiques des techniques de cette annexe. Pour les actualités et analyses critiques, The Batch de deeplearning.ai dispose d'une version en espagnol (pas en français, mais l'anglais reste la langue principale).
   </div>
 </div>
+
+
+<script>
+// ─── LAB REGISTRY (FR) ─────────────────────────────────────────
+const LAB_REGISTRY = {
+  'lab-mod1': { anchor:'lab-mod1', name:'Lab Module 1', desc:'Chunking, corpus obsolète, embedding erroné', caps:[1,2,3,4], color:'#dc2626' },
+  'lab-mod2': { anchor:'lab-mod2', name:'Lab Module 2', desc:'Retrieval hybride, boucles d'agent, prompt injection', caps:[5,6,7,9,10], color:'#dc2626' },
+  'lab-chap8': { anchor:'lab-chap8', name:'Lab Chap. 8', desc:'Prompt engineering fragile (4 cas)', caps:[8], color:'#dc2626' },
+  'lab-mod3': { anchor:'lab-mod3', name:'Lab Module 3', desc:'Dégradation silencieuse, sandwich cassé, versionnage', caps:[11,12,13,14,15,16], color:'#dc2626' },
+  'lab-mod4': { anchor:'lab-mod4', name:'Lab Module 4', desc:'Portfolio, transition prématurée', caps:[17,18,19], color:'#dc2626' },
+  'lab-mod5': { anchor:'lab-mod5', name:'Lab Module 5', desc:'Cohérence ≠ correction, benchmarks trompeurs', caps:[20], color:'#dc2626' }
+};
+const CAP_TO_LAB = {};
+Object.entries(LAB_REGISTRY).forEach(([id, lab]) => { lab.caps.forEach(cap => { CAP_TO_LAB[cap] = id; }); });
+function renderLabRefs() {
+  document.querySelectorAll('[data-lab-ref]').forEach(el => {
+    const cap = parseInt(el.getAttribute('data-lab-ref'));
+    const labId = CAP_TO_LAB[cap];
+    if (!labId) return;
+    const lab = LAB_REGISTRY[labId];
+    el.innerHTML = `<div style="background:linear-gradient(135deg,rgba(220,38,38,0.08),rgba(220,38,38,0.04));border:1px solid rgba(220,38,38,0.2);padding:1.25rem 1.5rem;margin-top:2.5rem;display:flex;align-items:center;gap:1.25rem;"><div style="font-size:1.6rem;flex-shrink:0">🔴</div><div><div style="font-family:var(--ff-mono,monospace);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:#dc2626;margin-bottom:.3rem">// pratiquez maintenant</div><div style="font-size:.95rem;font-weight:600;"><a href="#${lab.anchor}" style="color:#dc2626;text-decoration:none;">${lab.name} — ${lab.desc} →</a></div><div style="font-size:.82rem;color:var(--text-muted,#64748b);margin-top:.2rem">Les erreurs de ce chapitre ont leur laboratoire correspondant. Pratiquez avant de continuer.</div></div></div>`;
+  });
+}
+document.addEventListener('DOMContentLoaded', renderLabRefs);
+</script>
 
 </body>
 </html>
